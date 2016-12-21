@@ -5,23 +5,14 @@
 	],
 	"installed_packages":
 	[
-		"BlackBird-ColorScheme",
 		"Boxy Theme",
 		"BracketHighlighter",
-		"Color Highlighter",
-		"ColorPick",
-		"ColorPicker",
 		"Dotfiles Syntax Highlighting",
 		"GitGutter",
-		"Google Spell Check",
 		"INI",
-		"LaTeXTools",
-		"MarkdownEditing",
-		"Monokai - Spacegray",
+		"Jedi - Python autocompletion",
 		"Package Control",
-		"SCSS",
 		"SublimeLinter",
-		"SublimeLinter-pep8",
-		"SublimeLinter-pylint"
+		"SublimeLinter-pep8"
 	]
 }

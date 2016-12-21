@@ -4,7 +4,7 @@
 	"detect_indentation": false,
 	"fade_fold_buttons": false,
 	"font_face": "inconsolata",
-	"font_size": 14,
+	"font_size": 10,
 	"highlight_line": true,
 	"hot_exit": false,
 	"ignored_packages":
@@ -18,7 +18,7 @@
 	{
 		"linux":
 		[
-			"/usr/local/bin"
+			"~/.local/bin:/bin:/usr/bin"
 		],
 		"osx":
 		[
