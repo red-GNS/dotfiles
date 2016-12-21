@@ -1,0 +1,954 @@
+"""
+Class definition for each captioning model
+ImCapModel and its children: NormalImCapModel, LRCNImCapModel
+With a class to better handle ensemble models.
+@pep8
+"""
+# basics
+import os
+import time
+import random
+import pickle
+import pylab
+import numpy as np
+from collections import OrderedDict
+# NN
+import theano
+import theano.tensor as T
+import lasagne
+from lasagne.layers import ExpressionLayer, InputLayer
+from lasagne.layers import EmbeddingLayer, DenseLayer
+from lasagne.layers import ReshapeLayer, ConcatLayer
+from lasagne.layers import DropoutLayer
+from lasagne.layers import get_output, get_all_params
+from lasagne.nonlinearities import identity
+from agentnet.memory import GRUMemoryLayer
+from agentnet.agent import Recurrence
+from NNutils import calc_cross_ent, batch_gen, save_epoc
+from NNutils import softmax, norm1, norm2, scaledown
+
+# internal
+from save_layers import add_names_layers_and_params, set_param_dict, get_param_dict_tied
+from save_layers import set_all_layers_tags, check_names, check_init
+from utils import print_fail, print_success, print_warn
+import CNN
+
+
+class ImCapModel(object):
+    """
+    Image captioning model (superclass)
+    """
+    def __init__(self, CFG, len_vocab, test=True):
+        self.CFG = CFG
+        self.len_vocab = len_vocab
+        self.im_size = None
+        if test:
+            self.multi = 1
+            self.test = True
+        else:
+            self.multi = 5
+            self.test = False
+            self.loss_val = []  # appendable
+            self.loss_tr = []  # appendable
+            self.vocab = None
+            self.word_to_index = None
+            self.index_to_word = None
+            self.lr = None
+            self.decay_epocs = None
+            self.updates = None
+            self.updates2 = None
+            self.norms = None
+            self.norm = None
+            self.loss = None
+            self.decay_factor = None
+            self.loss_train = None
+            self.f_train = None
+            self.f_val = None
+            self.samples = None
+            # tensors:
+            # cnn feature vector
+            self.x_cnn_sym = T.matrix()
+            # cnn regon feature vector
+            self.x_img_sym = T.tensor4()
+            self.x_img2_sym = T.tensor4()
+            self.x_boxes_sym = T.matrix()
+            # sentence encoded as sequence of integer word tokens
+            self.x_sentence_sym = T.imatrix()
+            # mask defines which elements of the sequence should be predicted
+            self.mask_sym = T.imatrix()
+            # ground truth for the RNN output
+            self.y_sentence_sym = T.imatrix()
+        # Main layers:
+        self.l_input_sentence = None
+        self.l_sentence_embedding = None
+        self.l_cnn_embedding = None
+        self.l_cnn_embedding2 = None
+        self.l_cnn_expand = None  # LRCN
+        self.l_out = None
+        self.l_out_reg = None
+        self.l_input_reg = None  # LRCN!, Tensor
+        self.cnn_model = None
+        self.l_input_cnn = None
+        self.l_input_img = None
+        self.l_input_img2 = None
+        self.l_boxes = None
+        self.conv_input = None
+        self.conv_input2 = None
+        self.l_rnn_input = None
+        self.l_dropout_input = None
+        self.l_lstm = None
+        self.l_cell_input = None
+        self.l_prev_gru = None
+        self.l_gru = None
+        self.l_dropout_output = None
+        self.l_decoder = None
+        self.l_gru_states = None
+        self.emb_cnn = None
+        self.f_cnn = None
+        self.f = None
+        self.f_sent = None
+
+    def build(self):
+        """
+        Build the model's layers
+        """
+        print_success("Building the model (%s)" %
+                      (self.CFG['mode']))
+        if self.test:
+            self.__build__test()
+        else:
+            self.__build__train()
+
+    def __build_main(self):
+        """
+        Shared building code
+        """
+        pass
+
+    def __build__test(self):
+        """
+        Test time specific build
+        """
+        pass
+
+    def __build__train(self):
+        """
+        Training time specific build
+        """
+        pass
+
+    def setparams(self, d, show_layers=True, relax_check=False):
+        """
+        Set model parameters upon reload
+        """
+        if 'new_save' in self.CFG and self.CFG['new_save']:
+            check_names(self.l_out, new_style=True)
+            check_names(self.l_cnn_embedding, new_style=True)
+            check_names(self.l_sentence_embedding, new_style=True)
+            check_names(self.l_out_reg, new_style=True)
+            relax = False
+            if 'force_transformer' in self.CFG and self.CFG['force_transformer']:
+                relax = True
+            used1 = set_param_dict(self.l_out, d['param values'],
+                                   show_layers=show_layers,
+                                   relax=relax)
+            used2 = set_param_dict(self.l_cnn_embedding,
+                                   d['param values'],
+                                   show_layers=show_layers)
+            used3 = set_param_dict(self.l_sentence_embedding,
+                                   d['param values'],
+                                   show_layers=show_layers)
+            used4 = set_param_dict(self.l_out_reg,
+                                   d['param values'],
+                                   show_layers=show_layers)
+            used = set()
+            used.update(used1, used2, used3, used4)
+            if set(d['param values'].keys()) != used:
+                print_warn('Warning, the number of loaded parameters is not fully used!')
+                print set(d['param values'].keys()).difference(used)
+                if not relax_check:
+                    raw_input()
+
+            if 'relax_check_init' in self.CFG:
+                relax_check = self.CFG['relax_check_init']
+                assert(relax_check == 0 or relax_check == 1), "relax_check is missused"
+            else:
+                relax_check = False
+
+            if 'force_transformer' not in self.CFG or not self.CFG['force_transformer']:
+                check_init(self.l_out, relax_check)
+
+            check_init(self.l_cnn_embedding, relax_check)
+            check_init(self.l_sentence_embedding, relax_check)
+            if 'force_proposals' not in self.CFG or not self.CFG['force_proposals']:
+                check_init(self.l_out_reg, relax_check)
+        else:
+            check_names(self.l_out, new_style=True)
+            # remove initial part, just a patch, I need to fix save_param
+            words = ['YetAnotherRecurrence_',
+                     'l_tensor',
+                     'l_cnn_embedding_',
+                     'l_sentence_embedding_']
+            for ss in words:
+                for l in d['param values'].keys():
+                    pos = l.find(ss)
+                    if pos != -1:
+                        d['param values'][l[pos + len(ss):]] = d['param values'][l]
+
+            set_param_dict(self.l_out, d['param values'])
+            set_param_dict(self.l_cnn_embedding, d['param values'])
+            set_param_dict(self.l_sentence_embedding, d['param values'])
+        if 'l_tensor.W_hw' in d['param values']:
+            print 'W_hw', np.sqrt(np.sum(d['param values']['l_tensor.W_hw'] ** 2))
+        else:
+            print 'W_hw', np.sqrt(np.sum(d['param values']['l_decoder.W'] ** 2))
+        if 'l_tensor.W_rw' in d['param values']:
+            print 'W_rw', np.sqrt(np.sum(d['param values']['l_tensor.W_rw'] ** 2))
+        if 'l_tensor.W_hr' in d['param values']:
+            print 'W_hr', np.sqrt(np.sum(d['param values']['l_tensor.W_hr'] ** 2))
+
+    def __compile__(self):
+        pass
+
+    def build_seq_input_net(self):
+        """
+        Sets up  : self.l_dropout_input and l_conv_input (and occasionally l_conv_input2)
+        """
+        if self.test:
+            self.l_input_sentence = InputLayer((self.CFG['batch_size'], 1),
+                                               name='l_input_sentence')  # input (1 word)
+        else:
+            self.l_input_sentence = InputLayer((self.CFG['batch_size'] * self.multi,
+                                                self.CFG['max_sent'] - 1),
+                                               name='l_input_sentence')
+
+        self.l_sentence_embedding = EmbeddingLayer(self.l_input_sentence,
+                                                   input_size=self.len_vocab,
+                                                   output_size=self.CFG['embedding_size'],
+                                                   name='l_sentence_embedding')
+        # cnn embedding changes the dimensionality of the representation to embedding_size
+        # reshapes to add the time dimension - final dim (batch_size, 1, embedding_size)
+        # Chose the CNN (Resnet or VGG)
+        if self.CFG['cnn_model'] == "vgg":
+            print_success("Using VGG as a CNN.")
+            self.cnn_model = CNN.build_model()
+            # compared to:
+            # self.l_input_img = InputLayer((self.CFG['batch_size'], 3, 224, 224),
+            #                           name='cnn_input')
+            # vgg16 = CNN.build_model(input_layer=self.l_input_img,
+            #                         batch_size=self.CFG['batch_size'],
+            #                         dropout_value=self.CFG['rnn_dropout'])
+            # and without setting self.l_input_img again self.l_input_img = vgg16['input']
+
+            print "Loading pretrained VGG16 parameters"
+            model_param_values = pickle.load(open('vgg16.pkl'))['param values']
+            lasagne.layers.set_all_param_values(self.cnn_model['prob'], model_param_values)
+            self.l_input_img = self.cnn_model['input']
+            self.l_input_cnn = self.cnn_model['fc7_dropout']
+
+        elif self.CFG["cnn_model"] == "resnet":
+            print_success("Using Resnet-50 as a CNN.")
+            import resnet_CNN
+            self.cnn_model = resnet_CNN.build_model(input_layer=None,
+                                                    batch_size=self.CFG['batch_size'])
+            # compared to:
+            # self.l_input_img = InputLayer((self.CFG['batch_size'], 3, 224, 224),
+            #                           name='cnn_input')
+            # resnet50 = resnet_CNN.build_model(input_layer=self.l_input_img,
+            #                                   batch_size=self.CFG['batch_size'])
+            # and without setting self.l_input_img again self.l_input_img = resnet50['input']
+
+            model_param_values = pickle.load(open('resnet50.pkl'))['param values']
+            add_names_layers_and_params(self.cnn_model)
+            set_param_dict(self.cnn_model['prob'],
+                           model_param_values, prefix='',
+                           show_layers=False, relax=False)
+            self.l_input_img = self.cnn_model['input']
+
+            if self.CFG['resnet_layer'] == 'prob':
+                self.l_input_cnn = self.cnn_model['prob']
+            elif self.CFG['resnet_layer'] == 'pool5':
+                self.l_input_cnn = self.cnn_model['pool5']
+            else:
+                print_fail("Layer not supported for resnet")
+                raise ValueError()
+        else:
+            print_fail("Unknown CNN selected")
+
+        if self.CFG['start_normalized'] == 1:
+            self.l_input_cnn = norm1(self.l_input_cnn)
+        elif self.CFG['start_normalized'] == 2:
+            self.l_input_cnn = norm2(self.l_input_cnn)
+        else:
+            self.l_input_cnn = scaledown(self.l_input_cnn)
+
+        # end of finetuning test time
+        self.l_cnn_embedding = DenseLayer(self.l_input_cnn,
+                                          num_units=self.CFG['embedding_size'],
+                                          nonlinearity=identity,
+                                          name='l_cnn_embedding')
+        if not self.test:
+            self.l_cnn_embedding = ExpressionLayer(self.l_cnn_embedding,
+                                                   lambda X: theano.tensor.extra_ops.repeat(X,
+                                                                                            self.multi,
+                                                                                            axis=0),
+                                                   output_shape='auto')
+
+        self.l_cnn_embedding2 = ReshapeLayer(self.l_cnn_embedding,
+                                             ([0], 1, [1]),
+                                             name='l_cnn_embedding2')
+        if self.test:
+            self.l_rnn_input = InputLayer((self.CFG['batch_size'], 1,
+                                           self.CFG['embedding_size']),
+                                          name='l_rnn_input')
+        else:
+            # the two are concatenated to form the RNN input with
+            # dim (batch_size, max_sent, embedding_size)
+            self.l_rnn_input = ConcatLayer([self.l_cnn_embedding2,
+                                            self.l_sentence_embedding],
+                                           name='l_rnn_input')
+        self.l_dropout_input = DropoutLayer(self.l_rnn_input,
+                                            p=self.CFG['rnn_dropout'],
+                                            name='l_dropout_input')
+        # set the flag seq_input
+        set_all_layers_tags(self.l_dropout_input, seq_input=True)
+
+        if self.CFG['cnn_model'] == 'vgg':
+            if self.CFG['trans_use_pretrained']:
+                self.conv_input = self.cnn_model['conv5_2']
+                self.conv_input2 = self.cnn_model['conv5_3']
+            else:
+                self.conv_input = self.cnn_model['conv5_3']
+        if self.CFG['cnn_model'] == 'resnet':
+            if self.CFG['trans_use_pretrained']:
+                self.conv_input = self.cnn_model['res4e_relu'],
+                self.conv_input2 = self.cnn_model['res4f_branch2b']
+            else:
+                self.conv_input = self.cnn_model['res4f_relu']
+    
+    def __forwardpass(self):
+        """
+        Required layers:
+        l_inout_sentence
+        l_input_img
+        l_boxes
+        l_out
+        """
+        if self.CFG['proposals'] == 1:
+            output = get_output(self.l_out,
+                                {self.l_input_sentence: self.x_sentence_sym,
+                                 self.l_input_img: self.x_img_sym,
+                                 self.l_boxes: self.x_boxes_sym},
+                                deterministic=False)
+        elif self.CFG['proposals'] in [2, 3, 4]:
+            output = get_output(self.l_out,
+                                {self.l_input_sentence: self.x_sentence_sym,
+                                 self.l_input_img: self.x_img_sym,
+                                 self.l_input_img2: self.x_img2_sym,
+                                 self.l_boxes: self.x_boxes_sym},
+                                deterministic=False)
+        elif self.CFG['proposals'] == 5:
+            output = get_output(self.l_out,
+                                {self.l_input_sentence: self.x_sentence_sym,
+                                 self.l_input_img: self.x_img_sym,
+                                 self.l_input_img2: self.x_img2_sym},
+                                deterministic=False)
+        else:
+            output = get_output(self.l_out,
+                                {self.l_input_sentence: self.x_sentence_sym,
+                                 self.l_input_img: self.x_img_sym},
+                                deterministic=False)
+        return output
+
+    def iteration(self, adam_values=None, trans_dense_nolearn=False):
+        """
+        Initial training iteration
+        FIXME: How is it different from epoc
+        """
+        
+        print_success('Setting up the network')
+        # forward:
+        output = self.__forwardpass()
+        lr = theano.shared(np.array(self.CFG['lr'], dtype=np.float32))
+        loss = T.mean(calc_cross_ent(output, self.mask_sym, self.y_sentence_sym, self.len_vocab))
+        # Regularization:
+        if self.CFG['reg_h']:
+            print_success('LSTM regularization')
+            lstm_out = get_output(self.l_lstm,  # when the hell was this defined
+                                  {self.l_input_sentence: self.x_sentence_sym,
+                                   self.l_input_cnn: self.x_cnn_sym})
+
+            reg = T.mean((T.sqrt(T.sum(lstm_out[:, 0:-1, :]**2, 2)) -
+                          T.sqrt(T.sum(lstm_out[:, 1:, :]**2, 2)))**2)
+            loss = loss + reg * self.CFG['reg_h']
+
+        MAX_GRAD_NORM = self.CFG['grad_clip']
+        if self.CFG['trans_reglearn'] > 0:
+            all_params_reg = get_all_params(self.l_out,
+                                            trainable=True,
+                                            reglearn=True)
+            loss = (loss + self.CFG['trans_reglearn'] *
+                    T.sum([T.sum(T.abs_(p)) for p in all_params_reg]))
+        if self.CFG['train_only_rnn'] or self.CFG['cnn_slowlearn']:
+            all_params = get_all_params(self.l_out,
+                                        trainable=True,
+                                        conv_net=False,
+                                        conv_net2=False)
+        else:
+            all_params = get_all_params(self.l_out,
+                                        trainable=True)
+        all_grads = T.grad(loss, all_params)
+        # clip gradients
+        all_grads = [T.clip(g, -self.CFG['grad_clip'], self.CFG['grad_clip']) for g in all_grads]
+        self.norms = T.sqrt([T.sum(tensor**2) for tensor in all_grads])
+        all_grads, norm = lasagne.updates.total_norm_constraint(all_grads,
+                                                                MAX_GRAD_NORM,
+                                                                return_norm=True)
+        # params update
+        updates = lasagne.updates.adam(all_grads, all_params, learning_rate=lr)
+
+        if self.CFG['cnn_slowlearn']:
+            print_warn('CNN slow learning..')
+            trans_params = get_all_params(self.l_out,
+                                          conv_net=True,
+                                          conv_net2=True)
+            trans_grads = T.grad(loss, trans_params)
+            trans_grads = [T.clip(g, -self.CFG['grad_clip'],
+                                  self.CFG['grad_clip']) for g in trans_grads]
+            trans_grads, norm = lasagne.updates.total_norm_constraint(trans_grads,
+                                                                      MAX_GRAD_NORM,
+                                                                      return_norm=True)
+
+            trans_updates = lasagne.updates.adam(trans_grads,
+                                                 trans_params,
+                                                 learning_rate=lr * 0.1)
+            updates.update(trans_updates)
+        if self.CFG['trans_slowlearn']:
+            print_warn('Trans slow learning..')
+            trans_params = get_all_params(self.l_out, slowlearn=True)
+            trans_grads = T.grad(loss, trans_params)
+            trans_grads = [T.clip(g, -self.CFG['grad_clip'],
+                                  self.CFG['grad_clip']) for g in trans_grads]
+            trans_grads, norm = lasagne.updates.total_norm_constraint(trans_grads,
+                                                                      MAX_GRAD_NORM,
+                                                                      return_norm=True)
+
+            trans_updates = lasagne.updates.adam(trans_grads,
+                                                 trans_params,
+                                                 learning_rate=lr * 0.1)
+            updates.update(trans_updates)
+        if (self.CFG['restart'] or self.CFG['start_from'] != '') and adam_values is not None:
+            if len(updates) == len(adam_values):
+                print_success('Loading the adam parameters for a better restart!')
+                for u, v in zip(updates, adam_values):
+                    u.set_value(v)
+            elif len(updates) > len(adam_values):
+                print_success('Loading the adam parameters of the RNN!')
+                # assume that you start from a previous training
+                if not self.CFG['train_only_rnn'] and self.CFG['start_from'] != '':
+                    if trans_dense_nolearn:
+                        all_params2 = get_all_params(self.l_out,
+                                                     trainable=True,
+                                                     conv_net=False,
+                                                     conv_net2=False,
+                                                     nolearn=False)
+                    else:
+                        all_params2 = get_all_params(self.l_out,
+                                                     trainable=True,
+                                                     conv_net=False,
+                                                     conv_net2=False)
+                else:
+                    all_params2 = get_all_params(self.l_out,
+                                                 trainable=True,
+                                                 conv_net=False,
+                                                 conv_net2=False,
+                                                 locnet=False,
+                                                 nolearn=False)
+                all_grads2 = T.grad(loss, all_params2)
+                all_grads2 = [T.clip(g, -self.CFG['grad_clip'],
+                                     self.CFG['grad_clip']) for g in all_grads2]
+                all_grads2, norm = lasagne.updates.total_norm_constraint(all_grads2,
+                                                                         MAX_GRAD_NORM,
+                                                                         return_norm=True)
+                updates2 = lasagne.updates.adam(all_grads2,
+                                                all_params2,
+                                                learning_rate=lr)
+                assert len(updates2) == len(adam_values)
+                for u, v in zip(updates2, adam_values):
+                    u.set_value(v)
+                self.updates2 = updates2
+            else:
+                print_warn('Changed some configuration, I cannot load the old adam parameters!')
+        self.lr = lr
+        self.updates = updates
+        self.norm = norm
+        self.loss = loss
+
+    def compile_fcts(self):
+        """
+        Compiles both f_train and f_val
+        """
+        # CHECK: 2 unused variables on both fcts (normal mode)
+        t = time.time()
+        print_success("Compiling theano functions...")
+        f_train = theano.function([self.x_img_sym, self.x_img2_sym, self.x_sentence_sym,
+                                   self.mask_sym, self.y_sentence_sym, self.x_boxes_sym],
+                                  [self.loss, self.norm, self.norms],
+                                  updates=self.updates,
+                                  on_unused_input='warn')
+
+        print_success("f_train has been compiled")
+        # theano.printing.debugprint(f_train)
+        # from IPython.display import SVG
+        # SVG(theano.printing.pydotprint(f_train, return_image=True,
+        #                                format='svg'))
+        f_val = theano.function([self.x_img_sym, self.x_img2_sym, self.x_sentence_sym,
+                                 self.mask_sym, self.y_sentence_sym, self.x_boxes_sym],
+                                self.loss,
+                                on_unused_input='warn')
+
+        print_success("Functions compiled in %d secs" % (time.time() - t))
+        self.f_val = f_val
+        self.f_train = f_train
+        # intial values:
+        self.norm = 0
+        self.norms = 0
+        self.decay_factor = 0.2
+        self.loss_train = 0
+        if self.CFG['proposals'] == 1:
+            self.im_size = 224
+        elif self.CFG['proposals'] > 1:
+            self.im_size = self.CFG['im_size']
+        else:
+            self.im_size = -1  # tell the data generator to not prepare images for proposals
+
+    def epoc(self, epoc, init_epoc, start_from, dbtrain, dbval, partial=None, seval=1000):
+        """
+        Main training epoc
+        """
+        t = time.time()
+        partial_count = 0
+
+        if self.CFG['save_partial'] != -1:
+            save_name = ''
+            random.seed(init_epoc + self.CFG['set_seed'])
+            if partial is not None:
+                partial_count = partial
+
+        for (_, x_img, x_img2, x_sent,
+             y_sent, mask, x_boxes) in batch_gen(self.CFG, dbtrain,
+                                                 self.CFG['batch_size'],
+                                                 self.im_size, self.word_to_index,
+                                                 shuffle=True,
+                                                 start_from=start_from,
+                                                 use_flip=self.CFG['use_flip']):
+
+            if self.samples % (seval / self.CFG['batch_size'] * self.CFG['batch_size']) == 0:
+                print('Epoc {}, Samples {}, loss_train: {}, norm: {} lr: {} time: {}'.format(epoc + 1,
+                                                                                             self.samples,
+                                                                                             self.loss_train,
+                                                                                             self.norm,
+                                                                                             self.lr.eval(),
+                                                                                             time.time() - t))
+                if self.CFG['verbose']:
+                    if self.CFG['train_only_cnn']:
+                        print('Layers {}, norms: {}'.format(get_all_params(self.l_input_cnn,
+                                                                           trainable=True),
+                                                            self.norms))
+                    else:
+                        print('Layers {}, norms: {}'.format(get_all_params(self.l_out,
+                                                                           trainable=True),
+                                                            self.norms))
+                    try:
+                        param_values = get_param_dict_tied(self.l_out, new_style=True)
+                        print "W_hw", np.sqrt(np.sum(param_values['l_tensor.W_hw']**2))
+                        print "W_hr", np.sqrt(np.sum(param_values['l_tensor.W_hr']**2))
+                        print "W_rw", np.sqrt(np.sum(param_values['l_tensor.W_rw']**2))
+                    except:
+                        pass
+                # try:
+                batch_loss_val = []
+                batch_loss_tr = []
+                count = 0
+                for (_, vx_img, vx_img2,
+                     vx_sent, vy_sent, vmask, vx_boxes) in batch_gen(self.CFG, dbtrain,
+                                                                     self.CFG['batch_size'],
+                                                                     self.im_size,
+                                                                     self.word_to_index,
+                                                                     shuffle=False):
+                    batch_loss_tr.append(self.f_train(vx_img, vx_img2, vx_sent,
+                                                      vmask, vy_sent, vx_boxes))
+                    count += 1
+                    if count * self.CFG['batch_size'] >= 100:
+                        break
+                # train
+                t = time.time()
+                count = 0
+                for (_, vx_img, vx_img2,
+                     vx_sent, vy_sent, vmask, vx_boxes) in batch_gen(self.CFG, dbval,
+                                                                     self.CFG['batch_size'],
+                                                                     self.im_size,
+                                                                     self.word_to_index,
+                                                                     shuffle=False):
+                    batch_loss_val.append(self.f_val(vx_img, vx_img2, vx_sent,
+                                                     vmask, vy_sent, vx_boxes))
+                    count += 1
+                    if count * self.CFG['batch_size'] >= 100:
+                        break
+                self.loss_val.append(np.mean(batch_loss_val))
+                print batch_loss_tr
+                print 'Mean:',
+                print np.mean(batch_loss_tr)
+                self.loss_tr.append(np.mean(batch_loss_tr))
+                print_success('Tr loss: {}, time: {}'.format(self.loss_tr[-1], time.time() - t))
+                print_success('Val loss: {}, time: {}'.format(self.loss_val[-1], time.time() - t))
+                # Plot
+                if self.CFG['plot_loss']:
+                    pylab.figure(1)
+                    pylab.clf()
+                    pylab.plot(self.loss_tr, 'b', label='Train')
+                    pylab.plot(self.loss_val, 'g', label='Validation')
+                    pylab.xlabel('Iterations')
+                    pylab.ylabel('Loss')
+                    pylab.legend()
+                    pylab.grid()
+                    pylab.draw()
+                    # pylab.show()
+                    if not os.path.exists(self.CFG['file_name']):
+                        os.makedirs(self.CFG['file_name'])
+                    pylab.savefig('%s/%s.pdf' % (self.CFG['file_name'],
+                                                 self.CFG['file_name'].split('/')[-1]))
+                t = time.time()
+
+            self.loss_train, self.norm, self.norms = self.f_train(x_img, x_img2, x_sent,
+                                                                  mask, y_sent, x_boxes)
+            if np.isnan(self.loss_train):
+                raise ValueError('Loss is Nan!!!')
+            self.samples += self.CFG['batch_size']
+
+            # This was done as an original fix for finetuning, I think it is
+            # useless now, but harmless and I keep it to be compatible with the
+            # experiments that are still running.
+            param_values = get_param_dict_tied(self.l_out, new_style=True)
+            if self.CFG['save_partial'] != -1 and self.samples % (self.CFG['save_partial'] *
+                                                                  seval / self.CFG['batch_size'] *
+                                                                  self.CFG['batch_size']) == 0:
+                print_success('Saving partial epoc')
+                save_name = save_epoc(epoc, self.updates, param_values,
+                                      self.vocab, self.word_to_index, self.index_to_word,
+                                      self.CFG, self.loss_tr, self.loss_val,
+                                      partial=partial_count + 1)
+                partial_count += 1
+
+        start_from = 0
+
+        if epoc >= self.CFG['lr_decay_start']:
+            self.decay_epocs -= 1
+            if self.decay_epocs == 0:
+                self.lr = self.lr * self.decay_factor
+                self.decay_epocs = self.CFG['lr_decay_epocs']
+
+        param_values = get_param_dict_tied(self.l_out, new_style=True)
+
+        save_epoc(epoc, self.updates, param_values,
+                  self.vocab, self.word_to_index,
+                  self.index_to_word, self.CFG,
+                  self.loss_tr, self.loss_val)
+        if self.CFG['save_partial'] != -1:
+            if os.path.isfile(save_name):
+                print_warn('Removed Partial Saving')
+                os.remove(save_name)
+
+
+class NormalImCapModel(ImCapModel):
+    """
+    Captioning model in normal mode
+    TODO: Details here
+    """
+    def __build__main(self, multi=1):
+        """
+        Shared 
+        """
+        self.build_seq_input_net()
+        self.l_cell_input = InputLayer((self.CFG['batch_size'] * multi,
+                                        self.CFG['embedding_size']),
+                                       name='l_cell_input')
+        self.l_prev_gru = InputLayer((self.CFG['batch_size'] * multi,
+                                      self.CFG['embedding_size']),
+                                     name="l_prev_gru")
+        self.l_gru = GRUMemoryLayer(self.CFG['embedding_size'],
+                                    self.l_cell_input,
+                                    self.l_prev_gru,
+                                    name='l_gru')
+
+        self.l_dropout_output = DropoutLayer(self.l_gru,
+                                             p=self.CFG['rnn_dropout'],
+                                             name='l_dropout_output')
+        # decoder is a fully connected layer with one output unit
+        # for each word in the vocabulary
+        self.l_decoder = DenseLayer(self.l_dropout_output,
+                                    num_units=self.len_vocab,
+                                    nonlinearity=softmax,
+                                    name='l_decoder')
+
+    def __build__test(self):
+        """
+        Test specific
+        """
+        self.__build__main(multi=1)
+
+        self.l_out = ReshapeLayer(self.l_decoder, ([0], 1, [1]), name='l_out')
+
+    def __build__train(self):
+        """
+        Training specific
+        """
+        print_success('Building model - training time')        
+        self.__build__main(multi=self.multi)
+        memory_dict = OrderedDict([(self.l_gru, self.l_prev_gru), ])
+
+        l_rec = Recurrence(state_variables=memory_dict,  # we use out previously defined dictionary to update recurrent network parameters
+                           input_sequences={self.l_cell_input: self.l_dropout_input},  # we feed in reference sequence into "prev letter" input layer, tick by tick along the axis=1.
+                           tracked_outputs=self.l_decoder,  # we track agent would-be actions and probabilities
+                           n_steps=self.CFG['max_sent'],
+                           batch_size=self.CFG['batch_size'] * 5)  # finally, we define an optional batch size param
+
+        self.l_gru_states, self.l_out = l_rec.get_sequence_layers()
+
+    def build(self):
+        """
+        Build the main layers:
+        l_cell_input
+        l_prev_gru
+        l_gru
+        l_driopout_output
+        l_decoder
+        l_out
+        if training:
+            l_gru_states
+        """
+        print_success("Building the model (%s)" %
+                      (self.CFG['mode']))
+        if self.test:
+            self.__build__test()
+        else:
+            self.__build__train()
+
+    def __compile__(self):
+        """
+        Compiles f_cnn, emb_cnn, f and f_sent
+        """
+        x_cnn_sym = T.matrix()
+        x_sentence_sym = T.imatrix()
+        x_rnn = T.matrix()  # tensor3()
+        x_conv = T.tensor4()
+        x_img = T.tensor4()
+        x_img2 = T.tensor4()
+        x_hid = T.matrix()
+        x_region = T.matrix()
+        x_boxes = T.matrix()
+        if self.CFG['cnn_fine_tune']:
+            self.emb_cnn = get_output(self.l_cnn_embedding,
+                                      {self.l_input_img: x_img, },
+                                      deterministic=True)
+            self.f_cnn = theano.function([x_img],
+                                         self.emb_cnn,
+                                         on_unused_input='warn')
+        else:
+            self.emb_cnn = get_output(self.l_cnn_embedding,
+                                      {self.l_input_cnn: x_cnn_sym, },
+                                      deterministic=True)
+            self.f_cnn = theano.function([x_cnn_sym],
+                                         self.emb_cnn,
+                                         on_unused_input='warn')
+
+        emb_sent = get_output(self.l_sentence_embedding,
+                              {self.l_input_sentence: x_sentence_sym, },
+                              deterministic=True)
+
+        output = get_output([self.l_out, self.l_gru, self.l_gru],
+                            {self.l_cell_input: x_rnn,
+                             self.l_prev_gru: x_hid, },
+                            deterministic=True)
+
+        self.f = theano.function([x_rnn, x_conv, x_hid, x_region, x_boxes, x_img2],
+                                 output,
+                                 on_unused_input='warn')
+
+        self.f_sent = theano.function([x_sentence_sym],
+                                      emb_sent,
+                                      on_unused_input='warn')
+
+
+class LRCNImCapModel(ImCapModel):
+    """
+    Captioning model in lrcn mode
+    TODO: Details here
+    """
+    def __build__main(self, multi=1):
+        """
+        Shared
+        """
+        self.build_seq_input_net()
+        self.l_cell_input = InputLayer((self.CFG['batch_size'] * multi,
+                                        self.CFG['embedding_size']),
+                                       name='l_cell_input')
+        # Where did we load vgg? what if it's Resnet?
+        l_cnn = self.cnn_model['fc7_dropout']
+        l_cnn_encode = DenseLayer(l_cnn,
+                                  num_units=self.CFG['embedding_size'],
+                                  nonlinearity=identity,
+                                  name='l_cnn_encode')
+        if multi > 1:
+            self.l_cnn_expand = ExpressionLayer(l_cnn_encode,
+                                                lambda X: theano.tensor.extra_ops.repeat(X,
+                                                                                         multi,
+                                                                                         axis=0),
+                                                output_shape='auto')
+        else:
+            self.l_cnn_expand = l_cnn_encode
+        if self.CFG['conv_normalized']:
+            self.l_cnn_expand = norm1(self.l_cnn_expand)
+        else:
+            self.l_cnn_expand = scaledown(self.l_cnn_expand)
+        self.l_prev_gru = InputLayer((self.CFG['batch_size'] * multi,
+                                      self.CFG['embedding_size'] * 2),
+                                     name="l_prev_gru")
+
+    def __build__test(self):
+        """
+        Test specific
+        """
+        self.__build__main(multi=1)
+        l_cnn_encode = self.l_cnn_expand
+        l_concat = ConcatLayer([self.l_cell_input,
+                                l_cnn_encode],
+                               axis=1, name='l_concat')
+
+        self.l_gru = GRUMemoryLayer(self.CFG['embedding_size'] * 2,
+                                    l_concat,
+                                    self.l_prev_gru,
+                                    name='l_gru')
+
+        self.l_dropout_output = DropoutLayer(self.l_gru,
+                                             p=0.5,
+                                             name='l_dropout_output')
+        # decoder is a fully connected layer with one output unit
+        # for each word in the vocabulary
+        self.l_decoder = DenseLayer(self.l_dropout_output,
+                                    num_units=self.len_vocab,
+                                    nonlinearity=softmax,
+                                    name='l_decoder')
+
+        self.l_out = ReshapeLayer(self.l_decoder, ([0], 1, [1]), name='l_out')
+
+    def __build__train(self):
+        """
+        Training specific
+        """
+        self.__build__main(multi=5)
+        l_cnn_cell = InputLayer((self.CFG['batch_size'] * 5,
+                                 self.CFG['embedding_size']),
+                                name='l_cnn_cell')
+        l_concat = ConcatLayer([self.l_cell_input,
+                                l_cnn_cell],
+                               axis=1,
+                               name='l_concat')
+        l_gru = GRUMemoryLayer(self.CFG['embedding_size'] * 2,
+                               l_concat, self.l_prev_gru,
+                               name='l_gru')
+
+        l_dropout_output = DropoutLayer(l_gru,
+                                        p=self.CFG['rnn_dropout'],
+                                        name='l_dropout_output')
+
+        l_decoder = DenseLayer(l_dropout_output,
+                               num_units=self.len_vocab,
+                               nonlinearity=softmax,
+                               name='l_decoder')
+
+        # Shared again!
+        memory_dict = OrderedDict([(l_gru, self.l_prev_gru), ])
+
+        l_rec = Recurrence(input_nonsequences={l_cnn_cell: self.l_cnn_expand},
+                           state_variables=memory_dict,  # we use out previously defined dictionary to update recurrent network parameters
+                           input_sequences={self.l_cell_input: self.l_dropout_input},  # we feed in reference sequence into "prev letter" input layer, tick by tick along the axis=1.
+                           tracked_outputs=l_decoder,  # we track agent would-be actions and probabilities
+                           n_steps=self.CFG['max_sent'],
+                           batch_size=self.CFG['batch_size'] * 5   # finally, we define an optional batch size param
+                          )
+        self.l_gru_states, self.l_out = l_rec.get_sequence_layers()
+
+    def __compile__(self):
+        """
+        Compiles f_cnn, emb_cnn, f and f_sent
+        """
+        x_cnn_sym = T.matrix()
+        x_sentence_sym = T.imatrix()
+        x_rnn = T.matrix()  # tensor3()
+        x_conv = T.tensor4()
+        x_img = T.tensor4()
+        x_img2 = T.tensor4()
+        x_hid = T.matrix()
+        x_region = T.matrix()
+        x_boxes = T.matrix()
+        if self.CFG['cnn_fine_tune']:
+            self.emb_cnn = get_output(self.l_cnn_embedding,
+                                      {self.l_input_img: x_img, },
+                                      deterministic=True)
+            self.f_cnn = theano.function([x_img],
+                                         self.emb_cnn,
+                                         on_unused_input='warn')
+        else:
+            self.emb_cnn = get_output(self.l_cnn_embedding,
+                                      {self.l_input_cnn: x_cnn_sym, },
+                                      deterministic=True)
+            self.f_cnn = theano.function([x_cnn_sym],
+                                         self.emb_cnn,
+                                         on_unused_input='warn')
+
+        emb_sent = get_output(self.l_sentence_embedding,
+                              {self.l_input_sentence: x_sentence_sym, },
+                              deterministic=True)
+
+        output = get_output([self.l_out, self.l_gru, self.l_gru],
+                            {self.l_cell_input: x_rnn,
+                             self.l_input_reg: x_conv,  # FIXME: layer not implemented yet
+                             self.l_prev_gru: x_hid, },
+                            deterministic=True)
+        self.f = theano.function([x_rnn, x_conv, x_hid, x_region, x_boxes, x_img2],
+                                 output,
+                                 on_unused_input='warn')
+
+        self.f_sent = theano.function([x_sentence_sym],
+                                      emb_sent,
+                                      on_unused_input='warn')
+
+
+class EnsempleImcapModels(object):
+    """
+    Handle ensembles in test time
+    """
+    def __init__(self, models_list):
+        self.models_list = models_list
+        self.f_cnn = dict()
+        self.emb_cnn = dict()
+        self.f = dict()
+        self.f_sent = dict()
+
+        self.CFG = models_list[0].CFG
+        self.length = len(self.models_list)
+        self.CFG_list = dict()
+        for i, model in enumerate(self.models_list):
+            self.CFG_list[i + 1] = model.CFG
+
+    def compileEnsemble(self):
+        """
+        Compile all the models in the ensemble
+        """
+        for i, model in enumerate(self.models_list):
+            model.__compile__()
+            self.f_cnn[i + 1] = model.f_cnn
+            self.emb_cnn[i + 1] = model.emb_cnn
+            self.f[i + 1] = model.f
+            self.f_sent[i + 1] = model.f_sent

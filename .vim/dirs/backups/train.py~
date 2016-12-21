@@ -1,0 +1,191 @@
+# coding: utf-8
+# # Image Captioning with LSTM
+
+import time
+starting_time = time.time()
+
+import pickle
+import random
+import numpy as np
+import argparse
+import sys
+from glob import glob
+from scipy.io import loadmat
+from bcolors import bcolors
+sys.setrecursionlimit(100000)
+# setup gpu
+try:
+    import os
+    import subprocess
+    gpu_id = subprocess.check_output('gpu_getIDs.sh', shell=True)
+    os.environ["THEANO_FLAGS"] = 'device=gpu%s' % gpu_id
+    print(os.environ["THEANO_FLAGS"])
+except:
+    pass
+
+import theano
+# theano.config.profile = True
+# theano.config.optimizer='None'#'fast_compile'
+# theano.config.optimizer='fast_compile'
+theano.config.optimizer = 'None'
+# theano.config.exception_verbosity='high'#'fast_compile'
+
+import theano.tensor as T
+import lasagne
+from collections import Counter
+from save_layers import set_param_dict
+import PrepareData
+from models import buildNetwork
+
+# can use matplotlib without having a display
+import matplotlib
+matplotlib.use('Agg')
+from parse_tools import readCFG_traintime, cmd_line_parser
+
+if __name__ == '__main__':
+    # parse command line
+    params = cmd_line_parser('config/default_eval.yaml')
+    # print(parser.format_values())
+    CFG = readCFG_traintime(params)
+    random.seed(3)
+
+    print("Loading Coco Data...")
+    t = time.time()
+    dbtrain, dbval = load_coco(small=params['small_dataset'],
+                               add_validation=CFG['add_validation'],
+                               check_overlap=False)
+
+    # Count words occuring at least 5 times and construct mapping int <-> word
+    allwords = Counter()
+    for key, item in dbtrain.items():
+        for sentence in item['caption'][0][0]:
+            allwords.update(PrepareData.tokenize(sentence))
+
+    vocab = [k for k, v in allwords.items() if v >= CFG['repeated_words']]
+    vocab.insert(0, '#START#')
+    vocab.append('#END#')
+    vocab.append('#NAW#')  # not a word
+    print('Vocabulary size: {} extracted from at least {} repeated words'.
+          format(len(vocab), CFG['repeated_words']))
+
+    word_to_index = {w: i for i, w in enumerate(vocab)}
+    index_to_word = {i: w for i, w in enumerate(vocab)}
+
+    if CFG['load_voc_from'] != '':
+        dvoc = pickle.load(open(CFG['start_from']))
+        vocab = dvoc['vocab']
+        word_to_index = dvoc['word_to_index']
+        index_to_word = dvoc['index_to_word']
+        print('New Vocabulary size: {} extracted from at least {} repeated words'.
+              format(len(vocab), CFG['repeated_words']))
+    # initialize & build network:
+    net.vocab = vocab
+    net.word_to_index = word_to_index
+    net.index_to_word = index_to_word
+    net = buildNetwork(CFG, params, len_vocab, test=False)
+
+    d = {}
+
+    if net.CFG['start_from'] != '':
+        d = pickle.load(open(net.CFG['start_from']))
+        d2 = d.copy()
+        if net.CFG['convert_transformer']:
+            d['param values']['l_sel_region.W'] = d['param values']['l_add_con.W'].reshape((net.CFG['region_size'],
+                                                                                            net.CFG['region_size'] * 3 * 3)).swapaxes(0, 1)
+            d['param values']['l_sel_region.b'] = d['param values']['l_add_con.b']
+        relaxed = False
+        if net.CFG['trans_use_pretrained']:
+            relaxed = True
+        set_param_dict(l_out, d['param values'], relax=relaxed)
+
+    init_epoc = 0  # iteration to start with
+    if net.CFG['restart']:
+        print "All Layers", [a.name for a in lasagne.layers.get_all_layers(l_out)]
+        file_name = '%s/%s_*.pkl' % (net.CFG['file_name'], net.CFG['mode'])
+        list_files = glob(file_name)
+        last_epoc = 0
+        if list_files != []:
+            last_epoc = np.array([int(x.split('_')[-1].split('.')[0]) for x in list_files]).argmax()
+            d = pickle.load(open(list_files[last_epoc]))
+            print "restart Loaded", list_files[last_epoc]
+            CFG, net.loss_tr, net.loss_val = load_config(CFG, d['config'])  # FIXME:change to update of CFG
+            init_epoc = int(list_files[last_epoc].split('_')[-1].split('.')[0])
+            print "Starting from epoc", init_epoc + 1
+            set_param_dict(l_out, d['param values'])
+        else:
+            print 'No previous snapshot found, starting from scratch!'
+
+        if net.CFG['save_partial'] != -1:
+            load_name = '%s/%s_%d.pkl.partial' % (net.CFG['file_name'], net.CFG['mode'], init_epoc + 1)
+            if os.path.isfile(load_name):
+                print "Loading partial saving", load_name
+                d = pickle.load(open(load_name))
+                if d['config']['save_partial'] != net.CFG['save_partial']:
+                    print('Error the current save_partial is different than the saved!')
+                    sys.exit(1)
+                print('Starting from iteration:', d['partial'] * net.CFG['save_partial'])
+                print('Computed as partial:', d['partial'], '*', 'save_partial:', net.CFG['save_partial'])
+                CFG, net.loss_tr, net.loss_val = load_config(CFG, d['config'])  # FIXME:change to update of CFG
+                set_param_dict(l_out, d['param values'])
+            else:
+                print('No partial save found!')
+
+    if params['print']:
+        print CFG
+        fsfd
+        sys.exit()
+
+    # mask defines which elements of the sequence should be predicted
+    mask_sym = T.imatrix()
+
+    # ground truth for the RNN output
+    y_sentence_sym = T.imatrix()
+
+    x_feedback = T.matrix()
+
+    # first iteration
+    if 'adam values' in d:
+        net.__iteration(adam_values=d['adam values'],
+                        trans_dense_nolearn=d['config']['trans_dense_nolearn'])
+    else:
+        net.__iteration(trans_dense_nolearn=d['config']['trans_dense_nolearn'])
+    # compile theano functions:
+    net.__compile__fcts()
+    decay_epocs = 1
+    if net.CFG['small_dataset']:
+        seval = 100
+    else:
+        seval = 1000
+    # recover correct lr
+    if init_epoc > 0:
+        for epoc in range(0, init_epoc):
+            if epoc >= net.CFG['lr_decay_start']:
+                decay_epocs -= 1
+                if decay_epocs == 0:
+                    net.lr = net.lr * decay_factor
+                    decay_epocs = net.CFG['lr_decay_epocs']
+        print('Learning rate set to {}'.format(net.lr.eval()))
+
+    if CFG['save_partial'] != -1:
+        if 'partial' in d:
+            start_from = (d['partial'] * net.CFG['save_partial'] * seval /
+                          net.CFG['batch_size'] * net.CFG['batch_size'])
+        else:
+            start_from = 0
+    else:
+        start_from = 0
+    net.samples = start_from
+    for epoc in range(init_epoc, net.CFG['epocs']):
+        if 'partial' in d:
+            net.__epoc__(epoc=epoc, start_from=start_from,
+                         init_epoc=init_epoc,
+                         partial=d['partial'], seval=seval,
+                         dbtrain=dbtrain, dbval=dbval)
+        else:
+            net.__epoc__(epoc=epoc, start_from=start_from,
+                         init_epoc=init_epoc, seval=seval,
+                         dbtrain=dbtrain, dbval=dbval)
+    print("Total Training Time :{}h".format((time.time() - starting_time) / 3600.))
+
+
+

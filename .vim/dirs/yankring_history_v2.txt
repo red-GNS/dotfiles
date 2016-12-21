@@ -1,0 +1,15 @@
+= cpu ,V
+device,v
+ -d $(pwd) -p \"\\\"gpumodel='gtx980'\\\"\"",v
+# Cudnn 5.1function setcudnn51 () {  export CUDNN_ROOT="/home/thoth/melbayad/scratch/tools/cudnn51"  export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$CUDNN_ROOT/lib64"  export CPLUS_INCLUDE_PATH="$CPLUS_INCLUDE_PATH:$CUDNN_ROOT/include"  export C_INCLUDE_PATH="$C_INCLUDE_PATH:$CUDNN_ROOT/include"  export LIBRARY_PATH="$LIBRARY_PATH:$CUDNN_ROOT/lib64"},v
+import ConfigParser,v
+from bcolors import bcolors,v
+# export MANPATH="/usr/local/man:$MANPATH",v
+export PYTHONPATH=$PYTHONPATH:/usr/local/cellar/caffe/python,v
+"Colorscheme":,v
+" Make the gutters darker than the background.,v
+let g:badwolf_darkgutter = 1,v
+colorscheme badwolf,v
+Plug 'sjl/badwolf',v
+,V
+#export PYTHONHOME=/usr/local,v

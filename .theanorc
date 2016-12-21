@@ -1,0 +1,26 @@
+[global]
+floatX = float32
+#device = gpu0
+base_compiledir = ~/scratch/.theano
+#optimizer = fast_compile
+#exception_verbosity = high
+
+[lib]
+cnmem = 0
+[cuda]
+root = /scratch/algorab/tlucas/src/cuda8RCpatched
+#root = /home/thoth/melbayad/scratch/tools/cuda80
+#root = /home/lear/mairal/scratch/cuda-8.0rc
+#root = /scratch/gpuhost6/vsydorov/libraries/cuda7.5
+#root = /scratch/adrian/kshmelko/cuda-7.5
+
+[dnn]
+enabled=True
+
+[nvcc]
+fastmath = True
+
+[nvcc]
+flags=-D_FORCE_INLINES
+
+

@@ -1,0 +1,34 @@
+alias imenv='source /scratch2/clear/melbayad/Env/imcapenv/bin/activate'
+
+# Cudnn 5.1 @dvornik
+function setcudnn51 () {
+  export CUDNN_ROOT="/scratch/algorab/mdvornik/Libs/cudnn_5.1/cuda"
+  export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$CUDNN_ROOT/lib64"
+  export CPLUS_INCLUDE_PATH="$CPLUS_INCLUDE_PATH:$CUDNN_ROOT/include"
+  export C_INCLUDE_PATH="$C_INCLUDE_PATH:$CUDNN_ROOT/include"
+  export LIBRARY_PATH="$LIBRARY_PATH:$CUDNN_ROOT/lib64"
+}
+
+# cuda 8.1 (8 with patch for gcc 5 compatibility). @tlucas
+function setcuda81 () {
+  export CUDA="/scratch/algorab/tlucas/src/cuda8RCpatched"
+  export CUDA_libs="$CUDA/lib64"
+  export CUDA_bin="$CUDA/bin"
+  export LD_LIBRARY_PATH="$CUDA_libs:$LD_LIBRARY_PATH"
+  export CPLUS_INCLUDE_PATH="$CPLUS_INCLUDE_PATH:$CUDA/include"
+  export C_INCLUDE_PATH="$C_INCLUDE_PATH:$CUDA/include"
+  export PATH="$CUDA_bin:$PATH"
+}
+
+
+# Set envrionment for using imcap Code. uenv is a python virtual environment with the right software installed.
+function sebuntu(){ 
+  	echo "Setting cuda 8.0 patched, cudnn 5.1 and sourcing ubuntu virtual environment. @tlucas"
+	setcuda81
+	setcudnn51
+	imenv 
+	export LD_LIBRARY_PATH="/scratch/algorab/tlucas/tenv/lib/:$LD_LIBRARY_PATH"
+	export PATH="/scratch/algorab/tlucas/tenv/bin:$PATH"
+}
+
+alias smalljob='oarsub -I -p"gpumodel='gtx980'" -l "walltime=4:0:0"'
