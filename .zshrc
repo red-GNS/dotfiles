@@ -34,6 +34,7 @@ set_gpuhost1 () {
     ZSH_THEME='avit'
     setg
 }
+alias set_redgns.local=set_redgns
 alias set_gpuhost2=set_gpuhost1
 alias set_gpuhost3=set_gpuhost1
 alias set_gpuhost4=set_gpuhost1
