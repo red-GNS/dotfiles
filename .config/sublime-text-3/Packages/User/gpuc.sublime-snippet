@@ -1,0 +1,16 @@
+<snippet>
+	<content><![CDATA[
+try:
+    import os
+    import subprocess
+    gpu_id = subprocess.check_output('gpu_getIDs.sh', shell=True)
+    os.environ["THEANO_FLAGS"] = 'device=gpu%s' % gpu_id
+    print(os.environ["THEANO_FLAGS"])
+except:
+    pass
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>gpuc</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

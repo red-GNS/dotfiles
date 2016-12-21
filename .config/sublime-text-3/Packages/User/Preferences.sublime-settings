@@ -1,0 +1,36 @@
+{
+	"bold_folder_labels": true,
+	"color_scheme": "Packages/Boxy Theme/schemes/Boxy Monokai.tmTheme",
+	"detect_indentation": false,
+	"fade_fold_buttons": false,
+	"font_face": "inconsolata",
+	"font_size": 14,
+	"highlight_line": true,
+	"hot_exit": false,
+	"ignored_packages":
+	[
+		"Vintage"
+	],
+	"indent_to_bracket": true,
+	"line_padding_bottom": 1,
+	"line_padding_top": 1,
+	"paths":
+	{
+		"linux":
+		[
+			"/usr/local/bin"
+		],
+		"osx":
+		[
+			"~/.rbenv/shims"
+		],
+		"windows":
+		[
+		]
+	},
+	"remember_open_files": false,
+	"tab_size": 4,
+	"theme": "Boxy Monokai.sublime-theme",
+	"translate_tabs_to_spaces": true,
+	"word_wrap": true
+}

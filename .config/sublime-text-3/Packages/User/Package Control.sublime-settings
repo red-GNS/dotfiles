@@ -1,0 +1,27 @@
+{
+	"bootstrapped": true,
+	"in_process_packages":
+	[
+	],
+	"installed_packages":
+	[
+		"BlackBird-ColorScheme",
+		"Boxy Theme",
+		"BracketHighlighter",
+		"Color Highlighter",
+		"ColorPick",
+		"ColorPicker",
+		"Dotfiles Syntax Highlighting",
+		"GitGutter",
+		"Google Spell Check",
+		"INI",
+		"LaTeXTools",
+		"MarkdownEditing",
+		"Monokai - Spacegray",
+		"Package Control",
+		"SCSS",
+		"SublimeLinter",
+		"SublimeLinter-pep8",
+		"SublimeLinter-pylint"
+	]
+}
