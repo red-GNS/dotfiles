@@ -16,7 +16,7 @@ plugins+=(git)
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
-set_pascal.inrialpes.fr (){
+set_pascal (){
     echo "Custom setting for Pascal"
     ZSH_THEME="gentoo"
     export PATH="/home/thoth/melbayad/.local/bin:~/.local/sbin:/home/thoth/melbayad/bin:/home/thoth/melbayad/.gem/ruby/2.3.0/bin"
@@ -34,11 +34,10 @@ set_gpuhost1 () {
     ZSH_THEME='avit'
     setg
 }
-alias set_redgns.local=set_redgns
 alias set_gpuhost2=set_gpuhost1
 alias set_gpuhost3=set_gpuhost1
 alias set_gpuhost4=set_gpuhost1
-set_$HOST
+set_${HOST:r:r}
 # if [[$HOST = "pascal.inrialpes.fr"]]; then
 #     inria
 # fi
