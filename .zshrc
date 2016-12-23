@@ -13,40 +13,34 @@ plugins+=(python)
 plugins+=(tmux)
 plugins+=(git)
 
-source $ZSH/oh-my-zsh.sh
-
 # User configuration
 set_pascal (){
     echo "Custom setting for Pascal"
-    ZSH_THEME="gentoo"
+    export THEME="gentoo"
     export PATH="/home/thoth/melbayad/.local/bin:~/.local/sbin:/home/thoth/melbayad/bin:/home/thoth/melbayad/.gem/ruby/2.3.0/bin"
     export PATH=$PATH":/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
     export PRINTER=impression_toshiba
 }
 set_redgns (){
     echo "Custom setting for REDGNS"
-    ZSH_THEME='agnoster'
+    export THEME='agnoster'
     export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/local/texlive/2016/bin/x86_64-linux"
     export PYTHONPATH=$PYTHONPATH:/usr/local/cellar/caffe/python
 }
 set_gpuhost1 () {
     echo "Custom setting for gpuhosts"
-    ZSH_THEME='avit'
+    export THEME='avit'
     setg
 }
 alias set_gpuhost2=set_gpuhost1
 alias set_gpuhost3=set_gpuhost1
 alias set_gpuhost4=set_gpuhost1
+
 set_${HOST:r:r}
-# if [[$HOST = "pascal.inrialpes.fr"]]; then
-#     inria
-# fi
-# if [[$HOST = "redgns"]]; then
-#     redgns
-# fi
-# if [[$HOST = "gpu"*]]; then
-#     gpuh
-# fi
+
+ZSH_THEME=$THEME
+source $ZSH/oh-my-zsh.sh
+
 # Aliases and functions:
 
 # extract:  Extract most know archives with one command
@@ -78,12 +72,11 @@ zipf () { zip -r "$1".zip "$1" ; }
 zssh () { ssh "$1" -t zsh }
 cd() { builtin cd "$@"; ls; }  # Always list directory contents upon 'cd'
 alias c='clear'
-alias src='source ~/.zshrc'
 alias ggc='gaa && git commit -m 'auto up' && git push origin master'
 alias ggp='git pull origin master'
 alias m='cd ~/scratch/work/imcap'
 export GHI_TOKEN="17fb84722f8708c6c4c4942719c24ded82c182e3"
 alias chr='google-chrome'
 alias svim='vim +PluginInstall +qall'
-
+alias src='source ~/.zshrc'
 
