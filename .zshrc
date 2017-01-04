@@ -95,7 +95,7 @@ zipf () { zip -r "$1".zip "$1" ; }
 zssh () { ssh -Y "$1" -t zsh }
 cd() { builtin cd "$@"; ls; }  # Always list directory contents upon 'cd'
 alias c='clear'
-alias ggc='gaa && git commit -m 'auto up' && git push origin master'
+alias ggc="gaa && git commit -m 'auto up' && git push origin master"
 alias ggp='git pull origin master'
 alias m='cd ~/scratch/work/imcap'
 export GHI_TOKEN="17fb84722f8708c6c4c4942719c24ded82c182e3"
