@@ -32,7 +32,7 @@ set_gpuhost1 () {
     export THEME='avit'
     setg
 }
-alias set_edgar="set_pascal"
+alias set_edgar='set_pascal'
 alias set_gpuhost2="set_gpuhost1"
 alias set_gpuhost3="set_gpuhost1"
 alias set_gpuhost4="set_gpuhost1"
