@@ -32,6 +32,7 @@ set_gpuhost1 () {
     export THEME='avit'
     setg
 }
+alias set_edgar=set_pascal
 alias set_gpuhost2=set_gpuhost1
 alias set_gpuhost3=set_gpuhost1
 alias set_gpuhost4=set_gpuhost1
@@ -69,7 +70,7 @@ extract () {
 # Zip folder
 zipf () { zip -r "$1".zip "$1" ; }
 # Ssh with zsh shell
-zssh () { ssh "$1" -t zsh }
+zssh () { ssh -Y "$1" -t zsh }
 cd() { builtin cd "$@"; ls; }  # Always list directory contents upon 'cd'
 alias c='clear'
 alias ggc='gaa && git commit -m 'auto up' && git push origin master'
