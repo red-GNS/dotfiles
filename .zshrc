@@ -36,7 +36,7 @@ alias set_edgar="set_pascal"
 alias set_gpuhost2="set_gpuhost1"
 alias set_gpuhost3="set_gpuhost1"
 alias set_gpuhost4="set_gpuhost1"
-
+echo "Aliases set"
 set_${HOST:r:r}
 
 ZSH_THEME=$THEME
