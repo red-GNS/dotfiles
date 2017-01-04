@@ -21,7 +21,7 @@ set_pascal (){
     export PATH=$PATH":/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
     export PRINTER=impression_toshiba
 }
-set_pascal (){
+set_edgar (){
     echo "Custom setting for Edgar"
     export THEME="gentoo"
     export PATH="/home/thoth/melbayad/.local/bin:~/.local/sbin:/home/thoth/melbayad/bin:/home/thoth/melbayad/.gem/ruby/2.3.0/bin"
