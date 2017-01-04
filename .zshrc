@@ -21,6 +21,12 @@ set_pascal (){
     export PATH=$PATH":/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
     export PRINTER=impression_toshiba
 }
+set_pascal (){
+    echo "Custom setting for Edgar"
+    export THEME="gentoo"
+    export PATH="/home/thoth/melbayad/.local/bin:~/.local/sbin:/home/thoth/melbayad/bin:/home/thoth/melbayad/.gem/ruby/2.3.0/bin"
+    export PATH=$PATH":/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
+}
 set_redgns (){
     echo "Custom setting for REDGNS"
     export THEME='agnoster'
@@ -32,10 +38,26 @@ set_gpuhost1 () {
     export THEME='avit'
     setg
 }
-alias set_edgar='set_pascal'
-alias set_gpuhost2="set_gpuhost1"
-alias set_gpuhost3="set_gpuhost1"
-alias set_gpuhost4="set_gpuhost1"
+set_gpuhost2 () {
+    echo "Custom setting for gpuhosts"
+    export THEME='avit'
+    setg
+}
+set_gpuhost3 () {
+    echo "Custom setting for gpuhosts"
+    export THEME='avit'
+    setg
+}
+set_gpuhost4 () {
+    echo "Custom setting for gpuhosts"
+    export THEME='avit'
+    setg
+}
+# Mysteriously not working!!
+# alias set_edgar='set_pascal'
+# alias set_gpuhost2="set_gpuhost1"
+# alias set_gpuhost3="set_gpuhost1"
+# alias set_gpuhost4="set_gpuhost1"
 echo "Aliases set"
 which set_edgar
 set_${HOST:r:r}
