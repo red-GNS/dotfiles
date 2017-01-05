@@ -8,15 +8,17 @@
 # hlsearch on (H) or off (h):
 ~h
 # Last Search Pattern:
-~MSle0~/shell
+~MSle0~/ggc
 
 # Last Substitute String:
 $
 
 # Command Line History (newest to oldest):
+:q
+:/ggc
 :wq
-:/shell
 :q!
+:/shell
 :1
 :/zssh
 :/agn
@@ -26,7 +28,6 @@ $
 :601
 :/filename
 :/path
-:q
 :/ConfigParser
 :/configar
 :227
@@ -55,6 +56,8 @@ $
 :tabnew source_env
 
 # Search String History (newest to oldest):
+? ggc
+?/extract:q
 ? shell
 ? zssh
 ? agn
@@ -121,18 +124,29 @@ $
 	 
 
 # File marks:
-'0  62  74  ~/.envrc
-'1  2  24  ~/.zshrc
-'2  9  8  ~/.theanorc
-'3  6  0  ~/.theanorc
-'4  3  0  ~/.theanorc
-'5  5  0  ~/.theanorc
-'6  8  0  ~/.theanorc
-'7  4  34  ~/.theanorc
-'8  12  6  ~/.zshrc
-'9  11  6  ~/.zshrc
+'0  98  1  ~/.zshrc
+'1  5  0  ~/work/imcap/.gitignore
+'2  6  12  ~/work/imcap/.gitignore
+'3  4  5  ~/work/imcap/.gitignore
+'4  3  5  ~/work/imcap/.gitignore
+'5  1  0  ~/work/imcap/.gitignore
+'6  7  25  ~/work/imcap/.gitignore
+'7  1  0  ~/.zshrc
+'8  1  0  ~/work/imcap/config/default_train.yaml
+'9  55  0  ~/.zshrc
 
 # Jumplist (newest first):
+-'  98  1  ~/.zshrc
+-'  1  0  ~/.zshrc
+-'  5  0  ~/work/imcap/.gitignore
+-'  1  0  ~/work/imcap/.gitignore
+-'  6  12  ~/work/imcap/.gitignore
+-'  4  5  ~/work/imcap/.gitignore
+-'  3  5  ~/work/imcap/.gitignore
+-'  7  25  ~/work/imcap/.gitignore
+-'  1  0  ~/work/imcap/config/default_train.yaml
+-'  55  0  ~/.zshrc
+-'  1  0  ~/.zsh
 -'  62  74  ~/.envrc
 -'  2  24  ~/.zshrc
 -'  12  0  ~/.zshrc
@@ -144,7 +158,6 @@ $
 -'  4  0  ~/.theanorc
 -'  1  0  ~/.theanorc
 -'  11  0  ~/.zshrc
--'  1  0  ~/.zsh
 -'  132  0  ~/.zshrc
 -'  22  0  ~/.zshrc
 -'  54  3  ~/.envrc
@@ -177,7 +190,6 @@ $
 -'  17  17  /scratch2/clear/melbayad/work/imcap/parse_tools.py
 -'  3  0  /scratch2/clear/melbayad/work/imcap/parse_tools.py
 -'  69  0  ~/.zshrc
--'  1  0  ~/.zshrc
 -'  1  22  /scratch2/clear/melbayad/work/imcap/parse_tools.py
 -'  227  4  /scratch2/clear/melbayad/work/imcap/parse_tools.py
 -'  119  26  /scratch2/clear/melbayad/work/imcap/PrepareData.py
@@ -221,18 +233,46 @@ $
 -'  1  0  /home/thoth/tlucas/image_attention/new_imcap/imcap/CaptionEvaluation.py
 -'  1  0  /home/thoth/tlucas/image_attention/new_imcap/imcap/CaptionEvaluation
 -'  35  19  ~/.envrc
--'  1  0  ~/.bashrc
--'  20  30  ~/.bashrc
--'  1  60  /scratch2/clear/melbayad/work/imcap/source_env
--'  23  0  /scratch2/clear/melbayad/work/imcap/source_env
--'  126  11  /home/thoth/tlucas/.bashrc
--'  127  9  /home/thoth/tlucas/.bashrc
--'  4  0  /home/thoth/tlucas/.bashrc
--'  1  0  /home/thoth/tlucas/.bashrc
--'  27  0  ~/Dropbox/sublime.settings
--'  1  0  ~/Dropbox/sublime.settings
 
 # History of marks within files (newest to oldest):
+
+> ~/.zshrc
+	"	98	1
+	^	98	66
+	.	98	67
+	+	2	12
+	+	76	33
+	+	76	33
+	+	73	0
+	+	77	0
+	+	72	131
+	+	72	32
+	+	73	126
+	+	74	0
+	+	73	15
+	+	72	109
+	+	73	19
+	+	22	16
+	+	12	6
+	+	2	24
+	+	98	67
+
+> ~/work/imcap/.gitignore
+	"	5	0
+	^	6	13
+	.	6	12
+	+	1	1
+	+	7	25
+	+	3	5
+	+	3	5
+	+	5	17
+	+	6	12
+
+> ~/work/imcap/config/default_train.yaml
+	"	1	0
+
+> ~/.zsh
+	"	1	0
 
 > ~/.envrc
 	"	62	74
@@ -267,26 +307,6 @@ $
 	+	63	0
 	+	62	74
 
-> ~/.zshrc
-	"	2	24
-	^	2	25
-	.	2	24
-	+	2	12
-	+	76	33
-	+	76	33
-	+	73	0
-	+	77	0
-	+	72	131
-	+	72	32
-	+	73	126
-	+	74	0
-	+	73	15
-	+	72	109
-	+	73	19
-	+	22	16
-	+	12	6
-	+	2	24
-
 > ~/.theanorc
 	"	9	8
 	^	9	9
@@ -316,9 +336,6 @@ $
 	+	4	0
 	+	6	0
 	+	9	8
-
-> ~/.zsh
-	"	1	0
 
 > /scratch2/clear/melbayad/work/imcap/.gitignore
 	"	3	4

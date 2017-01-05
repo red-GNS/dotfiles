@@ -1,0 +1,130 @@
+# ----------------------------------- 
+#  Basic params
+# -----------------------------------
+filename : data/test # location where to save the model.
+mode : normal
+# Between normal, lrcn, tensor, tensor-feedback and transformer
+# ----------------------------------- 
+#  Debug params
+# -----------------------------------
+print : True  # Do not run the training, just print the configuration file. Useful for debug
+# verbose : True  # code verbosity
+plot_loss : True  # Plot the loss in a graph! You should use ipython with option --pylab
+small_dataset : True
+visualize : 0  # Visualize the attention for each word starting from sample x
+# ----------------------------------- 
+#  Loading params
+# -----------------------------------
+# force_load : False  # Force to load a file even if with differet or missing parameters
+# force_current : False  # Force to use the current setting for the parameters
+start_from : 'data/test/normal_3.pkl' # Load a pretrained model from a file. It keeps the current configuration setting.
+# The user should check that the current settings are compatible with the loaded model!
+# convert_transformer : False  # Convert the loaded parameters (using start_from) from tensor_add_conv 3x3 to transformer
+# restart : False  # Restart from the last iteration of the current filename
+load_voc_from : ''  # Instead of using the vocabulary from the training data it loads it from another training file
+
+# ----------------------------------- 
+#  Optimization params
+# -----------------------------------
+lr : 0.001 # the training learning rate
+lr_decay_start : 100  # Set at which epoc starting to use learning decay
+lr_decay_epocs : 2   # Set every how many epocs reduce the leraning rate by a factor 2
+max_epocs : 20  # Maximum number of epocs
+batch_size : 10  # Set the batch size. Note that a smaller batch size will require a smaller learning rate as well.
+grad_clip : 100  # Set the value for clipping the gradient.
+reg_h : 0   # Regularize h to have similar norm at each iteration
+# add_validation : False  # Force the evaluation to be on the 10K validation subset even if the training was done only on training data (useful to evaluate exactly on the same data). During training it add 30K of validation data as additional training data
+cnn_fine_tune : True
+# train_only_cnn : False
+# ----------------------------------- 
+#  Model params
+# -----------------------------------
+im_size : 400  # The size of the image used for computing proposals # FIXME is it 224?
+embedding_size : 512
+conv_reduced : 2 # Reduces the size of the convolutional features from 14x14 to 7x7 to get some speed-up
+                 # 1: reduces with fix grid
+                 # 2: reduces with random samples within the grid
+
+# tensor_cond_word : False  # Use the tensor feedback conditioned to the previous word instead of marginalizing
+# rectify : False  # Use Rectified unit after Tensor in case of mode (2) tensor-reducedw
+
+proposals : 0  # Train using proposals with different configurations. Valid values are 2,3,4.
+shuffle_boxes : 0  # When using prosals, shuffle the selected boxes
+# train_only_rnn : False  # Train only the RNN part of the network!
+# use_teacher : False  # Train only the RNN part of the network!
+# eval_fixed : False  # Use a fixed set of data for evaluating the loss in training and evaluation. Less variance but biased.
+conv_normalized : 2  # Use Normalized Convolution Features
+start_normalized : 2  # Use Normalized Features for the starting point
+tensor_tied : 1  # In mode tensor_feedback(4) and tensor_feedback2(5) defines if the two tensors are tied or not.
+                 # 0: not tied 1: fully tied 2: only rw is tied (not implemented)
+reducedw_size : 512  # Set the size of the reducedw in mode (2) tensor-reducedw
+softmax : accurate  # Using cuDNN you can choose either fast or accurate softmax
+max_sent : 22  # Maximum number of words in a sentence
+new_save : 1  # New format of assigning names to the layers of the models
+use_flip : 'sample'  # Sample from also flipped images, either sample or None
+feedback : 2  # Use different kind of feedback for mode(5)
+              # 0: No feedback (as mode 1 but slower)
+              # 1: Geometrical feedback (as mode 4)
+              # 2: Visual feedback
+              # 3: Combination of 1 and 2
+              # 4: Image with regions weighted by their prob.
+rnn_dropout : 0.5  # Use RNN dropout
+it_size : 1000  # Number of samples to process during an iteration
+dropout_regions : 0  # Use a dropout also for the region descriptors before feeding the tensor.
+                     # 0: No dropout
+                     # 1: Dropout same for each timestep and each sentence
+                     # 2: Dropout same for each timestep but different for each sentence
+                     # 3: Dropout different for each timestep and for each sentence
+state_size : 512  # Size of the state of the RNN
+repeated_words : 10  # Minimum number of repetition of a words in the training data to add it in the word dictionary.
+num_regions : 50  # Number of used proposals
+clean_masks : 1 # Clean the masks associated to sentences. To remove the bug is should be set to 1
+save_partial : -1  # Save partial results every N/1000 batches.
+                   # Useful in besteffort mode. A good value should be between 5 and 10
+                   # depending on the speed of the machine
+cnn_model : vgg  # Chose CNN among "vgg" and "resnet". Default is VGG
+resnet_layer : pool5 # Use either "prob" or "pool5" layers. Defalult is pool5
+# review_attention : False  # Use a mechanism to review the attention mechanism
+# density_tempering : False  # Use a mechanism to sharpen or blunt the density distribution.
+# tensor_add_conv : False  # Add an additional learnable 3x3 convolutional layer before the tensor
+# tensor_add_conv_nolearn : False  # Not learn the added convolutional layer.
+                                 # TODO :  Later try to learn it with the fine tuning of the CNN.
+# Options used for image feedback. Highres will upsamle alphas.
+# drop_imfeedback will add some dropout to the convnet used for feedback.
+imgfeedback_mechanism : simple  # Choose the mechanism to generate the density tempering parameter.
+                                # Choices: "simple", "highres"
+drop_imfeedback : 0  # If set to 1, drops a layer of the image feedback mechanism
+
+# ----------------------------------- 
+#  Transformer params
+# -----------------------------------
+trans_multiple_boxes : 1   # If set to 1 it uses spatial transformer with multiple boxes
+trans_use_state : 0  # If set to 1 it uses the state vector for the generation of the multiple boxes
+trans_locnet : 0 # 0: loc net first layer uses relu
+                 # 1: loc net first layer does not use relu, to avoid rotations of the bboxes
+# trans_nolearn : False  # Does not learn the localization network
+                       # so that resutls should be comparable to the standard tensor.
+                       # It is a debug option
+# trans_dense_nolearn : False # TODO : Does not learn the dense layer after the sampling of the box. It seems to facilitate the learning. To test!!! Try the same also for proposals V3
+# trans_slowlearn : False  # Learn the tranformer network slowly than the rest
+# trans_norot : False  # The transormer network learns only translation and zoom, not rotation, so that the output are real bboxes
+trans_stride : 1  # Stride of the initial windows for the spatial transoformer.
+# trans_use_pretrained : False  # Use layers from vgg also for the spatial transformer
+                              # so that there are no issues with training other layers
+trans_zeropad : 0  # Use zero padding for spatial transform, as in convolution
+trans_reglearn : 0. # Regularize the localization network
+trans_locnet_dropout : 0. # Amount of Dropout in the localization network
+trans_regions_dropout : 0.5  # Amount of Dropout in the localized regions
+trans_locnet_init : 0.1  # Initializes the localization net with the given variance
+trans_zoom : 1.0  # Set the zoom of the initial windows
+trans_compress : 0  # Compress the memory for spatial transformer. Sometimes it has problems.
+                    # If you find any problem disable it!
+trans_add_big_proposals : 0  # Add big proposals samples with a stride of 3
+                             # so with standard (14,14) map you get 25 additional proposals
+trans_feedback : 0  # Set to one to use feedback with spatial transformer
+cnn_slowlearn : 0  # Use a slower learning rate for the CNN
+set_seed : 0  # Adds the parameter to the seed
+
+# Dissected tensor to test WR and RS separately.
+dissect : No  # Omit one term of the tensor. "wr" will OMMIT rs and "rs" will OMMIT wr 
+# skip_zero : False  # 

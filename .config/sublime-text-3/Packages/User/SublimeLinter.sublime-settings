@@ -1,91 +1,61 @@
 {
-	"user":
-	{
-		"debug": true,
-		"delay": 0.25,
-		"error_color": "D02000",
-		"gutter_theme": "Packages/Boxy Theme/extras/SublimeLinter/Boxy.gutter-theme",
-		"gutter_theme_excludes":
-		[
-		],
-		"lint_mode": "background",
-		"linters":
-		{
-			"pep8":
-			{
-				"@disable": false,
-				"args":
-				[
-				],
-				"excludes":
-				[
-				],
-				"ignore": "E402",
-				"max-line-length": 100,
-				"select": ""
-			},
-			"pylint":
-			{
-				"@disable": false,
-				"args":
-				[
-				],
-				"disable": "C0103, R0902, R0912",
-				"enable": "",
-				"excludes":
-				[
-				],
-				"paths":
-				[
-				],
-				"rcfile": "~/.pylintrc",
-				"show-codes": false
-			}
-		},
-		"mark_style": "outline",
-		"no_column_highlights_line": false,
-		"passive_warnings": false,
-		"paths":
-		{
-			"linux":
-			[
-				"~/.local/bin"
-			],
-			"osx":
-			[
-			],
-			"windows":
-			[
-			]
-		},
-		"python_paths":
-		{
-			"linux":
-			[
-			],
-			"osx":
-			[
-			],
-			"windows":
-			[
-			]
-		},
-		"rc_search_limit": 3,
-		"shell_timeout": 10,
-		"show_errors_on_save": true,
-		"show_marks_in_minimap": true,
-		"syntax_map":
-		{
-			"html (django)": "html",
-			"html (rails)": "html",
-			"html 5": "html",
-			"javascript (babel)": "javascript",
-			"magicpython": "python",
-			"php": "html",
-			"python django": "python",
-			"pythonimproved": "python"
-		},
-		"warning_color": "DDB700",
-		"wrap_find": true
-	}
+    "user": {
+        "debug": true,
+        "delay": 0.25,
+        "error_color": "D02000",
+        "gutter_theme": "Packages/Boxy Theme/extras/SublimeLinter/Boxy.gutter-theme",
+        "gutter_theme_excludes": [],
+        "lint_mode": "background",
+        "linters": {
+            "pep8": {
+                "@disable": false,
+                "args": [],
+                "excludes": [],
+                "ignore": "E402, E501",
+                "max-line-length": 100,
+                "select": ""
+            },
+            "pylint": {
+                "@disable": false,
+                "args": [],
+                "disable": "C0103, C0301, R0902, R0912",
+                "enable": "",
+                "excludes": [],
+                "paths": [],
+                "rcfile": "~/.pylintrc",
+                "show-codes": false
+            }
+        },
+        "mark_style": "outline",
+        "no_column_highlights_line": false,
+        "passive_warnings": false,
+        "paths": {
+            "linux": [
+                "~/.local/bin"
+            ],
+            "osx": [],
+            "windows": []
+        },
+        "python_paths": {
+            "linux": [],
+            "osx": [],
+            "windows": []
+        },
+        "rc_search_limit": 3,
+        "shell_timeout": 10,
+        "show_errors_on_save": true,
+        "show_marks_in_minimap": true,
+        "syntax_map": {
+            "html (django)": "html",
+            "html (rails)": "html",
+            "html 5": "html",
+            "javascript (babel)": "javascript",
+            "magicpython": "python",
+            "php": "html",
+            "python django": "python",
+            "pythonimproved": "python"
+        },
+        "warning_color": "DDB700",
+        "wrap_find": true
+    }
 }

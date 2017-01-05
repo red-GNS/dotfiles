@@ -1,3 +1,5 @@
-data/
+./data/
 *.pyc
-
+*.pkl
+*.json
+*checkpoint.ipynb
