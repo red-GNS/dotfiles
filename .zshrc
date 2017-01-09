@@ -14,6 +14,10 @@ plugins+=(tmux)
 plugins+=(git)
 
 # User configuration
+set_adrian(){
+    echo "Custom setting adrian"
+    export THEME="avit"
+}
 set_pascal (){
     echo "Custom setting for Pascal"
     export THEME="gentoo"
