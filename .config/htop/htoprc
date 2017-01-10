@@ -23,4 +23,4 @@ delay=15
 left_meters=LeftCPUs2 Hostname Tasks Uptime 
 left_meter_modes=1 2 2 2 
 right_meters=RightCPUs2 Memory Swap LoadAverage 
-right_meter_modes=1 1 1 1 1 
+right_meter_modes=1 1 1 1 
