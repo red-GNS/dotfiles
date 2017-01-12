@@ -14,6 +14,14 @@ plugins+=(tmux)
 plugins+=(git)
 
 # User configuration
+set_adrian (){
+    echo "Custom setting for Adrian"
+    export THEME="avit"
+    export PATH="/home/thoth/melbayad/.local/bin:~/.local/sbin:/home/thoth/melbayad/bin:/home/thoth/melbayad/.gem/ruby/2.3.0/bin"
+    export PATH=$PATH":/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
+    export PRINTER=impression_toshiba
+}
+
 set_pascal (){
     echo "Custom setting for Pascal"
     export THEME="gentoo"
@@ -21,6 +29,7 @@ set_pascal (){
     export PATH=$PATH":/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
     export PRINTER=impression_toshiba
 }
+
 set_edgar (){
     echo "Custom setting for Edgar"
     export THEME="gentoo"
@@ -33,33 +42,19 @@ set_redgns (){
     export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/local/texlive/2016/bin/x86_64-linux"
     export PYTHONPATH=$PYTHONPATH:/usr/local/cellar/caffe/python
 }
-set_gpuhost1 () {
+set_gpuhost () {
     echo "Custom setting for gpuhosts"
     export THEME='avit'
     setg
 }
-set_gpuhost2 () {
-    echo "Custom setting for gpuhosts"
-    export THEME='avit'
-    setg
-}
-set_gpuhost3 () {
-    echo "Custom setting for gpuhosts"
-    export THEME='avit'
-    setg
-}
-set_gpuhost4 () {
-    echo "Custom setting for gpuhosts"
-    export THEME='avit'
-    setg
-}
-# Mysteriously not working!!
-# alias set_edgar='set_pascal'
-# alias set_gpuhost2="set_gpuhost1"
-# alias set_gpuhost3="set_gpuhost1"
-# alias set_gpuhost4="set_gpuhost1"
 
-set_${HOST:r:r}
+
+if [[ ${HOST:r:r} == gpuhost* ]];
+    then
+    set_gpuhost
+else
+    set_${HOST:r:r}
+fi
 
 ZSH_THEME=$THEME
 source $ZSH/oh-my-zsh.sh
