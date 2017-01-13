@@ -42,6 +42,13 @@ set_redgns (){
     export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/local/texlive/2016/bin/x86_64-linux"
     export PYTHONPATH=$PYTHONPATH:/usr/local/cellar/caffe/python
 }
+
+set_decore0 (){
+    echo "Custom setting for Decore"
+    export THEME='amuse'
+    export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/local/texlive/2016/bin/x86_64-linux"
+}
+
 set_gpuhost () {
     echo "Custom setting for gpuhosts"
     export THEME='avit'
