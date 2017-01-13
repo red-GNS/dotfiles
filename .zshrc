@@ -20,6 +20,7 @@ set_adrian (){
     export PATH="/home/thoth/melbayad/.local/bin:~/.local/sbin:/home/thoth/melbayad/bin:/home/thoth/melbayad/.gem/ruby/2.3.0/bin"
     export PATH=$PATH":/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
     export PRINTER=impression_toshiba
+    alias m='cd ~/scratch/work/imcap'
 }
 
 set_pascal (){
@@ -28,6 +29,7 @@ set_pascal (){
     export PATH="/home/thoth/melbayad/.local/bin:~/.local/sbin:/home/thoth/melbayad/bin:/home/thoth/melbayad/.gem/ruby/2.3.0/bin"
     export PATH=$PATH":/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
     export PRINTER=impression_toshiba
+    alias m='cd ~/scratch/work/imcap'
 }
 
 set_edgar (){
@@ -35,24 +37,28 @@ set_edgar (){
     export THEME="gentoo"
     export PATH="/home/thoth/melbayad/.local/bin:~/.local/sbin:/home/thoth/melbayad/bin:/home/thoth/melbayad/.gem/ruby/2.3.0/bin"
     export PATH=$PATH":/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
+    alias m='cd ~/scratch/work/imcap'
 }
 set_redgns (){
     echo "Custom setting for REDGNS"
     export THEME='agnoster'
     export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/local/texlive/2016/bin/x86_64-linux"
     export PYTHONPATH=$PYTHONPATH:/usr/local/cellar/caffe/python
+    alias m='cd ~/work/imcap'
 }
 
 set_decore0 (){
     echo "Custom setting for Decore"
     export THEME='amuse'
     export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/local/texlive/2016/bin/x86_64-linux"
+    alias m='cd ~/work/imcap'
 }
 
 set_gpuhost () {
     echo "Custom setting for gpuhosts"
     export THEME='avit'
     setg
+    alias m='cd ~/scratch/work/imcap'
 }
 
 
@@ -99,8 +105,6 @@ cd() { builtin cd "$@"; ls; }  # Always list directory contents upon 'cd'
 alias c='clear'
 alias ggc="gaa && git commit -m 'auto up' && git push origin master"
 alias ggp='git pull origin master'
-alias m='cd ~/scratch/work/imcap'
-export GHI_TOKEN="17fb84722f8708c6c4c4942719c24ded82c182e3"
 alias chr='google-chrome'
 alias svim='vim +PluginInstall +qall'
 alias src='source ~/.zshrc'
