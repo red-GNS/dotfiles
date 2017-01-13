@@ -49,8 +49,8 @@ set_redgns (){
 
 set_decore0 (){
     echo "Custom setting for Decore"
-    export THEME='amuse'
-    export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/local/texlive/2016/bin/x86_64-linux"
+    export THEME='awesomepanda'
+    export PATH="/home/getalp/elbayadm/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
     alias m='cd ~/work/imcap'
 }
 
