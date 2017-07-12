@@ -1,4 +1,25 @@
 # Config file
+
+set $wbgcolor #21252E
+set $wstcolor #f2ebc7
+set $wspcolor #f2ebc7
+set $fwbcolor #21252E
+set $fwbgcolor #769070
+set $fwtcolor #16100b
+set $awbcolor #21252E
+set $awbgcolor #348899
+set $awtcolor #16100b
+set $iwbcolor #21252E
+set $iwbgcolor #4C5356
+set $iwtcolor #16100b
+set $uwbcolor #21252E
+set $uwbgcolor #AC4344
+set $uwtcolor #16100b
+
+set $iw_fg #c5c8c5  
+set $iw_bg #1e1e20
+set $iw_c0 #2B2C2B
+
 set $workspace1 "1: "
 set $workspace2 "2: "
 set $workspace3 "3:  "
@@ -84,11 +105,7 @@ bindsym $mod+Right focus right
 bindsym $mod+Shift+j move left
 bindsym $mod+Shift+k move down
 bindsym $mod+Shift+l move up
-<<<<<<< HEAD
 bindsym $mod+Shift+m move right
-=======
-bindsym $mod+Shift+M move right
->>>>>>> ad227b091f685ffa8cda25ac7594b6e7340e58aa
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
@@ -200,30 +217,71 @@ bindsym $mod+Escape exec --no-startup-id ~/.i3/lock
 exec --no-startup-id nitrogen --restore; sleep 1; compton -b
 
 
+#bar {
+     #font pango:Source Sans Pro-10 10
+    #status_command i3blocks -c ~/.i3/i3blocks.conf
+  #colors {
+    #separator #aaaaaa
+    #background #242C33
+    #statusline  #aaaaaa 
+    #focused_workspace #fdf6e3 #242C33 #fdf6e3
+    #active_workspace #fdf6e3 #6c71c4 #fdf6e3
+    #inactive_workspace #002b36 #586e75 #002b36
+    #urgent_workspace #d33682 #d33682 #fdf6e3
+  #}
+#}
+
+
 bar {
-     font pango:Source Sans Pro-10 10
-    status_command i3blocks -c ~/.i3/i3blocks.conf
-  colors {
-    separator #aaaaaa
-    background #242C33
-    statusline  #aaaaaa 
-    focused_workspace #fdf6e3 #242C33 #fdf6e3
-    active_workspace #fdf6e3 #6c71c4 #fdf6e3
-    inactive_workspace #002b36 #586e75 #002b36
-    urgent_workspace #d33682 #d33682 #fdf6e3
-  }
+    font pango: Icnonsolata 10
+    status_command i3status -c ~/.i3/i3status
+    position top
+    workspace_buttons yes
+    # tray
+    tray_output DP-1
+    tray_padding 1
+    separator_symbol "|"
+    colors {
+        background $wbgcolor
+        statusline $wstcolor
+        separator  $wspcolor
+
+        # ws               border     bg         text
+        focused_workspace  $fwbcolor  $fwbgcolor  $fwtcolor
+        active_workspace   $awbcolor  $awbgcolor  $awtcolor
+        inactive_workspace $iwbcolor  $iwbgcolor  $iwtcolor
+        urgent_workspace   $uwbcolor  $uwbgcolor  $uwtcolor
+    }
 }
+
+#bar {
+    #status_command conky -c ~/.i3/conkyrc
+	#mode dock
+	#position top
+	#font pango:open sans 10
+	#strip_workspace_numbers yes
+#colors {
+        #background #454545
+        #statusline #ffffff
+        #separator #51c4d4
+
+        #focused_workspace  #ecedee #ecedee #454545
+        #active_workspace   #ecedee #ecedee #454545
+        #inactive_workspace #454545 #454545 #ffffff
+        #urgent_workspace   #454545 #454545 #ffffff
+    #}
+#}
 
 
 
 #<colorclass> <border> <background> <text> <indicator> <child_border>
-client.focused   #c5c8c6 #c5c8c5 #c5c8c5 #1e1e20 #2B2C2B
-client.unfocused   #c5c8c6 #c5c8c5 #c5c8c5 #1e1e20 #2B2C2B
-client.focused_inactive	 #c5c8c6 #c5c8c5 #c5c8c5 #1e1e20 #2B2C2B
-client.urgent  #c5c8c6 #c5c8c5 #c5c8c5 #1e1e20 #2B2C2B
+client.focused   $iw_fg $iw_fg $iw_bg $iw_c0
+client.unfocused   $iw_fg $iw_fg $iw_fg $iw_bg $iw_c0
+client.focused_inactive	 $iw_fg $iw_fg $iw_fg $iw_bg $iw_c0
+client.urgent  $iw_fg $iw_fg $iw_fg $iw_bg $iw_c0
 
-client.background #1e1e29
-client.placeholder	#c5c8c6 #c5c8c5 #c5c8c5 #1e1e20 #2B2C2B
+client.background $iw_bg
+client.placeholder	$iw_fg $iw_fg $iw_fg $iw_bg $iw_c0
 
 #smart_borders on
 #assign [class="Slack"]           → $workspace1

@@ -45,6 +45,7 @@ Plug 'scrooloose/nerdcommenter'
 " Better file browser
 Plug 'scrooloose/nerdtree'
 
+Plug 'lervag/vimtex'
 " Class/module browser
 Plug 'majutsushi/tagbar'
 " TODO known problems:
@@ -82,6 +83,8 @@ Plug 'zchee/deoplete-jedi', { 'do': ':UpdateRemotePlugins' }
 " from this plugin is disabled
 Plug 'davidhalter/jedi-vim'
 
+" Easy motion:
+Plug 'easymotion/vim-easymotion'
 " Automatically close parenthesis, etc
 Plug 'Townk/vim-autoclose'
 
@@ -155,7 +158,9 @@ endif
 " Vim settings and mappings
 " You can edit them as you wish
 set encoding=utf-8
-set guifont=Droid\ Sans\ Mono\ for\ Powerline\ Plus\ Nerd\ File\ Types\ 11
+"set guifont=Droid\ Sans\ Mono\ for\ Powerline\ Plus\ Nerd\ File\ Types\ 11
+set guifont=Inconsolata\ for\ Powerline\ 8
+
 let mapleader = ";"
 
 
@@ -208,6 +213,25 @@ autocmd BufWritePre *.py :%s/\s\+$//e
 " ============================================================================
 " Plugins settings and mappings
 " Edit them as you wish.
+
+
+
+" Easy motion
+
+" <Leader>f{char} to move to {char}
+map  <Leader>f <Plug>(easymotion-bd-f)
+nmap <Leader>f <Plug>(easymotion-overwin-f)
+
+" s{char}{char} to move to {char}{char}
+nmap s <Plug>(easymotion-overwin-f2)
+
+" Move to line
+map <Leader>L <Plug>(easymotion-bd-jk)
+nmap <Leader>L <Plug>(easymotion-overwin-line)
+
+" Move to word
+map  <Leader>w <Plug>(easymotion-bd-w)
+nmap <Leader>w <Plug>(easymotion-overwin-w)
 
 " Tagbar -----------------------------
 
@@ -335,8 +359,8 @@ let g:yankring_history_dir = '~/.config/nvim/'
 
 " Airline ------------------------------
 
-let g:airline_powerline_fonts = 0
-let g:airline_theme = 'oceanicnext'
+let g:airline_powerline_fonts = 1
+"let g:airline_theme = 'oceanicnext'
 let g:airline#extensions#whitespace#enabled = 0
 
 " to use fancy symbols for airline, uncomment the following lines and use a
