@@ -13,10 +13,10 @@ plugins+=(tmux)
 plugins+=(git)
 
 # User configuration
-set_adrian (){
-    echo "Custom setting for Adrian"
+set_zeus (){
+    echo "ZEUS ZSH CONFIG"
     export THEME="dieter"
-    export PATH="/home/thoth/melbayad/.local/bin:~/.local/sbin:/home/thoth/melbayad/bin:/home/thoth/melbayad/.gem/ruby/2.3.0/bin"
+    export PATH="/home/thoth/melbayad/scratch/Env/anaconda:/home/thoth/melbayad/.local/bin:~/.local/sbin:/home/thoth/melbayad/bin:/home/thoth/melbayad/.gem/ruby/2.3.0/bin"
     export PATH=$PATH":/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
     export PRINTER=impression_toshiba
     alias m='cd ~/scratch/work/imcap'
@@ -25,7 +25,7 @@ set_adrian (){
 set_pascal (){
     echo "Custom setting for Pascal"
     export THEME="gentoo"
-    export PATH="/home/thoth/melbayad/.local/bin:~/.local/sbin:/home/thoth/melbayad/bin:/home/thoth/melbayad/.gem/ruby/2.3.0/bin"
+    export PATH="/home/thoth/melbayad/scratch/Env/anaconda:/home/thoth/melbayad/.local/bin:~/.local/sbin:/home/thoth/melbayad/bin:/home/thoth/melbayad/.gem/ruby/2.3.0/bin"
     export PATH=$PATH":/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
     export PRINTER=impression_toshiba
     alias m='cd ~/scratch/work/imcap'
@@ -34,7 +34,7 @@ set_pascal (){
 set_edgar (){
     echo "Custom setting for Edgar"
     export THEME="gallois"
-    export PATH="/home/thoth/melbayad/.local/bin:~/.local/sbin:/home/thoth/melbayad/bin:/home/thoth/melbayad/.gem/ruby/2.3.0/bin"
+    export PATH="/home/thoth/melbayad/scratch/Env/anaconda:/home/thoth/melbayad/.local/bin:~/.local/sbin:/home/thoth/melbayad/bin:/home/thoth/melbayad/.gem/ruby/2.3.0/bin"
     export PATH=$PATH":/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
     alias m='cd ~/scratch/work/imcap'
 }
@@ -61,6 +61,7 @@ set_decore0 (){
 set_gpuhost () {
     echo "Custom setting for gpuhosts"
     export THEME='avit'
+    export PATH="/home/thoth/melbayad/scratch/Env/anaconda:"$PATH
     setg
     alias m='cd ~/scratch/work/imcap'
 }
