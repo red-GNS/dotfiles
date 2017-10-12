@@ -11,32 +11,40 @@ plugins=(vim)
 plugins+=(python)
 plugins+=(tmux)
 plugins+=(git)
-
+# plugins+=(vi-mode)
 # User configuration
 set_zeus (){
     echo "ZEUS ZSH CONFIG"
     export THEME="dieter"
-    export PATH="/home/thoth/melbayad/scratch/Env/anaconda:/home/thoth/melbayad/.local/bin:~/.local/sbin:/home/thoth/melbayad/bin:/home/thoth/melbayad/.gem/ruby/2.3.0/bin"
+    export PATH="/home/thoth/melbayad/scratch/Env/anaconda/bin:/home/thoth/melbayad/.local/bin:~/.local/sbin:/home/thoth/melbayad/bin:/home/thoth/melbayad/.gem/ruby/2.3.0/bin"
     export PATH=$PATH":/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
+    export PATH='/home/thoth/melbayad/scratch/tools/srilm/bin/:/home/thoth/melbayad/scratch/tools/srilm/bin/i686-m64:'$PATH
     export PRINTER=impression_toshiba
     alias m='cd ~/scratch/work/imcap'
+    alias p='cd ~/scratch/work/torchcap'
+    #export LD_LIBRARY_PATH="/home/thoth/melbayad/scratch/Env/anaconda/lib:/home/thoth/melbayad/scratch/Env/anaconda/lib64:/usr/lib"
+    setg
 }
 
 set_pascal (){
     echo "Custom setting for Pascal"
     export THEME="gentoo"
-    export PATH="/home/thoth/melbayad/scratch/Env/anaconda:/home/thoth/melbayad/.local/bin:~/.local/sbin:/home/thoth/melbayad/bin:/home/thoth/melbayad/.gem/ruby/2.3.0/bin"
+    export PATH="/home/thoth/melbayad/scratch/Env/anaconda/bin:/home/thoth/melbayad/.local/bin:~/.local/sbin:/home/thoth/melbayad/bin:/home/thoth/melbayad/.gem/ruby/2.3.0/bin"
     export PATH=$PATH":/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
     export PRINTER=impression_toshiba
     alias m='cd ~/scratch/work/imcap'
+    alias p='cd ~/scratch/work/torchcap'
+
 }
 
 set_edgar (){
     echo "Custom setting for Edgar"
     export THEME="gallois"
-    export PATH="/home/thoth/melbayad/scratch/Env/anaconda:/home/thoth/melbayad/.local/bin:~/.local/sbin:/home/thoth/melbayad/bin:/home/thoth/melbayad/.gem/ruby/2.3.0/bin"
+    export PATH="/home/thoth/melbayad/scratch/Env/anaconda/bin:/home/thoth/melbayad/.local/bin:~/.local/sbin:/home/thoth/melbayad/bin:/home/thoth/melbayad/.gem/ruby/2.3.0/bin"
     export PATH=$PATH":/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
     alias m='cd ~/scratch/work/imcap'
+    alias p='cd ~/scratch/work/torchcap'
+
 }
 set_redgns (){
     echo "Custom setting for REDGNS"
@@ -60,10 +68,13 @@ set_decore0 (){
 
 set_gpuhost () {
     echo "Custom setting for gpuhosts"
-    export THEME='avit'
-    export PATH="/home/thoth/melbayad/scratch/Env/anaconda:"$PATH
+    export THEME='gentoo'
+    export PATH="/home/thoth/melbayad/scratch/Env/anaconda/bin:"$PATH
+    export PATH='/home/thoth/melbayad/scratch/tools/srilm/bin/:/home/thoth/melbayad/scratch/tools/srilm/bin/i686-m64:'$PATH
     setg
     alias m='cd ~/scratch/work/imcap'
+    alias p='cd ~/scratch/work/torchcap'
+
 }
 
 

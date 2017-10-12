@@ -10,7 +10,7 @@ fi
 
 # use xresources
 xrdb -merge ~/.Xresources
-
+setxkbmap fr
 # hide mouse coursor when it isn't used
 # unclutter -root -visible &
 

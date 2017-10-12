@@ -28,14 +28,24 @@
 
 Xcursor.theme: Breeze
 Xcursor.size:  0
+uxterm*faceName: Inconsolata for powerline
+uxterm*faceSize: 13
+uxterm*loginshell: true
+uxterm*savelines: 16384
+uxterm*charClass: 33:48,36-47:48,58-59:48,61:48,63-64:48,95:48,126:48
+uxterm*cursorColor:      white
+uxterm*ScrollBar: false
+! stop output to terminal from jumping down to bottom of scroll again
+uxterm*scrollTtyOutput: false
 
 
-xterm*faceName: DejaVu Sans Mono Book
-xterm*faceSize: 11
+xterm*faceName: Inconsolata for powerline
+
+xterm*faceSize: 13
 xterm*loginshell: true
 xterm*savelines: 16384
 xterm*charClass: 33:48,36-47:48,58-59:48,61:48,63-64:48,95:48,126:48
-XTerm*cursorColor:      white
+xterm*cursorColor:      white
 xterm*ScrollBar: false
 ! stop output to terminal from jumping down to bottom of scroll again
 xterm*scrollTtyOutput: false
