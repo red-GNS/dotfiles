@@ -1,0 +1,44 @@
+# Temporary fix for ssh
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/lig
+
+wrapup (){
+ echo "In progress"
+}
+
+sync_cap(){
+    echo "Syncing caption events"
+    echo ">>> INRIA:"
+    sshfs pascal:scratch/work/torchcap/events cap/edgar
+    echo ">>> LIG:"
+    sshfs elbayadm@decore1.ligone:work/torchcap/events cap/decore
+    echo "Synced!"
+    tensorboard --logdir="cap" --port 6600
+}
+
+sync_nmt(){
+    echo "Syncing nmt events"
+    echo ">>> INRIA:"
+    sshfs pascal:scratch/work/seq2seq/events nmt/edgar
+    echo ">>> LIG:"
+    sshfs elbayadm@decore1.ligone:work/seq2seq/events nmt/decore 
+    echo "Synced!"
+    tensorboard --logdir="nmt" --port 6700
+
+}
+usync (){
+    fusermount -uz ~/work/Events/cap/edgar
+    fusermount -uz ~/work/Events/cap/decore
+    fusermount -uz ~/work/Events/nmt/edgar
+    fusermount -uz ~/work/Events/nmt/decore
+}
+
+
+track (){
+    cd ~/work/Events
+      case $1 in
+        'cap')   sync_cap ;;
+        'nmt')   sync_nmt ;;
+      esac
+}
+
