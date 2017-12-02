@@ -17,6 +17,7 @@ RED="avit"
 LIG="avit"
 
 set_inria (){
+    echo "Custom setting for Inria machines"
     export PATH="/home/thoth/melbayad/scratch/Env/anaconda/bin"
     export PATH=$PATH":/home/thoth/melbayad/.local/bin:~/.local/sbin:/home/thoth/melbayad/bin"
     export PATH=$PATH":/home/thoth/melbayad/.gem/ruby/2.3.0/bin"
@@ -43,7 +44,7 @@ set_redgns (){
 }
 
 set_lig (){
-    echo "Custom setting for Decore"
+    echo "Custom setting for LIG servers"
     export THEME='awesomepanda'
     export PATH="/home/getalp/elbayadm/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
     export PATH="/home/getalp/elbayadm/anaconda3/bin:"$PATH
