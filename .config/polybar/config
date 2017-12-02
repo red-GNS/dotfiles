@@ -28,17 +28,49 @@ screenchange-reload = true
 margin-top = 0
 margin-bottom = 5
 
-[bar/main]
-;override-redirect = true
-;wm-restack = i3
-;monitor = ${env:MONITOR:HDMI-1}
+[bar/top]
+top = true
+width = 100%
+height = 30
+offset-x = 0
+offset-y = 0
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+overline-size = 2
+overline-color = #f00
+underline-size = 2
+underline-color = ${colors.high}
+
+spacing = 1
+padding-left = 0
+padding-right = 2
+module-margin-left = 0
+module-margin-right = 1
+
+font-0 = dina:pixelsize=11;1
+font-1 = FontAwesome:pixelsize=12;2
+
+
+modules-left = bspwm i3 xwindow
+modules-center = spotify
+modules-right = date clock
+
+tray-position = right
+tray-padding = 2
+tray-background = ${colors.background}
+
+wm-restack = i3
+
+
+[bar/bottom]
 bottom = true
 width = 100%
 height = 30
 offset-x = 0
 offset-y = 0
 
-;background = ${xrdb:color9}
 background = ${colors.background}
 foreground = ${colors.foreground}
 
@@ -54,34 +86,14 @@ module-margin-left = 0
 module-margin-right = 1
 
 font-0 = dina:pixelsize=9;1
-;font-1 = siji:pixelsize=10;1
-font-2 = unifont:size=6;1
-
-
-;font-0 = Roboto:pixelsize=16;0
 font-1 = FontAwesome:pixelsize=10;2
-;font-2 = unifont:size=6:heavy:fontformat=truetype;-2
-;font-3 = siji:pixelsize=10;-4
 
-
-modules-left = bspwm i3 xwindow
-modules-center = spotify
-modules-right = mpd myVolume wlan eth memory cpu myLoad temperature battery date
-
+modules-right = mpd myVolume wlan eth memory cpu myLoad temperature battery
 tray-position = right
 tray-padding = 2
-;tray-transparent = true
 tray-background = ${colors.background}
 
-;wm-restack = bspwm
-;wm-restack = i3
-
-
-;scroll-up = bspwm-desknext
-;scroll-down = bspwm-deskprev
-
-;scroll-up = i3wm-wsnext
-;scroll-down = i3wm-wsprev
+wm-restack = i3
 
 
 [module/xwindow]
@@ -351,10 +363,23 @@ inherit = module/theme
 type = internal/date
 interval = 1
 
-time = "%a - %d.%m.%Y - %H:%M:%S"
+time = "%a - %d.%m.%Y"
 time-alt = "%a - %d.%m.%Y - %I:%M %p"
 
 format-prefix = " "
+format-underline = ${colors.foreground}
+
+label = %date% %time%
+
+[module/clock]
+inherit = module/theme
+type = internal/date
+interval = 1
+
+time = "%H:%M:%S"
+time-alt = "%a - %d.%m.%Y - %I:%M %p"
+
+format-prefix = ""
 format-underline = ${colors.foreground}
 
 label = %date% %time%
