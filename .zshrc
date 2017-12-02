@@ -57,26 +57,26 @@ set_lig (){
 
 case ${HOST:r:r} in 
     gpuhost*) ZSH_THEME=$GPU
-             set_gpuhost
-             source ~/.inriarc;;
+              source ~/.inriarc
+              set_gpuhost;;
     edgar)  ZSH_THEME=$EDGAR
-             set_inria
-             source ~/.inriarc;;
+            source ~/.inriarc
+            set_inria;;
     pascal) ZSH_THEME=$PASCAL
-            set_inria
-            source ~/.inriarc;;
+            source ~/.inriarc
+            set_inria;;
     zeus |aquarius |clear) ZSH_THEME=$INRIA
-                           set_inria
-                           source ~/.inriarc;;
+                           source ~/.inriarc
+                           set_inria;;
     redgns) ZSH_THEME=$RED
-            set_redgns
-            source ~/.redrc;;
+            source ~/.redrc
+            set_redgns;;
     decore*) ZSH_THEME=$LIG
-             set_lig
-             source ~/.ligrc;;
+             source ~/.ligrc
+             set_lig;;
     dvorak*) ZSH_THEME=$LIG
-             set_lig
-             source ~/.ligrc;;
+             source ~/.ligrc
+             set_lig;;
     *)  echo "Unknown wherebouts!!";;
 esac
 
