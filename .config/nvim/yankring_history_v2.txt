@@ -1,9 +1,12 @@
+echo "Custom setting for REDGNS",v
+Host pascal    HostName pascal.inrialpes.fr    User melbayad    IdentityFile ~/.ssh/id_rsaHost ligone Hostname ligone.imag.fr Host *.ligone ProxyCommand ssh elbayadm@ligone.imag.fr "nc -w 90 $(basename %h .ligone) %p",v
+Host pascal   Hostname pascal.inrialpes.fr   User melbayad   IdentityFile ~/.ssh/id_rsaHost bastion   Hostname bastion.inrialpes.fr   User melbayad   IdentityFile ~/.ssh/id_rsaHost aqua   Hostname aquarius   User melbayad   ProxyCommand ssh bastion nc %h %pHost ligone   Hostname ligone.imag.fr   User elbayadm   Host *.ligone   ProxyCommand ssh elbayadm@ligone.imag.fr "nc -w 90 $(basename %h .ligone) %p",v
+,V
 assign [class=".*Thunderbird.*"] → $workspace4,v
  ,v
 "127.0.0.1",v
 # For network,V
 # bind_to_address		"localhost",V
-,V
 "127.0.0.1",V
 #1d1f21,v
 ## This setting controls the type of information which is logged. Available # setting arguments are "default", "secure" or "verbose". The "verbose" setting# argument is recommended for troubleshooting, though can quickly stretch# available resources on limited hardware storage.#,v
@@ -95,6 +98,3 @@ Inconsolata for Powerline:style=Medium,v
 Inconsolata for Powerline:style=Medium,V
 URxvt.font: xft:Inconsolata for Powerline:size=12,v
 URxvt.font: xft:Inconsolata-g\ for\ Powerline:size=15,V
-s,v
-e,v
-! URxvt*boldFont:xft:dejavu sans mono for powerline:bold:pixelsize=14,xft:dejavu sans mono for powerline:bold:pixelsize=13,V

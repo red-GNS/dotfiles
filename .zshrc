@@ -1,7 +1,7 @@
 export SHELL=/usr/bin/zsh
 export ZSH=~/.oh-my-zsh
 export LC_ALL="en_US.UTF-8"
-COMPLETION_WAITING_DOTS="true"
+COMPLETION_WAITING_DOTS="false"
 
 plugins=(vim)
 plugins+=(python)
