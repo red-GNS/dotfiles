@@ -3,7 +3,6 @@ export PATH=$PATH":/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:
 export PATH='/home/thoth/melbayad/scratch/tools/srilm/bin/:/home/thoth/melbayad/scratch/tools/srilm/bin/i686-m64:'$PATH
 # CUDA:
 export CUDA="/scratch/aquarius/tlucas/Libs/cuda8RCpatched"
-# export CUDA="/scratch/algorab/tlucas/src/cuda8RCpatched"
 export CUDA_libs="$CUDA/lib64"
 export CUDA_bin="$CUDA/bin"
 export LD_LIBRARY_PATH="$CUDA_libs:$LD_LIBRARY_PATH"

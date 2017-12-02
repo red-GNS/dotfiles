@@ -163,6 +163,17 @@ set guifont=Inconsolata\ for\ Powerline\ 8
 
 let mapleader = ";"
 
+" map the keys 'jk' to the Escape key to improve efficiency.                                                                                 
+imap jk <Esc>
+nnoremap <Left> :echo "No left for you!"<CR>
+vnoremap <Left> :<C-u>echo "No left for you!"<CR>
+inoremap <Left> <C-o>:echo "No left for you!"<CR>
+nnoremap <Right> :echo "No right for you!"<CR>
+vnoremap <Right> :<C-u>echo "No right for you!"<CR>
+inoremap <Right> <C-o>:echo "No right for you!"<CR>
+nnoremap <Up> :echo "No right for you!"<CR>
+vnoremap <Up> :<C-u>echo "No right for you!"<CR>
+inoremap <Up> <C-o>:echo "No right for you!"<CR>
 
 " tabs and spaces handling
 set expandtab
@@ -178,7 +189,7 @@ if (&term =~? 'mlterm\|xterm\|xterm-256\|xterm-termite\|screen-256') || has('nvi
 	let &t_Co = 256
     colorscheme OceanicNext
 else
-    colorscheme delek
+    colorscheme desert
 endif
 
 " needed so deoplete can auto select the first suggestion

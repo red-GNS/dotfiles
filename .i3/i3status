@@ -8,11 +8,8 @@ general {
 }
 
 order += "cpu_usage 0"
-order += "disk /home"
-order += "ethernet enp8s0"
-order += "wireless wlp7s0"
+order += "disk /home/thoth/melbayad"
 order += "volume master"
-order += "battery 0"
 order += "tztime local"
 
 wireless wlp7s0 {
