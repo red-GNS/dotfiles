@@ -1,111 +1,86 @@
-# Path to your oh-my-zsh installation.
 export SHELL=/usr/bin/zsh
-source ~/.envrc
 export ZSH=~/.oh-my-zsh
 export LC_ALL="en_US.UTF-8"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
 COMPLETION_WAITING_DOTS="true"
 
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-plurgins=(vim)
+plugins=(vim)
 plugins+=(python)
 plugins+=(tmux)
 plugins+=(git)
-
+# plugins+=(vi-mode)
 # User configuration
-set_adrian (){
-    echo "Custom setting for Adrian"
-    export THEME="avit"
-    export PATH="/home/thoth/melbayad/.local/bin:~/.local/sbin:/home/thoth/melbayad/bin:/home/thoth/melbayad/.gem/ruby/2.3.0/bin"
-    export PATH=$PATH":/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
+PASCAL="gentoo"
+INRIA="dieter"
+EDGAR="gallois"
+GPU="gentoo"
+RED="avit"
+LIG="avit"
+
+set_inria (){
+    echo "Custom setting for Inria machines"
+    export PATH="/home/thoth/melbayad/scratch/Env/anaconda/bin"
+    export PATH=$PATH":/home/thoth/melbayad/.local/bin:~/.local/sbin:/home/thoth/melbayad/bin"
+    export PATH=$PATH":/home/thoth/melbayad/.gem/ruby/2.3.0/bin"
+    export PATH=$PATH":/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+    export PATH=$PATH":/home/thoth/melbayad/scratch/tools/srilm/bin"
+    export PATH=$PATH":/home/thoth/melbayad/scratch/tools/srilm/bin/i686-m64"
     export PRINTER=impression_toshiba
-    alias m='cd ~/scratch/work/imcap'
+    alias p='cd ~/scratch/work/torchcap'
+    alias sq='cd ~/scratch/work/seq2seq'
+    setg
 }
 
-set_pascal (){
-    echo "Custom setting for Pascal"
-    export THEME="gentoo"
-    export PATH="/home/thoth/melbayad/.local/bin:~/.local/sbin:/home/thoth/melbayad/bin:/home/thoth/melbayad/.gem/ruby/2.3.0/bin"
-    export PATH=$PATH":/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
-    export PRINTER=impression_toshiba
-    alias m='cd ~/scratch/work/imcap'
-}
-
-set_edgar (){
-    echo "Custom setting for Edgar"
-    export THEME="gentoo"
-    export PATH="/home/thoth/melbayad/.local/bin:~/.local/sbin:/home/thoth/melbayad/bin:/home/thoth/melbayad/.gem/ruby/2.3.0/bin"
-    export PATH=$PATH":/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
-    alias m='cd ~/scratch/work/imcap'
-}
 set_redgns (){
     echo "Custom setting for REDGNS"
-    export THEME='agnoster'
-    export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/local/texlive/2016/bin/x86_64-linux"
+    export THEME='avit'
+    export PATH="/home/maha/anaconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin"
+    export PATH=$PATH":/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"
+    export PATH=$PATH":/usr/local/texlive/2016/bin/x86_64-linux:/usr/lib/nvidia-375/bin"
+    export LD_LIBRARY_PATH="/usr/lib/nvidia-375:"$LD_LIBRARY_PATH
     export PYTHONPATH=$PYTHONPATH:/usr/local/cellar/caffe/python
-    alias m='cd ~/work/imcap'
+    alias p='cd ~/work/torchcap'
+    alias ic='cd ~/.config/i3'
+    setxkbmap fr
 }
 
-set_decore0 (){
-    echo "Custom setting for Decore"
+set_lig (){
+    echo "Custom setting for LIG servers"
     export THEME='awesomepanda'
     export PATH="/home/getalp/elbayadm/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-    alias m='cd ~/work/imcap'
-}
-
-set_gpuhost () {
-    echo "Custom setting for gpuhosts"
-    export THEME='avit'
-    setg
-    alias m='cd ~/scratch/work/imcap'
+    export PATH="/home/getalp/elbayadm/anaconda3/bin:"$PATH
+    export PATH="/home/getalp/elbayadm/Libs/jdk-9/bin:"$PATH
+    export PATH="/home/getalp/Toolkits/SRILM_1_6_0/bin/i686-m64:"$PATH
+    alias p='cd ~/work/torchcap'
+    alias sq='cd ~/work/seq2seq'
 }
 
 
-if [[ ${HOST:r:r} == gpuhost* ]];
-    then
-    set_gpuhost
-else
-    set_${HOST:r:r}
-fi
+case ${HOST:r:r} in 
+    gpuhost*) ZSH_THEME=$GPU
+              source ~/.inriarc
+              set_gpuhost;;
+    edgar)  ZSH_THEME=$EDGAR
+            source ~/.inriarc
+            set_inria;;
+    pascal) ZSH_THEME=$PASCAL
+            source ~/.inriarc
+            set_inria;;
+    zeus |aquarius |clear) ZSH_THEME=$INRIA
+                           source ~/.inriarc
+                           set_inria;;
+    redgns) ZSH_THEME=$RED
+            source ~/.redrc
+            set_redgns;;
+    decore*) ZSH_THEME=$LIG
+             source ~/.ligrc
+             set_lig;;
+    dvorak*) ZSH_THEME=$LIG
+             source ~/.ligrc
+             set_lig;;
+    *)  echo "Unknown wherebouts!!";;
+esac
 
-ZSH_THEME=$THEME
 source $ZSH/oh-my-zsh.sh
-
-# Aliases and functions:
-
-# extract:  Extract most know archives with one command
-
-extract () {
-    if [ -f $1 ] ; then
-      case $1 in
-        *.tar.bz2)   tar xjf $1     ;;
-        *.tar.gz)    tar xzf $1     ;;
-        *.bz2)       bunzip2 $1     ;;
-        *.rar)       unrar e $1     ;;
-        *.gz)        gunzip $1      ;;
-        *.tar)       tar xf $1      ;;
-        *.tbz2)      tar xjf $1     ;;
-        *.tgz)       tar xzf $1     ;;
-        *.zip)       unzip $1       ;;
-        *.Z)         uncompress $1  ;;
-        *.7z)        7z x $1        ;;
-        *)     echo "'$1' cannot be extracted via extract()" ;;
-         esac
-     else
-         echo "'$1' is not a valid file"
-     fi
-}
-
-# Zip folder
-zipf () { zip -r "$1".zip "$1" ; }
-# Ssh with zsh shell
-zssh () { ssh -Y "$1" -t zsh }
-cd() { builtin cd "$@"; ls; }  # Always list directory contents upon 'cd'
-alias c='clear'
-alias ggc="gaa && git commit -m 'auto up' && git push origin master"
-alias ggp='git pull origin master'
-alias chr='google-chrome'
-alias svim='vim +PluginInstall +qall'
-alias src='source ~/.zshrc'
+source ~/.aliases
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
