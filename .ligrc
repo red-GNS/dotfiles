@@ -1,5 +1,7 @@
 export LANG="fr_FR.UTF-8"
 export LC_MESSAGES="POSIX"
+export SHELL=$(which zsh)
+export TORCH_HOME="/home/getalp/elbayadm/.torch"
 # ZLE
 autoload -U up-line-or-beginning-search
 autoload -U down-line-or-beginning-search
@@ -7,6 +9,7 @@ zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
 bindkey "^[[A" up-line-or-beginning-search # Up
 bindkey "^[[B" down-line-or-beginning-search # Down
+
 
 
 getgpujobs(){
@@ -47,17 +50,14 @@ train_nmt(){
 
 train(){
   case $1 in
-    cap) ccd ~/work/torchcap ;;
-    nmt) ccd ~/work/seq2seq ;;
+    cap) cd ~/work/torchcap ;;
+    nmt) cd ~/work/seq2seq ;;
   esac
-  if [ -f $2 ] ; then
-      case $1 in
-        cap) train_cap $2;;
-        nmt) train_nmt $2;;
-      esac
-  else
-     echo "'$2' is not a config file"
-  fi
+  echo 'wherami?:' $(pwd)
+  case $1 in
+    cap) train_cap $2;;
+    nmt) train_nmt $2;;
+  esac
 }
 
 qgpu() {

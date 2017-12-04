@@ -46,7 +46,7 @@ set_redgns (){
 set_lig (){
     echo "Custom setting for LIG servers"
     export THEME='awesomepanda'
-    export PATH="/home/getalp/elbayadm/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+    export PATH="/home/getalp/elbayadm/.local/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
     export PATH="/home/getalp/elbayadm/anaconda3/bin:"$PATH
     export PATH="/home/getalp/elbayadm/Libs/jdk-9/bin:"$PATH
     export PATH="/home/getalp/Toolkits/SRILM_1_6_0/bin/i686-m64:"$PATH
@@ -77,7 +77,10 @@ case ${HOST:r:r} in
     dvorak*) ZSH_THEME=$LIG
              source ~/.ligrc
              set_lig;;
-    *)  echo "Unknown wherebouts!!";;
+    hyperion) ZSH_THEME=$LIG
+             source ~/.ligrc
+             set_lig;;
+    *)  echo "Unknown whereabouts!!";;
 esac
 
 source $ZSH/oh-my-zsh.sh
