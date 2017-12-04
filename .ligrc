@@ -1,5 +1,5 @@
-export LANG="fr_FR.UTF-8"
-export LC_MESSAGES="POSIX"
+# export LANG="fr_FR.UTF-8"
+# export LC_MESSAGES="POSIX"
 export SHELL=$(which zsh)
 export TORCH_HOME="/home/getalp/elbayadm/.torch"
 # ZLE
