@@ -32,7 +32,7 @@ ccd() { builtin cd }
 alias c='clear'
 alias ggc="gaa && git commit -m 'auto up' && git push origin master"
 alias ggcu="git add -u && git commit -m 'auto up' && git push origin master"
-
+alias vi=nvim
 alias ggp='git pull origin master'
 alias chr='google-chrome'
 alias svim='vim +PluginInstall +qall'
