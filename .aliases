@@ -34,7 +34,7 @@ alias ggc="gaa && git commit -m 'auto up' && git push origin master"
 alias ggcu="git add -u && git commit -m 'auto up' && git push origin master"
 
 alias ggp='git pull origin master'
-alias chr='google-chrome'
+alias chr='google-chrome-stable'
 alias svim='vim +PluginInstall +qall'
 alias src='source ~/.zshrc'
 alias whereami='echo $HOST$HOSTNAME'

@@ -2,6 +2,7 @@
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/lig
 
+copy () { xclip -sel clip < $1 }
 wrapup (){
  echo "In progress"
 }
@@ -13,7 +14,7 @@ sync_cap(){
     echo ">>> LIG:"
     sshfs elbayadm@decore1.ligone:work/torchcap/events cap/decore
     echo "Synced!"
-    tensorboard --logdir="cap" --port 6600
+    tensorboard --logdir="cap" --port 6006
 }
 
 sync_nmt(){
@@ -23,7 +24,7 @@ sync_nmt(){
     echo ">>> LIG:"
     sshfs elbayadm@decore1.ligone:work/seq2seq/events nmt/decore 
     echo "Synced!"
-    tensorboard --logdir="nmt" --port 6700
+    tensorboard --logdir="nmt" --port 6007
 
 }
 usync (){

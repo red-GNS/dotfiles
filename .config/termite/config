@@ -1,38 +1,76 @@
 [colors]
-
 # special
 foreground      = #c5c8c6
 foreground_bold = #c5c8c6
-cursor          = #c5c8c6
+foreground_dim = #888888
 background      = rgba(20, 20, 20, 0.8)
-color0  = #1d1f21
-color8  =  #1d1f21  
-# #373b41
+cursor          = #c5c8c6
+# if unset, will reverse foreground and background
+highlight = #d6d6d6
 
-# red
-color1  = #a54242
-color9  = #cc6666
+cursor =  #A0A0A0
+color0 = #000000
+color1 = #C75646
+color2 = #8EB33B
+color3 = #D0B03C
+color4 = #72B3CC
+color5 = #C8A0D1
+color6 = #218693
+color7 = #B0B0B0
+color8 = #5D5D5D
+color9 = #E09690
+color10 = #CDEE69
+color11 = #FFE377
+color12 = #9CD9F0
+color13 = #FBB1F9
+color14 = #77DFD8
+color15 = #F7F7F7
 
-# green
-color2  = #8c9440
-color10 = #b5bd68
 
-# yellow
-color3  = #de935f
-color11 = #f0c674
 
-# blue
-color4  = #5f819d
-color12 = #81a2be
+[hints]
+font = Monospace 12
+foreground = #dcdccc
+#background = rgba(20, 20, 20, 0.8)
+padding = 2
+border = #888888
+#border = rgba(20, 20, 20, 0.8)
+border_width = 0.5
+roundness = 2.0
+vim: ft=dosini cms=#%s
 
-# magenta
-color5  = #85678f
-color13 = #b294bb
+[options]
+resize_grip = false
+scroll_on_output = false
+scroll_on_keystroke = true
+audible_bell = false
+visible_bell = false
+mouse_autohide = false
+allow_bold = true
+dynamic_title = true
+urgent_on_bell = true
+clickable_url = true
+font = Inconsolata for powerline 13
+scrollback_lines = 1000
+search_wrap = true
+icon_name = terminal
+#geometry = 640x480
 
-# cyan
-color6  = #5e8d87
-color14 = #8abeb7
+# "system", "on" or "off"
+cursor_blink = system
 
-# white
-color7  = #707880
-color15 = #c5c8c6
+# "block", "underline" or "ibeam"
+cursor_shape = block
+
+# $BROWSER is used by default
+browser = chr
+
+# word characters used for word selection
+# (default if unset: all graphic non-punctuation/space characters)
+#word_chars = -A-Za-z0-9,./?%&#:_=+@~
+
+# set size hints for the window
+#size_hints = false
+
+# emit escape sequences for other keys modified by Control
+#modify_other_keys = false

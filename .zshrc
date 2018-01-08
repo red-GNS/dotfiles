@@ -39,6 +39,7 @@ set_redgns (){
     export LD_LIBRARY_PATH="/usr/lib/nvidia-375:"$LD_LIBRARY_PATH
     export PYTHONPATH=$PYTHONPATH:/usr/local/cellar/caffe/python
     alias p='cd ~/work/torchcap'
+    alias sq='cd ~/work/seq2seq'
     alias ic='cd ~/.config/i3'
     setxkbmap fr
 }
