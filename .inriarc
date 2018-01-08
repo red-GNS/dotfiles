@@ -1,3 +1,5 @@
+#!/bin/sh
+
 export TORCH_HOME="/home/thoth/melbayad/scratch/.torch"
 
 function setcuda81_aquarius() {
@@ -68,11 +70,13 @@ inter (){
         cmd="ssh edgar -t oarsub -I -l \"walltime=10:0:0\" -n debug -t besteffort -d $(pwd)"
     else
         echo "Interactive default job"
-        cmd="ssh edgar -t oarsub -I -l \"walltime=10:0:0\" -n debug -d $(pwd)"
+        cmd="ssh edgar -t oarsub -I -l \"walltime=10:0:0\" -n debug -d $(pwd) -p $(echo $oarprop)"
         echo "Running" $cmd
     fi
     eval $cmd
 }
+alias sg="ssh -t edgar oarsub -I -d $(pwd) -l \"walltime=10:0:0\" -p \"\\\"gpumodel='gtx1080' or gpumodel='gtx1080_ti'\\\"\""
+alias lg="ssh -t edgar oarsub -I -d $(pwd) -l \"walltime=10:0:0\" -p \"\\\"gpumem > 12000\\\"\""
 
 
 

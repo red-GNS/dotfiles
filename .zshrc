@@ -32,7 +32,6 @@ set_inria (){
 
 set_redgns (){
     echo "Custom setting for REDGNS"
-    export THEME='avit'
     export PATH="/home/maha/anaconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin"
     export PATH=$PATH":/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"
     export PATH=$PATH":/usr/local/texlive/2016/bin/x86_64-linux:/usr/lib/nvidia-375/bin"
@@ -46,7 +45,6 @@ set_redgns (){
 
 set_lig (){
     echo "Custom setting for LIG servers"
-    export THEME='awesomepanda'
     export PATH="/home/getalp/elbayadm/.local/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
     export PATH="/home/getalp/elbayadm/anaconda3/bin:"$PATH
     export PATH="/home/getalp/elbayadm/Libs/jdk-9/bin:"$PATH
@@ -59,7 +57,7 @@ set_lig (){
 case ${HOST:r:r} in 
     gpuhost*) ZSH_THEME=$GPU
               source ~/.inriarc
-              set_gpuhost;;
+              set_inria;;
     edgar)  ZSH_THEME=$EDGAR
             source ~/.inriarc
             set_inria;;
@@ -88,8 +86,12 @@ source $ZSH/oh-my-zsh.sh
 source ~/.aliases
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+#if [[ $(tmux -V | cut -c 6-8) -ge 2.1 ]];then
+    #export MOUSE="mouse";
+#else
+    #export MOUSE="mode-mouse";
+#fi
 #bindkey -v
-
 #bindkey '^P' up-history
 #bindkey '^N' down-history
 #bindkey '^?' backward-delete-char
