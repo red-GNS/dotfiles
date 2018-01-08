@@ -1,6 +1,9 @@
-# export LANG="fr_FR.UTF-8"
-# export LC_MESSAGES="POSIX"
+export LANG="en_US.UTF-8"
+export LC_MESSAGES="POSIX"
+export LC_ALL="en_US.UTF-8"
+
 export SHELL=$(which zsh)
+
 export TORCH_HOME="/home/getalp/elbayadm/.torch"
 # ZLE
 autoload -U up-line-or-beginning-search
@@ -62,6 +65,11 @@ train(){
 
 qgpu() {
  nvidia-smi --query-gpu=index,memory.free --format=csv
+}
+
+
+qgpuc() {
+ nvidia-smi --query-gpu=index,memory.free --format=csv -l 30
 }
 
 
