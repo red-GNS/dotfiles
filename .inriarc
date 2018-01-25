@@ -76,7 +76,7 @@ inter (){
     eval $cmd
 }
 alias sg="ssh -t edgar oarsub -I -d $(pwd) -l \"walltime=10:0:0\" -p \"\\\"gpumodel='gtx1080' or gpumodel='gtx1080_ti'\\\"\""
-alias lg="ssh -t edgar oarsub -I -d $(pwd) -l \"walltime=10:0:0\" -p \"\\\"gpumem > 12000\\\"\""
+alias lg="ssh -t edgar oarsub -I -d $(pwd) -l \"walltime=12:0:0\" -p \"\\\"gpumem > 12000\\\"\""
 
 
 
