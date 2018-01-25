@@ -99,4 +99,8 @@ gpupick(){
     fi
 }
 
+to_inria () {
+    echo "Syncing folder " $1 "(Be sure you're in workdir)"
+    rsync -vazP $1 pascal:~/scratch/work/$1
+}
 
