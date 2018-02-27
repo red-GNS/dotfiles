@@ -47,7 +47,7 @@ set_lig (){
     echo "Custom setting for LIG servers"
     export PATH="/home/getalp/elbayadm/.local/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
     export PATH="/home/getalp/elbayadm/anaconda3/bin:"$PATH
-    export PATH="/home/getalp/elbayadm/Libs/jdk-9/bin:"$PATH
+    export PATH="/home/getalp/elbayadm/opt/jdk-9/bin:"$PATH
     export PATH="/home/getalp/Toolkits/SRILM_1_6_0/bin/i686-m64:"$PATH
     alias p='cd ~/work/torchcap'
     alias sq='cd ~/work/seq2seq'
@@ -74,6 +74,9 @@ case ${HOST:r:r} in
              source ~/.ligrc
              set_lig;;
     dvorak*) ZSH_THEME=$LIG
+             source ~/.ligrc
+             set_lig;;
+    ceos) ZSH_THEME=$LIG
              source ~/.ligrc
              set_lig;;
     hyperion) ZSH_THEME=$LIG
