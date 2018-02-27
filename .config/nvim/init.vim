@@ -205,6 +205,9 @@ set wildmode=list:longest
 " save as sudo
 ca w!! w !sudo tee "%"
 
+" split line: opposite of J
+map F i<Enter><Esc>
+
 " tab navigation mappings
 map tt :tabnew 
 map <M-Right> :tabn<CR>

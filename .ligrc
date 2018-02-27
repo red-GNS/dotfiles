@@ -99,4 +99,36 @@ gpupick(){
     fi
 }
 
+eval_to_inria () {
+    echo "Syncing evaluations of " $1 "(Be sure you're in torchcap/save)"
+    rsync -vazP $1/evaluations pascal:~/scratch/work/torchcap/save/$1
+}
+
+eval_from_inria () {
+    echo "Syncing evaluations of " $1 "(Be sure you're in torchcap/save)"
+    mkdir -p $1
+    rsync -vazP pascal:~/scratch/work/torchcap/save/$1/evaluations $1/
+}
+
+cmp_eval() {
+    cd save
+    echo "Getting the previously generated captions"
+    eval_from_inria $1
+    cd ..
+    python eval.py -c config/$1.yaml --split test
+    echo "Updating the evaluation on inria's servers"
+    cd save
+    eval_to_inria $1
+    cd ..
+}
+
+model_to_inria () {
+    echo "Syncing folder " $1 "(Be sure you're in torchcap/save)"
+    rsync -vazP $1 pascal:~/scratch/work/torchcap/save/
+}
+
+model_from_inria () {
+    echo "Syncing folder " $1 "(Be sure you're in torchcap/save)"
+    rsync -vazP pascal:~/scratch/work/torchcap/save/$1 .
+}
 
