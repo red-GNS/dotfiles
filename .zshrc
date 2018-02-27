@@ -82,6 +82,9 @@ case ${HOST:r:r} in
     hyperion) ZSH_THEME=$LIG
              source ~/.ligrc
              set_lig;;
+    lig-gpu*) ZSH_THEME=$LIG
+             source ~/.ligrc
+             set_lig;;
     *)  echo "Unknown whereabouts!!";;
 esac
 

@@ -174,7 +174,7 @@ inoremap <Right> <C-o>:echo "No right for you!"<CR>
 nnoremap <Up> :echo "No right for you!"<CR>
 vnoremap <Up> :<C-u>echo "No right for you!"<CR>
 inoremap <Up> <C-o>:echo "No right for you!"<CR>
-
+map F i<Enter><Esc>
 " tabs and spaces handling
 set expandtab
 set tabstop=4

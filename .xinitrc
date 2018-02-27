@@ -7,13 +7,12 @@ if [ -d /etc/X11/xinit/xinitrc.d ]; then
   unset f
 fi
 
-
 # use xresources
 xrdb -merge ~/.Xresources
 setxkbmap fr
 # hide mouse coursor when it isn't used
 # unclutter -root -visible &
-
+# eval $(keychain --eval --quiet lig id_rsa)
 # pulse audio session
 start-pulseaudio-x11
 

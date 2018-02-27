@@ -41,4 +41,12 @@ alias whereami='echo $HOST$HOSTNAME'
 alias l='ls -atrlh'
 alias clear_swap='rm ~/.local/share/nvim/swap/*'
 
+trim(){
+convert $1 -flatten -fuzz 1% -trim +repage $2
+}
+transparent(){
+convert $1 -transparent white $2
+}
+
+alias sshot="maim -s | xclip -selection clipboard -t image/png"
 
