@@ -1,5 +1,5 @@
-#if __has_include(".extend.Xresources")
-#include ".extend.Xresources"
+#if __has_include("/home/maha/.extend.Xresources")
+#include "/home/maha/.extend.Xresources"
 #endif
 
 ! ^ The above lines are no comments!

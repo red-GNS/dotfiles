@@ -1,8 +1,12 @@
 #!/bin/sh
 # Temporary fix for ssh
-eval "$(ssh-agent -s)"
-ssh-add ~/.ssh/lig
-
+#eval "$(ssh-agent -s)"
+#ssh-add -t 52W ~/.ssh/lig
+#ssh-add -t 52W ~/.ssh/id_rsa
+eval $(keychain --eval --quiet lig)
+addinria () {
+eval $(keychain --eval --quiet id_rsa)
+}
 copy () { xclip -sel clip < $1 }
 wrapup (){
  echo "In progress"
@@ -22,8 +26,12 @@ sync_nmt(){
     echo "Syncing nmt events"
     echo ">>> INRIA:"
     sshfs pascal:scratch/work/seq2seq/events nmt/edgar
+    #sshfs pascal:scratch/work/old_seq2seq/events nmt/old_edgar
+
     echo ">>> LIG:"
     sshfs elbayadm@decore1.ligone:work/seq2seq/events nmt/decore 
+    #sshfs elbayadm@decore1.ligone:work/old_seq2seq/events nmt/old_decore 
+
     echo "Synced!"
     tensorboard --logdir="nmt" --port 6007
 
@@ -43,4 +51,6 @@ track (){
         'nmt')   sync_nmt ;;
       esac
 }
-
+alias fe="feh --scale-down --auto-zoom"
+export BROWSER=$(which google-chrome-stable)
+export EDITOR=$(which nvim)
