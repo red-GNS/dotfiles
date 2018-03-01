@@ -46,4 +46,4 @@ transparent(){
 alias cf="cd ~/.config"
 alias ggc="gaa && git commit -m ':up: auto' && git push origin master"
 alias ggcu="git add -u && git commit -m ':up: auto' && git push origin master"
-
+cpf() {cp $1 "fncnn6_reset_"$1}

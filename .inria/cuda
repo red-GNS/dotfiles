@@ -38,7 +38,7 @@ function setcudnn50_konstantin () {
   export LIBRARY_PATH="$LIBRARY_PATH:$CUDNN_ROOT/lib64"
 }
 
-echo "Setting up patched CUDA8 (Thomas) with CuDNN5.0 (Konstantin)"
+#echo "Setting up patched CUDA8 (Thomas) with CuDNN5.0 (Konstantin)"
 setcuda81_aquarius
 setcudnn50_konstantin
 

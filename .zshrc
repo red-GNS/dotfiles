@@ -8,9 +8,9 @@ plugins+=(python)
 plugins+=(git)
 # plugins+=(vi-mode)
 
-PASCAL="gentoo"
-INRIA="dieter"
-EDGAR="gallois"
+PASCAL="arrow"
+INRIA="maha"
+EDGAR="gentoo"
 GPU="gentoo"
 RED="avit"
 LIG="avit"
