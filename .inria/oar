@@ -1,0 +1,35 @@
+#!/bin/sh
+inter (){
+    BQ=''
+    K40=''
+    while getopts 'bk' flag; do
+        echo "Reading flag "$flag
+        case "${flag}" in
+            b) BQ='true' ;;
+            k) K40='true' ;;
+            *) error "Unexpected option ${flag}" ;;
+        esac
+    done
+    shift $((OPTIND-1))
+    if [ $K40 ]; then
+        oarprop="\"gpumem>"$1"\""
+    else
+        oarprop="\"not gpumodel='k40m' and gpumem>"$1"\""
+    fi
+    echo "Properties:" $oarprop
+    if [ $BQ ]; then
+        echo "Interactive besteffort job"
+        cmd="ssh edgar -t oarsub -I -l \"walltime=10:0:0\" -n debug -t besteffort -d $(pwd)"
+    else
+        echo "Interactive default job"
+        cmd="ssh edgar -t oarsub -I -l \"walltime=10:0:0\" -n debug -d $(pwd) -p $(echo $oarprop)"
+        echo "Running" $cmd
+    fi
+    eval $cmd
+}
+alias sg="ssh -t edgar oarsub -I -d $(pwd) -l \"walltime=10:0:0\" -p \"\\\"gpumodel='gtx1080' or gpumodel='gtx1080_ti'\\\"\""
+alias lg="ssh -t edgar oarsub -I -d $(pwd) -l \"walltime=12:0:0\" -p \"\\\"gpumem > 12000\\\"\""
+
+
+
+

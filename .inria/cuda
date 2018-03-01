@@ -1,0 +1,44 @@
+#!/bin/sh
+
+function setcuda81_aquarius() {
+  export CUDA="/scratch/aquarius/tlucas/Libs/cuda8RCpatched"
+  export CUDA_libs="$CUDA/lib64"
+  export CUDA_bin="$CUDA/bin"
+  export LD_LIBRARY_PATH="$CUDA_libs:$LD_LIBRARY_PATH"
+  export CPLUS_INCLUDE_PATH="$CPLUS_INCLUDE_PATH:$CUDA/include"
+  export C_INCLUDE_PATH="$C_INCLUDE_PATH:$CUDA/include"
+  export PATH="$CUDA_bin:$PATH"
+}
+
+function setcudnn51_aquarius() {
+  export CUDNN_ROOT="/scratch/aquarius/tlucas/Libs/cudnn_5.1/cuda"
+  export CUDNN_LIB_DIR=$CUDNN_ROOT"/lib64"
+  export CUDNN_INCLUDE_DIR=$CUDNN_ROOT"/include"
+  export LD_LIBRARY_PATH="$CUDNN_ROOT/lib64:$LD_LIBRARY_PATH"
+  export CPLUS_INCLUDE_PATH="$CPLUS_INCLUDE_PATH:$CUDNN_ROOT/include"
+  export C_INCLUDE_PATH="$C_INCLUDE_PATH:$CUDNN_ROOT/include"
+  export LIBRARY_PATH="$CUDNN_ROOT/lib64:$LIBRARY_PATH"
+}
+
+function setcuda81_algorab () {
+  export CUDA="/scratch/algorab/tlucas/src/cuda8RCpatched"
+  export CUDA_libs="$CUDA/lib64"
+  export CUDA_bin="$CUDA/bin"
+  export LD_LIBRARY_PATH="$CUDA_libs:$LD_LIBRARY_PATH"
+  export CPLUS_INCLUDE_PATH="$CPLUS_INCLUDE_PATH:$CUDA/include"
+  export C_INCLUDE_PATH="$C_INCLUDE_PATH:$CUDA/include"
+  export PATH="$CUDA_bin:$PATH"
+}
+
+function setcudnn50_konstantin () {
+  export CUDNN_ROOT="/home/lear/kshmelko/scratch/libs/cudnn5"
+  export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$CUDNN_ROOT/lib64"
+  export CPLUS_INCLUDE_PATH="$CPLUS_INCLUDE_PATH:$CUDNN_ROOT/include"
+  export C_INCLUDE_PATH="$C_INCLUDE_PATH:$CUDNN_ROOT/include"
+  export LIBRARY_PATH="$LIBRARY_PATH:$CUDNN_ROOT/lib64"
+}
+
+echo "Setting up patched CUDA8 (Thomas) with CuDNN5.0 (Konstantin)"
+setcuda81_aquarius
+setcudnn50_konstantin
+

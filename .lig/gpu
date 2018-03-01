@@ -1,0 +1,86 @@
+#!/bin/sh
+
+getgpujobs(){
+     M=""; K=""
+     for i in `nvidia-smi -q -i $1 | grep "Process ID" | cut -f 2 -d ":" | tr -d "[[:blank:]]"`;
+     do
+        J=`ps -o user $i`
+        if [ ${J/USER} == "elbayadm" ];
+        then
+           M="$M $(ps $i)";
+        fi;
+        K="$K ${J/USER/}($i)";
+     done;
+    echo $K; echo $M
+}
+
+
+train_cap(){
+    gpupick 3900
+    if [ $abort -ne 1 ]; then
+        echo "Training captioning model on GPU"$picked
+        CUDA_VISIBLE_DEVICES=$picked python train.py -c $1 --gpu_id $picked
+    else
+        echo "Not enough Memory"
+    fi
+}
+
+train_nmt(){
+    gpupick 10500
+    if [ $abort -eq 0 ]; then
+        echo "Training translation model on GPU"$picked
+        CUDA_VISIBLE_DEVICES=$picked python nmt.py -c $1 --gpu_id $picked
+    else
+        echo "Not enough Memory"
+    fi
+}
+
+train(){
+  case $1 in
+    cap) cd ~/work/torchcap ;;
+    nmt) cd ~/work/seq2seq ;;
+    nmto) cd ~/work/old_seq2seq ;;
+
+  esac
+  echo 'wherami?:' $(pwd)
+  case $1 in
+    cap) train_cap $2;;
+    nmt*) train_nmt $2;;
+  esac
+}
+
+qgpu() {
+ nvidia-smi --query-gpu=index,memory.free --format=csv
+}
+
+
+qgpuc() {
+ nvidia-smi --query-gpu=index,memory.free --format=csv -l 30
+}
+
+
+qgpumem (){
+    arr=$(qgpu | sed 1d| awk '{split($0,a,","); print a[2]}' | awk '{split($0,b," "); print b[1]}')
+    echo $arr
+}
+
+gpupick(){
+    gstats=( $( qgpumem ) )
+    g_l=${#gstats[@]}
+    echo $g_l GPUs available
+    if [ $gstats[1] -lt $gstats[2] ]; then
+        picked=1
+    else
+        picked=0
+    fi
+    echo "Selected GPU" $picked, $gstats[picked+1]
+    if [ $gstats[picked+1] -gt $1 ]; then
+        echo "Memory required available"
+        abort=0
+    else
+        echo "Not enough memory"
+        abort=1
+    fi
+}
+
+
