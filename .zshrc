@@ -50,7 +50,6 @@ esac
 source $ZSH/oh-my-zsh.sh
 source ~/.aliases
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
 #if [[ $(tmux -V | cut -c 6-8) -ge 2.1 ]];then
     #export MOUSE="mouse";
 #else

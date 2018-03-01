@@ -1,3 +1,4 @@
+#!/bin/sh
 select_items_command="todoist --namespace --project-namespace list | peco | cut -d ' ' -f 1 | tr '\n' ' '"
 
 function insert-in-buffer () {
@@ -87,3 +88,7 @@ function peco-todoist-open() {
 }
 zle -N peco-todoist-open
 bindkey "^xto" peco-todoist-open
+
+todo (){
+ todoist add $1 -P 195303427
+}

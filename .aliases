@@ -44,6 +44,6 @@ transparent(){
 }
 
 alias cf="cd ~/.config"
-alias ggc="gaa && git commit -m 'auto up' && git push origin master"
+alias ggc="gaa && git commit -m ':up: auto' && git push origin master"
 alias ggcu="git add -u && git commit -m ':up: auto' && git push origin master"
 

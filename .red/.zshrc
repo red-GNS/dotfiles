@@ -17,5 +17,3 @@ export PATH=$PATH":/usr/local/texlive/2016/bin/x86_64-linux:/usr/lib/nvidia-375/
 export PATH=$PATH":/home/maha/.red/"
 
 export LD_LIBRARY_PATH="/usr/lib/nvidia-375:"$LD_LIBRARY_PATH
-export PYTHONPATH=$PYTHONPATH:/usr/local/cellar/caffe/python
-
