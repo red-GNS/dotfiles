@@ -3,4 +3,5 @@
 alias p='cd ~/work/torchcap'
 alias sq='cd ~/work/seq2seq'
 alias sshot="maim -s | xclip -selection clipboard -t image/png"
+alias isshot="slip --screenshot"
 
