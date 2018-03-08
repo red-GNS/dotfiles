@@ -158,8 +158,8 @@ endif
 " Vim settings and mappings
 " You can edit them as you wish
 set encoding=utf-8
-"set guifont=Droid\ Sans\ Mono\ for\ Powerline\ Plus\ Nerd\ File\ Types\ 11
-set guifont=Inconsolata\ for\ Powerline\ 8
+set guifont=Droid\ Sans\ Mono\ for\ Powerline\ Plus\ Nerd\ File\ Types\ 11
+"set guifont=Inconsolata\ for\ Powerline\ 8
 
 let mapleader = ";"
 
