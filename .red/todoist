@@ -89,6 +89,18 @@ function peco-todoist-open() {
 zle -N peco-todoist-open
 bindkey "^xto" peco-todoist-open
 
-todo (){
- todoist add $1 -P 195303427
+codethis (){
+ todoist add $1 -P 195303427 -p 2 -d tod
+}
+
+readthis (){
+todoist add $1 -P 195303456 -p 2 -d tod
+}
+
+tdcode (){
+todoist list | grep "#Code"
+}
+
+tdread (){
+todoist list | grep '#Biblio'
 }

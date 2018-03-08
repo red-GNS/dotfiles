@@ -140,8 +140,17 @@ Plug 'neomake/neomake'
 " numbering every time you go to normal mode. Author refuses to add a setting
 " to avoid that)
 Plug 'myusuf3/numbers.vim'
+function! BuildComposer(info)
+  if a:info.status != 'unchanged' || a:info.force
+    if has('nvim')
+      !cargo build --release
+    else
+      !cargo build --release --no-default-features --features json-rpc
+    endif
+  endif
+endfunction
 
-
+Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
 
 " Tell vim-plug we finished declaring plugins, so it can load them
 call plug#end()
@@ -154,12 +163,19 @@ if vim_plug_just_installed
     :PlugInstall
 endif
 
+" template for my papis' notes:
+augroup templates
+    autocmd!
+    autocmd BufNewFile *notes.md 0r ~/.config/nvim/templates/skeleton_notes.md
+    autocmd BufNewFile *.sh  0r ~/.config/nvim/templates/skeleton.sh 
+augroup END
+
 " ============================================================================
 " Vim settings and mappings
 " You can edit them as you wish
 set encoding=utf-8
-"set guifont=Droid\ Sans\ Mono\ for\ Powerline\ Plus\ Nerd\ File\ Types\ 11
-set guifont=Inconsolata\ for\ Powerline\ 8
+set guifont=Droid\ Sans\ Mono\ for\ Powerline\ Plus\ Nerd\ File\ Types\ 11
+"set guifont=Inconsolata\ for\ Powerline\ 8
 
 let mapleader = ";"
 
@@ -262,6 +278,7 @@ map <F3> :NERDTreeToggle<CR>
 nmap ,t :NERDTreeFind<CR>
 " don;t show these file types
 let NERDTreeIgnore = ['\.pyc$', '\.pyo$']
+
 
 " Tasklist ------------------------------
 

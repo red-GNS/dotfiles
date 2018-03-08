@@ -42,7 +42,7 @@ papis_arxiv (){
 
 papis_clip (){
     bib
-    "\n" > tmp.bib
+    echo "\n" > tmp.bib
     getclip >> tmp.bib
     papis add --from-bibtex tmp.bib $1
     rm $1
@@ -50,3 +50,7 @@ papis_clip (){
     rm tmp.bib
 }
 
+
+pp (){
+   papis open $1 && papis edit -n $1
+}
