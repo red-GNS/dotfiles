@@ -15,6 +15,3 @@ export PATH=$PATH":/home/thoth/melbayad/scratch/tools/srilm/bin/i686-m64"
 export PRINTER=impression_toshiba
 export TORCH_HOME="/home/thoth/melbayad/scratch/.torch"
 
-alias p='cd ~/scratch/work/torchcap'
-alias sq='cd ~/scratch/work/seq2seq'
-

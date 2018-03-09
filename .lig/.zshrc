@@ -10,14 +10,10 @@ export PATH="/home/getalp/elbayadm/.local/bin/:/usr/local/sbin:/usr/local/bin:/u
 export PATH="/home/getalp/elbayadm/anaconda3/bin:"$PATH
 export PATH="/home/getalp/elbayadm/opt/jdk-9/bin:"$PATH
 export PATH="/home/getalp/Toolkits/SRILM_1_6_0/bin/i686-m64:"$PATH
-alias p='cd ~/work/torchcap'
-alias sq='cd ~/work/seq2seq'
 
 export TORCH_HOME="/home/getalp/elbayadm/.torch"
-
 source ~/.lig/gpu
 source ~/.lig/sync
-
 alias check='watch -n30 "ps -xrU elbayadm | grep python"'
 
 
