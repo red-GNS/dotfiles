@@ -5,7 +5,7 @@ export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
 export TERM=xterm-termite
 export EDITOR=vi
-
+#eval $(keychain --eval --quiet lig id_rsa)
 COMPLETION_WAITING_DOTS="false"
 plugins=(vim)
 plugins+=(python)
