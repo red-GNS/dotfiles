@@ -13,7 +13,7 @@ plugins+=(git)
 # plugins+=(vi-mode)
 
 PASCAL="arrow"
-INRIA="maha"
+INRIA="arrow"
 EDGAR="gentoo"
 GPU="gentoo"
 RED="avit"
