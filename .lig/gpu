@@ -68,13 +68,19 @@ gpupick(){
     gstats=( $( qgpumem ) )
     g_l=${#gstats[@]}
     echo $g_l GPUs available
-    if [ $gstats[1] -lt $gstats[2] ]; then
-        picked=1
-    else
-        picked=0
-    fi
-    echo "Selected GPU" $picked, $gstats[picked+1]
-    if [ $gstats[picked+1] -gt $1 ]; then
+    argmax=0
+    max=0
+    index=0
+    for mem in "${gstats[@]}"; do 
+        if (( $mem > $max )); then
+            max=$mem;
+            argmax=$index
+        fi; 
+        let index=${index}+1
+    done
+    echo $gstats
+    picked=$argmax
+    if [ $gstats[$argmax+1] -gt $1 ]; then
         echo "Memory required available"
         abort=0
     else
