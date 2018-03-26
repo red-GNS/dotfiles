@@ -9,7 +9,7 @@ setcuda91 () {
   export C_INCLUDE_PATH="$C_INCLUDE_PATH:$CUDA_HOME/include"
   export PATH="$CUDA_bin:$PATH"
   export CUDNN_LIBRARY=$CUDA_HOME
-  export CUDNN_LIB_DIR$=$CUDA_libs
+  export CUDNN_LIB_DIR=$CUDA_libs
   export CUDNN_INCLUDE_DIR="$CUDA_HOME/include"
 }
 
