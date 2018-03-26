@@ -5,45 +5,43 @@ setcuda91 () {
   export CUDA_libs="$CUDA_HOME/lib64"
   export CUDA_bin="$CUDA_HOME/bin"
   export LD_LIBRARY_PATH="$CUDA_libs:$LD_LIBRARY_PATH"
-  export CPLUS_INCLUDE_PATH="$CPLUS_INCLUDE_PATH:$CUDA/include"
-  export C_INCLUDE_PATH="$C_INCLUDE_PATH:$CUDA/include"
+  export CPLUS_INCLUDE_PATH="$CPLUS_INCLUDE_PATH:$CUDA_HOME/include"
+  export C_INCLUDE_PATH="$C_INCLUDE_PATH:$CUDA_HOME/include"
   export PATH="$CUDA_bin:$PATH"
 }
 
 setcudnn71 () {
-  export CUDNN_ROOT="/home/thoth/melbayad/scratch/libs/cudnn7.1-cu9.1"
-  export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$CUDNN_ROOT/lib64"
-  export CPLUS_INCLUDE_PATH="$CPLUS_INCLUDE_PATH:$CUDNN_ROOT/include"
-  export C_INCLUDE_PATH="$C_INCLUDE_PATH:$CUDNN_ROOT/include"
-  export LIBRARY_PATH="$LIBRARY_PATH:$CUDNN_ROOT/lib64"
-}
+  export CUDNN_LIBRARY="/home/thoth/melbayad/scratch/libs/cudnn7.1-cu9.1"
+  export CUDNN_LIB_DIR="$CUDNN_LIBRARY/lib64"
+  export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$CUDNN_LIB_DIR"
+  export LIBRARY_PATH="$LIBRARY_PATH:$CUDNN_LIB_DIR"
+  export CUDNN_INCLUDE_DIR="$CUDNN_LIBRARY/include"
+  export CPLUS_INCLUDE_PATH="$CPLUS_INCLUDE_PATH:$CUDNN_INCLUDE_DIR"
+  export C_INCLUDE_PATH="$C_INCLUDE_PATH:$CUDNN_INCLUDE_DIR"
 
-setcudnn50_konstantin () {
-  export CUDNN_ROOT="/home/lear/kshmelko/scratch/libs/cudnn5"
-  export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$CUDNN_ROOT/lib64"
-  export CPLUS_INCLUDE_PATH="$CPLUS_INCLUDE_PATH:$CUDNN_ROOT/include"
-  export C_INCLUDE_PATH="$C_INCLUDE_PATH:$CUDNN_ROOT/include"
-  export LIBRARY_PATH="$LIBRARY_PATH:$CUDNN_ROOT/lib64"
 }
-
 
 setcuda8_konstantin() {
   export CUDA_HOME="/home/lear/kshmelko/scratch/libs/cuda8"
   export CUDA_libs="$CUDA_HOME/lib64"
   export CUDA_bin="$CUDA_HOME/bin"
   export LD_LIBRARY_PATH="$CUDA_libs:$LD_LIBRARY_PATH"
-  export CPLUS_INCLUDE_PATH="$CPLUS_INCLUDE_PATH:$CUDA/include"
-  export C_INCLUDE_PATH="$C_INCLUDE_PATH:$CUDA/include"
+  export CPLUS_INCLUDE_PATH="$CPLUS_INCLUDE_PATH:$CUDA_HOME/include"
+  export C_INCLUDE_PATH="$C_INCLUDE_PATH:$CUDA_HOME/include"
   export PATH="$CUDA_bin:$PATH"
 }
 
-function setcudnn50_konstantin () {
-  export CUDNN_ROOT="/home/lear/kshmelko/scratch/libs/cudnn5"
-  export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$CUDNN_ROOT/lib64"
-  export CPLUS_INCLUDE_PATH="$CPLUS_INCLUDE_PATH:$CUDNN_ROOT/include"
-  export C_INCLUDE_PATH="$C_INCLUDE_PATH:$CUDNN_ROOT/include"
-  export LIBRARY_PATH="$LIBRARY_PATH:$CUDNN_ROOT/lib64"
+setcudnn50_konstantin () {
+  export CUDNN_LIBRARY="/home/lear/kshmelko/scratch/libs/cudnn5"
+  export CUDNN_LIB_DIR="$CUDNN_LIBRARY/lib64"
+  export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$CUDNN_LIB_DIR"
+  export LIBRARY_PATH="$LIBRARY_PATH:$CUDNN_LIB_DIR"
+  export CUDNN_INCLUDE_DIR="$CUDNN_LIBRARY/include"
+  export CPLUS_INCLUDE_PATH="$CPLUS_INCLUDE_PATH:$CUDNN_INCLUDE_DIR"
+  export C_INCLUDE_PATH="$C_INCLUDE_PATH:$CUDNN_INCLUDE_DIR"
+
 }
+
 
 #setcuda8_konstantin
 #setcudnn50_konstantin
