@@ -54,3 +54,12 @@ extract () {
          echo "'$1' is not a valid file"
      fi
 }
+clear_paths(){
+    unset PATH
+    unset LIBRARY_PATH
+    unset LD_LIBRARY_PATH
+    unset C_INCLUDE_PATH
+    unset CPLUS_INCLUDE_PATH
+}
+
+
