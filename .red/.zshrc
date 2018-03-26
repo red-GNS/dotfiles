@@ -18,3 +18,5 @@ export PATH=$PATH":/home/maha/.red/"
 export PATH=$PATH":/home/maha/.cargo/bin"
 
 export LD_LIBRARY_PATH="/usr/lib/nvidia-375:"$LD_LIBRARY_PATH
+source ~/.red/cuda
+
