@@ -35,35 +35,49 @@ uxterm*savelines: 16384
 uxterm*charClass: 33:48,36-47:48,58-59:48,61:48,63-64:48,95:48,126:48
 uxterm*cursorColor:      white
 uxterm*ScrollBar: false
-! stop output to terminal from jumping down to bottom of scroll again
 uxterm*scrollTtyOutput: false
 
 
 xterm*faceName: Inconsolata for powerline
-
 xterm*faceSize: 13
 xterm*loginshell: true
 xterm*savelines: 16384
 xterm*charClass: 33:48,36-47:48,58-59:48,61:48,63-64:48,95:48,126:48
 xterm*cursorColor:      white
 xterm*ScrollBar: false
-! stop output to terminal from jumping down to bottom of scroll again
 xterm*scrollTtyOutput: false
 
 ! URxvt SETUP HERE !
-URxvt.internalBorder: 6
-urxvt*font: xft:Inconsolata for Powerline:size=13
-urxvt*boldFont: xft:Inconsolata for Powerline:bold:size=13
 
-URxvt.geometry: 80x20
-URxvt.depth: 32
-URxvt.background:	[100]#1e1e20
-URxvt*scrollBar:                      false
-URxvt*mouseWheelScrollPage:           false
-URxvt*cursorBlink:                    true
-URxvt*foreground: 		                #c5c8c6
-URxvt*cursorColor:		                #c5c8c6
-URxvt*saveLines:                      5000
+URxvt.intensityStyles:	false
+URxvt.background:       [80]#202020
+URxvt.depth:	32
+URxvt*font: 	xft:DejaVu\ Sans\ Mono\ for\ Powerline:regular:pixelsize=16:antialias=true:hinting=true
+URxvt*faceNale: xft:DejaVu\ Sans\ Mono\ for\ Powerline:regular:pixelsize=16:antialias=true:hinting=true
+URxvt.scrollBar:	false
+URxvt.mouseWheelScrollPage:           false
+URxvt.cursorBlink:                    true
+URxvt.foreground: 		                #c5c8c6
+URxvt.cursorColor:		                #c5c8c6
+URxvt.saveLines:                      5000
+URxvt.internalBorder: 6
+
+
+!! Extensions
+URxvt.perl-ext-common:	default,matcher,resize-font,url-select,keyboard-select
+URxvt.colorUL:		#4682B4
+!! url-select
+URxvt.keysym.M-u:	perl:url-select:select_next
+URxvt.url-select.launcher: webview
+URxvt.url-select.underline: true
+!! keyboard-select:
+URxvt.keysym.M-Escape: perl:keyboard-select:activate
+!! resize-font
+URxvt.resize-font.smaller:	C-Down
+URxvt.resize-font.bigger:	C-Up
+!! Matcher
+URxvt.url-launcher:	webview
+URxvt.matcher.button:	1
 
 ! ROFI SETUP HERE !
 

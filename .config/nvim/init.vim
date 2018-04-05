@@ -201,7 +201,7 @@ set shiftwidth=4
 set nu
 
 " use 256 colors when possible
-if (&term =~? 'mlterm\|xterm\|xterm-256\|xterm-termite\|screen-256') || has('nvim')
+if (&term =~? 'mlterm\|xterm\|xterm-256\|xterm-termite\|screen-256\|urxvt') || has('nvim')
 	let &t_Co = 256
     colorscheme OceanicNext
 else

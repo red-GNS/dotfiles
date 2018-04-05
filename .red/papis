@@ -30,7 +30,7 @@ id_arxiv(){
     echo $(title2bib $1 -f | sed -n -e 's/^.*{arxiv://p' | cut -f1 -d'v')
 }
 
-papis_arxiv (){
+pa (){
     bib
     download_arxiv -i $1 
     arxivcheck $1 > tmp.bib
@@ -40,7 +40,7 @@ papis_arxiv (){
     rm tmp.bib
 }
 
-papis_clip (){
+pc (){
     bib
     echo "\n" > tmp.bib
     getclip >> tmp.bib
@@ -54,3 +54,4 @@ papis_clip (){
 pp (){
    papis open $1 && papis edit -n $1
 }
+alias ppo='papis open'

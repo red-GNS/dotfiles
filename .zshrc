@@ -16,21 +16,25 @@ PASCAL="arrow"
 INRIA="arrow"
 EDGAR="gentoo"
 GPU="gentoo"
-RED="avit"
+#RED="refined"
+RED=""
 LIG="avit"
 
 set_inria (){
     source ~/.inria/.zshrc
+    source $ZSH/oh-my-zsh.sh
     }
 
 set_redgns (){
+    plugins+=(tmux, zsh-256color)
+    source $ZSH/oh-my-zsh.sh
     source ~/.red/.zshrc
-    plugins+=(tmux)
     }
 
 set_lig (){
-    source ~/.lig/.zshrc
     plugins+=(tmux)
+    source ~/.lig/.zshrc
+    source $ZSH/oh-my-zsh.sh
     }
 
 
@@ -51,14 +55,9 @@ case ${HOST:r:r} in
     *)  echo "Unknown whereabouts!!";;
 esac
 
-source $ZSH/oh-my-zsh.sh
 source ~/.aliases
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-#if [[ $(tmux -V | cut -c 6-8) -ge 2.1 ]];then
-    #export MOUSE="mouse";
-#else
-    #export MOUSE="mode-mouse";
-#fi
+
 #bindkey -v
 #bindkey '^P' up-history
 #bindkey '^N' down-history
@@ -76,4 +75,5 @@ source ~/.aliases
 #zle -N zle-line-init
 #zle -N zle-keymap-select
 #export KEYTIMEOUT=1
+
 

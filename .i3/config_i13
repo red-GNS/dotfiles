@@ -181,7 +181,6 @@ bindsym Control+Shift+m exec pactl set-sink-mute 0 toggle
 bindsym XF86MonBrightnessDown exec --no-startup-id ~/i3/bright_down
 bindsym XF86MonBrightnessUp exec --no-startup-id ~/.i3/bright_up
 bindsym $mod+Shift+d --release exec "killall dunst; exec notify-send 'restart dunst'"
-bindsym $mod+9 exec --no-startup-id ~/.i3/lock
 # resize window (you can also use the mouse for that)
 mode "resize" {
         # These bindings trigger as soon as you enter the resize mode
@@ -208,7 +207,10 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 bindsym $mod+Escape exec --no-startup-id ~/.i3/lock
+exec --no-startup-id xautolock -time 10 -locker '~/.i3/lock'
 
+# vim everywhere!!
+# bindsym $mod+Alt+v exec ~/.vim-anywhere/bin/run
 # Polybar launch script (located ~/.config/polybar/launch.sh) 
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 exec_always --no-startup-id dropbox
