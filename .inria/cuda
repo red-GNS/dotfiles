@@ -10,6 +10,18 @@ setcuda91 () {
   export PATH="$CUDA_bin:$PATH"
 }
 
+setcudnn60 () {
+  export CUDNN_ROOT="/home/thoth/melbayad/scratch/libs/cudnn6.0-cu8.0"
+  export CUDNN_LIB_DIR="$CUDNN_ROOT/lib64"
+  export CUDNN_LIBRARY="$CUDNN_LIB_DIR/libcudnn.so"
+  export LD_LIBRARY_PATH="$CUDNN_LIB_DIR:$LD_LIBRARY_PATH"
+  export LIBRARY_PATH="$CUDNN_LIB_DIR:$LIBRARY_PATH"
+  export CUDNN_INCLUDE_DIR="$CUDNN_ROOT/include"
+  export CPLUS_INCLUDE_PATH="$CUDNN_INCLUDE_DIR:$CPLUS_INCLUDE_PATH"
+  export C_INCLUDE_PATH="$CUDNN_INCLUDE_DIR:$C_INCLUDE_PATH"
+
+}
+
 setcudnn71 () {
   export CUDNN_ROOT="/home/thoth/melbayad/scratch/libs/cudnn7.1-cu9.1"
   export CUDNN_LIB_DIR="$CUDNN_ROOT/lib64"
@@ -45,6 +57,9 @@ setcudnn50_konstantin () {
 
 #setcuda8_konstantin
 #setcudnn50_konstantin
-setcuda91
-setcudnn71
+setcuda8_konstantin
+setcudnn60
+# Before compiling bleeding edge pytorch:
+export TORCH_CUDA_ARCH_LIST="3.0;3.5;5.0;5.2+PTX;6.0;6.1"
+
 
