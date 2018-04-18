@@ -26,7 +26,7 @@ train_cap(){
 }
 
 train_nmt(){
-    gpupick 10500
+    gpupick 3000
     if [ $abort -eq 0 ]; then
         echo "Training translation model on GPU"$picked
         CUDA_VISIBLE_DEVICES=$picked python nmt.py -c $1 --gpu_id $picked
@@ -39,7 +39,7 @@ train(){
   case $1 in
     cap) cd ~/work/torchcap ;;
     nmt) cd ~/work/seq2seq ;;
-    nmto) cd ~/work/old_seq2seq ;;
+    nmto) cd ~/work/seq2seq_v1 ;;
 
   esac
   echo 'wherami?:' $(pwd)

@@ -18,7 +18,7 @@ EDGAR="gentoo"
 GPU="gentoo"
 #RED="refined"
 RED=""
-LIG="arrow"
+LIG="gentoo"
 AKER="gentoo"
 
 set_inria (){
