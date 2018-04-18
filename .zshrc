@@ -18,7 +18,8 @@ EDGAR="gentoo"
 GPU="gentoo"
 #RED="refined"
 RED=""
-LIG="avit"
+LIG="arrow"
+AKER="gentoo"
 
 set_inria (){
     source ~/.inria/.zshrc
@@ -52,6 +53,9 @@ case ${HOST:r:r} in
             set_redgns;;
     decore*| dvorak*| lig*| ceos| hyperion) ZSH_THEME=$LIG
                                             set_lig;;
+    aker) ZSH_THEME=$AKER
+           set_lig;;
+
     *)  echo "Unknown whereabouts!!";;
 esac
 
