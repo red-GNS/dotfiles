@@ -2,6 +2,8 @@
 
 alias p='cd ~/work/torchcap'
 alias sq='cd ~/work/seq2seq'
+alias sqo='cd ~/work/seq2seq_v1'
+
 alias c='clear'
 alias vi=nvim
 alias ggp='git pull origin master'
