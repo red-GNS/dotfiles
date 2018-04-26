@@ -15,7 +15,7 @@ alias cf="cd ~/.config"
 # Zip folder
 zipf () { zip -r "$1".zip "$1" ; }
 zssh () { ssh -Y "$1" -t zsh }
-lssh () {ssh elbayadm@"$1".ligone}
+lssh () {ssh elbayadm@"$1".ligone -t zsh}
 cd() { builtin cd "$@"; ls; }  # Always list directory contents upon 'cd'
 ccd() { builtin cd }
 alias ggc="gaa && git commit -m ':up: auto' && git push origin master"
