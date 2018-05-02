@@ -1,5 +1,0 @@
-#!/bin/sh
-
-alias sshot="maim -s | xclip -selection clipboard -t image/png"
-alias isshot="slip --screenshot"
-
