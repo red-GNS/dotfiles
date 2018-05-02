@@ -1,0 +1,10 @@
+export SHELL=$(which zsh)
+export ZSH=~/.oh-my-zsh
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+export LANGUAGE=en_US.UTF-8
+export TERM=xterm-termite
+export EDITOR=vi
+export CLICOLOR=1
+export KEYTIMEOUT=1
+export QUOTING_STYLE=literal

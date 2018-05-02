@@ -1,0 +1,7 @@
+# get the name of the branch we are on
+autoload -U colors
+colors     
+PROMPT='%{$fg[blue]%}%c %{$fg_bold[red]%}$(__git_ps1)$(get_git_dirty)%{$fg[blue]%} $ %{$reset_color%}'                                           
+
+RPROMPT='%{$fg[green]%}%1(j.%j.)'        
+PS1='%{$fg[blue]%}%n@%{$fg_bold[red]%}%m %{$fg[blue]%}%c$(__git_ps1)\$ '

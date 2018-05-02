@@ -1,0 +1,34 @@
+# To see the key combo you want to use just do:
+# cat > /dev/null
+# And press it
+bindkey -v
+bindkey '^a' beginning-of-line
+bindkey '^e' end-of-line
+bindkey "^K"      kill-whole-line                      # ctrl-k
+bindkey "^R"      history-incremental-search-backward  # ctrl-r
+#bindkey "^A"      beginning-of-line                    # ctrl-a  
+#bindkey "^E"      end-of-line                          # ctrl-e
+bindkey "[B"      history-search-forward               # down arrow
+bindkey "[A"      history-search-backward              # up arrow
+bindkey "^D"      delete-char                          # ctrl-d
+bindkey "^F"      forward-char                         # ctrl-f
+bindkey "^B"      backward-char                        # ctrl-b
+#bindkey -v   # Default to standard vi bindings, regardless of editor string
+#bindkey '^[[A' up-line-or-search
+#bindkey '^[[B' down-line-or-search
+# file rename magick
+#bindkey "^[m" copy-prev-shell-word
+#bindkey '^[[1;5C' forward-word                        # [Ctrl-RightArrow] - move forward one word
+#bindkey '^[[1;5D' backward-word                       # [Ctrl-LeftArrow] - move backward one word
+
+# ZLE # Still not working
+#autoload -U up-line-or-beginning-search
+#autoload -U down-line-or-beginning-search
+#zle -N up-line-or-beginning-search
+#zle -N down-line-or-beginning-search
+#bindkey "^[[A" up-line-or-beginning-search # Up
+#bindkey "^[[B" down-line-or-beginning-search # Down
+#bindkey "^[[A" history-beginning-search-backward
+#bindkey "^[[B" history-beginning-search-forward
+
+

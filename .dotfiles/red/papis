@@ -1,0 +1,57 @@
+#!/bin/sh
+
+alias bib="cd ~/work/Bibliography"
+alias bibp="cd ~/work/Bibliography/PapisDir/pdfs"
+
+copy () { xclip -sel clip < $1 }
+alias setclip="xclip -sel c"
+alias getclip="xclip -sel c -o"
+alias fe="feh --scale-down --auto-zoom"
+export BROWSER=$(which google-chrome-stable)
+export EDITOR=$(which nvim)
+
+# Download arxiv paper given id
+download_arxiv(){
+    while getopts 't:d:i:' flag; do
+      case "${flag}" in
+        i) arxivid=${OPTARG} && echo "input id: "$arxivid;;
+        t) title=${OPTARG} && arxivid=$(id_arxiv $title) && echo "From title got:" $arxivid ;;
+        d) doi=${OPTARG} && echo "Not implemented yet" ;;
+        *) error "Unexpected option ${flag}" ;;
+      esac
+    done
+    echo "ArxivID:"$arxivid
+    wget --user-agent=Lynx https://arxiv.org/pdf/$arxivid.pdf
+}
+
+
+#Get arxiv id given the title:
+id_arxiv(){
+    echo $(title2bib $1 -f | sed -n -e 's/^.*{arxiv://p' | cut -f1 -d'v')
+}
+
+pa (){
+    bib
+    download_arxiv -i $1 
+    arxivcheck $1 > tmp.bib
+    papis add --from-bibtex tmp.bib $1.pdf
+    rm $1.pdf
+    cat tmp.bib >>  refs.bib
+    rm tmp.bib
+}
+
+pc (){
+    bib
+    echo "\n" > tmp.bib
+    getclip >> tmp.bib
+    papis add --from-bibtex tmp.bib $1
+    rm $1
+    cat tmp.bib >>  refs.bib
+    rm tmp.bib
+}
+
+
+pp (){
+   papis open $1 && papis edit -n $1
+}
+alias ppo='papis open'
