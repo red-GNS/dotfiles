@@ -1,9 +1,8 @@
-#!/bin/sh
+#!/usr/bin/env zsh
 echo "Setting up you environment @inria"
-
+INRIADIR=$HOME/.dotfiles/inria
 # Cuda and Cudnn
-source ~/.inria/oar
-
+source $INRIADIR/oar
 # Path:
 export PATH="/home/thoth/melbayad/scratch/Env/anaconda/bin"
 export PATH=$PATH":/home/thoth/melbayad/.local/bin:~/.local/sbin:/~/bin"
@@ -14,5 +13,5 @@ export PATH=$PATH":/home/thoth/melbayad/scratch/tools/srilm/bin/i686-m64"
 export PRINTER=impression_toshiba
 export TORCH_HOME="/home/thoth/melbayad/scratch/.torch"
 
-source ~/.inria/cuda
+source $INRIADIR/cuda
 
