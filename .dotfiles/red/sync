@@ -21,7 +21,7 @@ sync_nmt(){
     #sshfs pascal:scratch/work/old_seq2seq/events nmt/old_edgar
 
     echo ">>> LIG:"
-    sshfs elbayadm@decore1.ligone:work/seq2seq/events nmt/decore 
+    sshfs elbayadm@decore1.ligone:/home/getalp/elbayadm/work/seq2seq/events nmt/decore
     #sshfs elbayadm@decore1.ligone:work/old_seq2seq/events nmt/old_decore 
 
     echo "Synced!"

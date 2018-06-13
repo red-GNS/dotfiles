@@ -2,18 +2,18 @@
 foreground      = #c5c8c6
 foreground_bold = #c5c8c6
 foreground_dim = #888888
-background      = rgba(20, 20, 20, 0.8)
+background      = rgba(20, 20, 20, 0.85)
 cursor          = #c5c8c6
 
 color0 = #073642
 color1 = #dc322f
-color2 = #859900
+color2 = #00AA00
 color3 = #b58900
 color4 = #268bd2
 color5 = #d33682
 color6 = #2aa198
 color7 = #eee8d5
-color8 = #002b36
+color8 = #FF5555
 color9 = #cb4b16
 color10 = #586e75
 color11 = #657b83

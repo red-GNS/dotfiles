@@ -1,12 +1,12 @@
 #!/bin/sh
 
 echo "Setting up you environment @redgns"
-
-source ~/.red/aliases
-source ~/.red/zplugrc
-source ~/.red/papis
-source ~/.red/sync
-source ~/.red/todoist
+REDDIR=$HOME/.dotfiles/red
+source $REDDIR/aliases
+source $REDDIR/zplugrc
+source $REDDIR/papis
+source $REDDIR/sync
+source $REDDIR/todoist
 setxkbmap fr
 
 
@@ -18,8 +18,8 @@ export PATH=$PATH":/home/maha/.red/"
 export PATH=$PATH":/home/maha/.cargo/bin"
 export PATH="/home/maha/.npm-global/bin:"$PATH
 export PATH="/home/maha/.gem/ruby/2.5.0/bin:"$PATH
-export LD_LIBRARY_PATH="/usr/lib/nvidia-375:"$LD_LIBRARY_PATH
-source ~/.red/cuda
+#export LD_LIBRARY_PATH="/home/maha/anaconda3/lib:/usr/lib:/usr/lib/nvidia-375:"$LD_LIBRARY_PATH
+#source $REDDIR/cuda
 
 # Pure:
 autoload -U promptinit; promptinit
