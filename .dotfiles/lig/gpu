@@ -1,5 +1,7 @@
 #!/bin/sh
 
+alias wnvia="watch --color -n 3 gpustat -p --color"
+
 getgpujobs(){
      M=""; K=""
      for i in `nvidia-smi -q -i $1 | grep "Process ID" | cut -f 2 -d ":" | tr -d "[[:blank:]]"`;

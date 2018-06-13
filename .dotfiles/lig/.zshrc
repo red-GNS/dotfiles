@@ -24,7 +24,7 @@ source $LIGDIR/gpu
 source $LIGDIR/sync
 source $LIGDIR/oar
 
-alias check='watch -n30 "ps -xrU elbayadm | grep python"'
+alias check='watch -n30 "ps -xrU elbayadm | grep yaml"'
 
 setcuda80 () {
   export CUDA_HOME="/home/getalp/elbayadm/opt/cuda80_patched"

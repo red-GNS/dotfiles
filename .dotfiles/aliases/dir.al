@@ -46,7 +46,6 @@ alias sqo='cd ~/work/seq2seq_v2'
 
 alias c='clear'
 alias vi=nvim
-alias ggp='git pull origin master'
 alias chr='google-chrome-stable'
 alias src='source ~/.zshrc'
 alias whereami='echo $HOST$HOSTNAME'

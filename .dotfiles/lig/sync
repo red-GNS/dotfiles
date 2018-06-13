@@ -65,3 +65,7 @@ nmt_cmp_eval() {
     nmt_eval_to_inria $1
     cd ..
 }
+
+dir_to_inria(){
+    rsync -vazP $1 pascal:~/scratch/work/$2/
+}

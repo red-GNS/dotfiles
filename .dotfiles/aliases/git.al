@@ -87,6 +87,8 @@ alias gwip='git add -A; git rm $(git ls-files --deleted) 2> /dev/null; git commi
 alias ggc="gaa && git commit -m ':up: auto' && git push origin master"
 alias ggcs="gaa && git commit -m ':up: auto' && git push origin stable"
 alias ggcu="git add -u && git commit -m ':up: auto' && git push origin master"
+alias ggp='git pull origin master'
+
 ggcm(){
    gaa
    git commit -m $1
