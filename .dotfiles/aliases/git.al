@@ -11,6 +11,7 @@ alias gc='git commit -v'
 alias gca='git commit -a -v'
 alias gcb='git checkout -b'
 alias gcm='git checkout master'
+alias gcs='git checkout stable'
 alias gco='git checkout'
 alias gd='git diff'
 alias gf='git fetch'
@@ -82,3 +83,14 @@ alias gupv='git pull --rebase -v'
 alias glum='git pull upstream master'
 alias gwch='git whatchanged -p --abbrev-commit --pretty=medium'
 alias gwip='git add -A; git rm $(git ls-files --deleted) 2> /dev/null; git commit --no-verify -m "--wip-- [skip ci]"'
+
+alias ggc="gaa && git commit -m ':up: auto' && git push origin master"
+alias ggcs="gaa && git commit -m ':up: auto' && git push origin stable"
+alias ggcu="git add -u && git commit -m ':up: auto' && git push origin master"
+ggcm(){
+   gaa
+   git commit -m $1
+   git push origin master
+   }
+
+

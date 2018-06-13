@@ -42,7 +42,7 @@ alias la='ls -lAh'
 # Aliases and functions ( common to all servers)
 alias p='cd ~/work/torchcap'
 alias sq='cd ~/work/seq2seq'
-alias sqo='cd ~/work/seq2seq_v1'
+alias sqo='cd ~/work/seq2seq_v2'
 
 alias c='clear'
 alias vi=nvim
@@ -60,14 +60,6 @@ zssh () { ssh -Y "$1" -t zsh }
 lssh () {ssh elbayadm@"$1".ligone -t zsh}
 cd() { builtin cd "$@"; ls; }  # Always list directory contents upon 'cd'
 ccd() { builtin cd }
-alias ggc="gaa && git commit -m ':up: auto' && git push origin master"
-alias ggcu="git add -u && git commit -m ':up: auto' && git push origin master"
-ggcm(){
-   gaa
-   git commit -m $1
-   git push origin master
-   }
-
 cpf() {cp $1 "fncnn6_reset_"$1}
 trim(){
     convert $1 -flatten -fuzz 1% -trim +repage $2
