@@ -45,12 +45,10 @@ alias sq='cd ~/work/seq2seq'
 alias sqo='cd ~/work/seq2seq_v2'
 
 alias c='clear'
-alias vi=nvim
 alias chr='google-chrome-stable'
 alias src='source ~/.zshrc'
 alias whereami='echo $HOST$HOSTNAME'
 alias l='ls -atrlh'
-alias clear_swap='rm ~/.local/share/nvim/swap/*'
 alias cf="cd ~/.config"
 
 # Zip folder

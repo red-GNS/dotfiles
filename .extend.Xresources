@@ -1,5 +1,5 @@
 *.foreground:   #c5c8c6
-*.background:   #1c1c1c
+*.background:   #373B41
 *.cursorColor:  #c5c8c6
 
 
@@ -28,32 +28,35 @@
 
 Xcursor.theme: Breeze
 Xcursor.size:  0
-uxterm*faceName: Inconsolata for powerline
-uxterm*faceSize: 13
-uxterm*loginshell: true
-uxterm*savelines: 16384
-uxterm*charClass: 33:48,36-47:48,58-59:48,61:48,63-64:48,95:48,126:48
-uxterm*cursorColor:      white
-uxterm*ScrollBar: false
-uxterm*scrollTtyOutput: false
 
+! Xterm and UXterm !
+XTerm*renderFont: true
+XTerm*faceName: Inconsolata for powerline:antialias=true
+XTerm*faceSize: 14
 
-xterm*faceName: Inconsolata for powerline
-xterm*faceSize: 13
-xterm*loginshell: true
-xterm*savelines: 16384
-xterm*charClass: 33:48,36-47:48,58-59:48,61:48,63-64:48,95:48,126:48
-xterm*cursorColor:      white
-xterm*ScrollBar: false
-xterm*scrollTtyOutput: false
+UXTerm*renderFont: true
+UXTerm*faceName: Inconsolata for powerline:antialias=true
+UXTerm*faceSize: 14
+
+UXTerm*background: #202020
+XTerm.background: #202020
+
+UXTerm*loginshell: true
+UXTerm*savelines: 16384
+UXTerm*charClass: 33:48,36-47:48,58-59:48,61:48,63-64:48,95:48,126:48
+UXTerm*cursorColor:      white
+UXTerm*ScrollBar: false
+UXTerm*scrollTtyOutput: false
+
 
 ! URxvt SETUP HERE !
 
 URxvt.intensityStyles:	false
-URxvt.background:       [80]#202020
+URxvt.background:       [60]#202020
 URxvt.depth:	32
-URxvt*font: 	xft:DejaVu\ Sans\ Mono\ for\ Powerline:regular:pixelsize=16:antialias=true:hinting=true
-URxvt*faceNale: xft:DejaVu\ Sans\ Mono\ for\ Powerline:regular:pixelsize=16:antialias=true:hinting=true
+
+URxvt*font: 	xft:DejaVu\ Sans\ Mono\ for\ Powerline:regular:pixelsize=14
+URxvt*faceName: xft:DejaVu\ Sans\ Mono\ for\ Powerline:regular:pixelsize=14
 URxvt.scrollBar:	false
 URxvt.mouseWheelScrollPage:           false
 URxvt.cursorBlink:                    true

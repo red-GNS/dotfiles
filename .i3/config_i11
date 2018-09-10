@@ -278,6 +278,6 @@ exec --no-startup-id mpd
 
 exec --no-startup-id thunderbird
 exec --no-startup-id dunst -config ~/.config/dunst/dunstrc
-exec --no-startup-id xrandr --output DP-1 --mode 1920x1200 --output DP-2 --mode 1600x1200 --rotate left --right-of DP-1
+exec --no-startup-id xrandr --output DP-1 --mode 1600x1200 --rotate-left --output DP-2 --mode 1920x1200  --right-of DP-1
 
 
