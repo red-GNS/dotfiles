@@ -2,4 +2,12 @@
 
 alias sshot="maim -s | xclip -selection clipboard -t image/png"
 alias isshot="slip --screenshot"
+alias zt="zathura"
+syn (){
+sdcv $1 | grep Synonyms
+}
 
+jtsetup (){
+    jupyter nbextension enable vim_binding/vim_binding
+    jt -t onedork -fs 13  -tfs 15 -nfs 15 -cellw 95% -T -vim
+}
