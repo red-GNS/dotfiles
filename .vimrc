@@ -41,8 +41,6 @@ Plug 'kien/tabman.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
-" Terminal Vim with 256 colors colorscheme
-Plug 'fisadev/fisa-vim-colorscheme'
 
 " Pending tasks list
 Plug 'fisadev/FixedTaskList.vim'
@@ -164,8 +162,9 @@ imap <M-Down> <ESC><c-w>j
 " old autocomplete keyboard shortcut
 imap <C-J> <C-X><C-O>
 
-colorscheme koehler
-hi Normal ctermbg=NONE guibg=NONE
+set t_Co=256
+colorscheme wombat
+highlight Normal ctermbg=none
 
 " when scrolling, keep cursor 3 lines away from screen border
 set scrolloff=3

@@ -1,19 +1,24 @@
 [colors]
-foreground      = #c5c8c6
-foreground_bold = #c5c8c6
-foreground_dim = #888888
-background      = rgba(20, 20, 20, 0.85)
-cursor          = #c5c8c6
+#foreground      = #c5c8c6
+#foreground_bold = #c5c8c6
+#cursor          = #c5c8c6
 
+foreground = #839496
+foreground_bold = #eee8d5
+foreground_dim = #888888
+background      = rgba(20, 20, 20, 0.75)
+cursor = #93a1a1
+
+# TODO read directly from .Xresources
 color0 = #073642
 color1 = #dc322f
-color2 = #00AA00
+color2 = #859900
 color3 = #b58900
 color4 = #268bd2
 color5 = #d33682
 color6 = #2aa198
 color7 = #eee8d5
-color8 = #FF5555
+color8 = #002b36
 color9 = #cb4b16
 color10 = #586e75
 color11 = #657b83
@@ -24,14 +29,11 @@ color15 = #fdf6e3
 
 [hints]
 font = Monospace 14
-foreground = #dcdccc
-#background = rgba(20, 20, 20, 0.8)
+foreground = #c5c8c6
 padding = 2
 border = #888888
-#border = rgba(20, 20, 20, 0.8)
 border_width = 0.5
 roundness = 2.0
-vim: ft=dosini cms=#%s
 
 [options]
 resize_grip = false
@@ -44,11 +46,10 @@ allow_bold = true
 dynamic_title = true
 urgent_on_bell = true
 clickable_url = true
-font = DejaVu Sans Mono for Powerline 13
+font = DejaVu Sans Mono for Powerline 14
 scrollback_lines = 1000
 search_wrap = true
 icon_name = terminal
-#geometry = 640x480
 
 # "system", "on" or "off"
 cursor_blink = system
@@ -56,15 +57,3 @@ cursor_blink = system
 # "block", "underline" or "ibeam"
 cursor_shape = block
 
-# $BROWSER is used by default
-browser = chr
-
-# word characters used for word selection
-# (default if unset: all graphic non-punctuation/space characters)
-#word_chars = -A-Za-z0-9,./?%&#:_=+@~
-
-# set size hints for the window
-#size_hints = false
-
-# emit escape sequences for other keys modified by Control
-#modify_other_keys = false
