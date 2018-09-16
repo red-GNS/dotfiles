@@ -47,14 +47,12 @@ Plug 'fisadev/FixedTaskList.vim'
 
 " Surround
 Plug 'tpope/vim-surround'
+
 " Autoclose
-
 Plug 'Townk/vim-autoclose'
-" Indent text object
 
-Plug 'michaeljsmith/vim-indent-object'
+
 " Indentation based movements
-
 Plug 'jeetsukumaran/vim-indentwise'
 
 " Autocompletion
@@ -112,6 +110,7 @@ inoremap <Up> <C-o>:echo "No right for you!"<CR>
 filetype plugin on
 filetype indent on
 
+
 " tabs and spaces handling
 set expandtab
 set tabstop=4
@@ -163,7 +162,7 @@ imap <M-Down> <ESC><c-w>j
 imap <C-J> <C-X><C-O>
 
 set t_Co=256
-colorscheme wombat
+colorscheme elflord
 highlight Normal ctermbg=none
 
 " when scrolling, keep cursor 3 lines away from screen border
@@ -287,6 +286,11 @@ highlight SignifySignChange cterm=bold ctermbg=237  ctermfg=227
 nmap  -  <Plug>(choosewin)
 " show big letters
 let g:choosewin_overlay_enable = 1
+
+" Indentation:
+let g:indent_guides_enable_on_vim_startup = 1
+set autoindent
+set smartindent
 
 " Airline ------------------------------
 let g:airline_powerline_fonts = 0
