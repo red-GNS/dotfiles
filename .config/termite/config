@@ -3,10 +3,10 @@
 #foreground_bold = #c5c8c6
 #cursor          = #c5c8c6
 
-foreground = #839496
+foreground = #c5c8c6
 foreground_bold = #eee8d5
 foreground_dim = #888888
-background      = rgba(20, 20, 20, 0.75)
+background      = rgba(20, 20, 20, 0.9)
 cursor = #93a1a1
 
 # TODO read directly from .Xresources
@@ -18,7 +18,7 @@ color4 = #268bd2
 color5 = #d33682
 color6 = #2aa198
 color7 = #eee8d5
-color8 = #002b36
+color8 = #2a5080
 color9 = #cb4b16
 color10 = #586e75
 color11 = #657b83
