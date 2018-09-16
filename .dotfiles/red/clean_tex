@@ -1,0 +1,151 @@
+#! /usr/bin/python
+
+import sys,os
+args = sys.argv[1:]
+
+if len(args)==0 or ('-h' in args) or ('--help' in args):
+  print("This program is utilitary to clean and prepare a latex paper for the")
+  print("submission system (eg HAL, arXiv).")
+  print("usage :")
+  print("  first, svn checkout your latex to some /tmp/directory")
+  print("  clean_paper /tmp/directory [operations]")
+  print("")
+  print("operations: (if none provided: enter manual mode)")
+  print("  all rm_comments undo_rm_comments rm_tmp_files rm_svn rm_bad_figs")
+  print("  png_to_jpg flatten_folders ")
+  sys.exit()
+
+
+folder = args.pop(0)
+os.chdir(folder)
+def get_files(name='*'):
+  return os.popen("find . -type f -name '%s'"%name).read().splitlines()
+
+def ask(question):
+  if args: return False
+  print(question,'(y/n)')
+  return input()=='y'
+
+args = set(args)
+assert len(args - {'all','rm_comments','undo_rm_comments','clean','rm_tmp_files',
+  'rm_svn','rm_bad_figs','png_to_jpg', 'png2jpg','flatten_folders','recompr'})==0, 'error: bad operations provided'
+
+if {'all','rm_comments','undo_rm_comments'}&args or ask("remove tex comments?"):
+  if 'undo_rm_comments' in args:
+    args.pop(0)
+    for fname in get_files('*.tex'): 
+      if os.path.isfile(fname+'.old'):
+        os.remove(fname)
+        os.rename(fname+'.old',fname)
+  else:
+    com_sign='%'
+    for fname in get_files('*.tex'):
+      print('processing %s...'%fname, end=' ')
+      txt = open(fname).read()
+      # protect escaped signs
+      txt = txt.replace('\\'+com_sign,'escaped_com_sign')
+      txt = txt.splitlines()
+      txt = [line.split(com_sign) for line in txt]
+      txt = [line[0] for line in txt if line[0].strip() or len(line)==1]
+      txt = '\n'.join(txt)
+      txt = txt.replace('escaped_com_sign','\\'+com_sign)
+      os.rename(fname,fname+'.old')
+      open(fname,'w').write(txt)
+      print('done!')
+
+if {'all','clean','rm_tmp_files'}&args or ask("clean directory?"):
+  for f in get_files():
+    if '.svn' in f: continue
+    ext = os.path.splitext(f)[1][1:]
+    if ext.lower() not in ('tex','bib','bst',
+                           'sty', 'clo','cls',
+                            'pdf','png',
+                           'jpg','jpeg', '.git',
+                           '.gitignore'): 
+      print('removed '+f)
+      os.remove(f)
+
+if {'all','rm_svn'}&args or ask("remove .svn folders?"):
+  os.system('find . -type d -name ".svn" -exec rm -fr {} \\;')
+
+if {'all','rm_bad_figs'}&args or ask('remove unused figures?'):
+  for f in get_files():
+    if f[:2]=='./': f = f[2:]
+    if not f.startswith('fig'): continue
+    fname = os.path.split(f)[1] # only preserve file name
+    fname,ext = os.path.splitext(fname)
+    checks = [len(os.popen('grep "%s" *.tex'%pattern).read()) for pattern in (fname,fname+ext)]
+    if not any(checks): 
+      os.remove(f)
+      print('removed '+f)
+
+if {'all','png_to_jpg','png2jpg'}&args or ask('convert images to jpg?'):
+  from PIL import Image
+  converted = []
+  for f in get_files():
+    if f.lower().endswith('.png') and os.stat(f).st_size>10**4: # more than 10K
+      Image.open(f).save(f[:-3]+'jpg')
+      os.remove(f)
+      print('converted '+f)
+      converted.append(os.path.split(f)[1])
+  # in case there are explicit png extension in tex
+  for f in get_files('*.tex'):
+    txt = open(f).read()
+    for img in converted:
+      img, ext = os.path.splitext(img)
+      txt = txt.replace(img+ext,img+'.jpg')
+      txt = txt.replace(img+'}'+ext,img+'}.jpg')
+    open(f,'w').write(txt)
+
+if {'all','flatten_folders'}&args or ask('flatten folders?'):
+  changes = []
+  for f in get_files():
+    if f[:2]=='./': f = f[2:]
+    if '/' in f:
+      newf = f.replace('/','_')
+      print('moving '+f+' to '+newf)
+      os.system('mv '+f+' '+newf)
+      l = len(os.path.splitext(f)[1])
+      changes.append((f[:-l],newf[:-l]))
+  print('removing subfolders...')
+  os.system('find . -type d -exec rm -r {} \\;')
+  for f in get_files('*.tex'):
+    txt = open(f).read()
+    for old,new in changes:
+      txt = txt.replace(old, new)
+    open(f,'w').write(txt)
+    print(f+' has been updated')
+
+if {'all','recompr'}&args or ask('flatten folders?'):
+  from PIL import Image
+  print('search pattern for images (e.g. *.jpg)?', end=' ') 
+  pattern = input()
+  print('jpg quality (1-100)?', end=' ')
+  quality = int(input())
+  assert 1<=quality<=100
+  print('output folder (default=recompr)?', end=' ')
+  outf = input()
+  if not outf:  outf='recompr/'
+  os.system('mkdir -p '+outf)
+  for f in get_files(pattern):
+    print('recompressing '+f)
+    Image.open(f).save(outf+f,quality=quality)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
