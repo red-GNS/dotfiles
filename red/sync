@@ -1,0 +1,47 @@
+#!/bin/sh
+eval $(keychain --eval --quiet lig)
+addinria () {
+eval $(keychain --eval --quiet id_rsa)
+}
+
+sync_cap(){
+    echo "Syncing caption events"
+    echo ">>> INRIA:"
+    sshfs pascal:scratch/work/torchcap/events cap/edgar
+    echo ">>> LIG:"
+    sshfs elbayadm@decore1.ligone:work/torchcap/events cap/decore
+    echo "Synced!"
+    tensorboard --logdir="cap" --port 6006
+}
+
+sync_nmt(){
+    echo "Syncing nmt events"
+    echo ">>> INRIA:"
+    sshfs pascal:scratch/work/seq2seq/events nmt/edgar
+    #sshfs pascal:scratch/work/old_seq2seq/events nmt/old_edgar
+
+    echo ">>> LIG:"
+    sshfs elbayadm@decore1.ligone:/home/getalp/elbayadm/work/seq2seq/events nmt/decore
+    #sshfs elbayadm@decore1.ligone:work/old_seq2seq/events nmt/old_decore 
+
+    echo "Synced!"
+    tensorboard --logdir="nmt" --port 6007
+
+}
+usync (){
+    fusermount -uz ~/work/Events/cap/edgar
+    fusermount -uz ~/work/Events/cap/decore
+    fusermount -uz ~/work/Events/nmt/edgar
+    fusermount -uz ~/work/Events/nmt/decore
+}
+
+
+track (){
+    cd ~/work/Events
+      case $1 in
+        'cap')   sync_cap ;;
+        'nmt')   sync_nmt ;;
+      esac
+}
+
+

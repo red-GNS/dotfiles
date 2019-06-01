@@ -1,0 +1,81 @@
+#source ~/.zplug/init.zsh
+fpath=( "$HOME/.zfunctions" $fpath ) 
+# simple directories navigation cd and bd (backward)
+#zplug "Tarrasch/zsh-bd"
+
+# colored man
+zplug "ael-code/zsh-colored-man-pages"
+
+# more colors
+zplug "zpm-zsh/colors"
+
+# Dropbox:
+#zplug "horosgrisa/zsh-dropbox"
+
+# Set the priority when loading
+# e.g., zsh-syntax-highlighting must be loaded
+# after executing compinit command and sourcing other plugins
+# (If the defer tag is given 2 or above, run after compinit command)
+zplug "zsh-users/zsh-syntax-highlighting", defer:2
+zplug "zdharma/fast-syntax-highlighting", defer:2
+
+# Load completion library for those sweet [tab] squares
+zplug "lib/completion", from:oh-my-zsh
+
+# Theme!
+zplug "mafredri/zsh-async", from:github
+zplug "sindresorhus/pure", use:pure.zsh, from:github, as:theme
+#zplug "denysdovhan/spaceship-prompt", use:spaceship.zsh, from:github, as:theme
+
+# fz / compare to fzf?
+#zplug "changyuheng/fz", defer:1
+#zplug "rupa/z", use:z.sh
+
+# Use the package as a command
+# And accept glob patterns (e.g., brace, wildcard, ...)
+#zplug "Jxck/dotfiles", as:command, use:"bin/{histuniq,color}"
+
+# Can manage everything e.g., other person's zshrc
+#zplug "tcnksm/docker-alias", use:zshrc
+
+
+# Grab binaries from GitHub Releases
+# and rename with the "rename-to:" tag
+#zplug "junegunn/fzf-bin", \
+    #from:gh-r, \
+    #as:command, \
+    #rename-to:fzf, \
+    #use:"*darwin*amd64*"
+
+
+# Load if "if" tag returns true
+#zplug "lib/clipboard", from:oh-my-zsh, if:"[[ $OSTYPE == *darwin* ]]"
+
+# Run a command after a plugin is installed/updated
+# Provided, it requires to set the variable like the following:
+# ZPLUG_SUDO_PASSWORD="********"
+#zplug "jhawthorn/fzy", \
+    #as:command, \
+    #rename-to:fzy, \
+    #hook-build:"make && sudo make install"
+
+# Supports checking out a specific branch/tag/commit
+#zplug "b4b4r07/enhancd", at:v1
+#zplug "mollifier/anyframe", at:4c23cb60
+#
+# Can manage local plugins
+zplug "~/.zsh", from:local
+
+# Load theme file
+#zplug 'dracula/zsh', as:theme
+
+# Install plugins if there are plugins that have not been installed
+if ! zplug check --verbose; then
+    printf "Install? [y/N]: "
+    if read -q; then
+        echo; zplug install
+    fi
+fi
+
+# Then, source plugins and add commands to $PATH
+zplug load

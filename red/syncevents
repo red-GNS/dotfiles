@@ -1,4 +1,4 @@
-#!/usr/bin/python2
+#!/usr/bin/env python2
 import os, sys, subprocess
 import re
 import multiprocessing as mp
@@ -50,7 +50,7 @@ def get_events_folders(filter=['limited'], exclude=[], remote_dir='torchcap', sk
 
 
 def sync_required(models, local_dir="cap", remote_dir='torchcap'):
-    parentdir = tempfile.mkdtemp(dir='/home/maha/work/Events/%s' % local_dir)
+    parentdir = tempfile.mkdtemp(dir='/Users/elbayadm/work/Events/%s' % local_dir)
     print('tmp dir:', parentdir)
     for model, server in models:
         holder = '%s/%s' % (parentdir, model)
@@ -58,12 +58,12 @@ def sync_required(models, local_dir="cap", remote_dir='torchcap'):
             os.makedirs(holder)
         if server == 'inria':
             print('syncing %s @inria' % model)
-            o, e = exec_cmd('sshfs pascal:/home/thoth/melbayad/work/%s/events/%s %s' % (remote_dir, model, holder))
+            o, e = exec_cmd('sshfs pascal:/home/thoth/melbayad/work/%s/events/%s %s -o auto_cache,reconnect,defer_permissions,noappledouble' % (remote_dir, model, holder))
             if e:
                 print('Error:', e)
         elif server == 'lig':
             print('syncing %s @lig' % model)
-            o, e = exec_cmd('sshfs elbayadm@decore0.ligone:/home/getalp/elbayadm/work/%s/events/%s %s' % (remote_dir, model, holder))
+            o, e = exec_cmd('sshfs elbayadm@decore0.ligone:/home/getalp/elbayadm/work/%s/events/%s %s -o auto_cache,reconnect,defer_permissions,noappledouble' % (remote_dir, model, holder))
             if e:
                 print('Error:', e)
         else:
@@ -73,7 +73,7 @@ def sync_required(models, local_dir="cap", remote_dir='torchcap'):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--dir', '-d', type=str, default='cap', help='working dir; either cap or nmt')
+    parser.add_argument('--dir', '-d', type=str, default='attn', help='working dir; either cap or nmt')
     parser.add_argument('--filter', '-f', nargs="+", help='keywords to include')
     parser.add_argument('--exclude', '-e', nargs="+", help='keywords to exculde')
     parser.add_argument('--ligout', '-l', action='store_true')
@@ -121,7 +121,7 @@ if __name__ == '__main__':
             print('You pressed Ctrl+C!')
             print('Unmounting events folders')
             for model in models:
-                exec_cmd('fusermount -uz %s/%s' % (parentdir, model[0]))
+                exec_cmd('umount %s/%s' % (parentdir, model[0]))
                 os.rmdir("%s/%s" % (parentdir, model[0]))
             os.rmdir(parentdir)
             sys.exit(0)
