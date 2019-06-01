@@ -1,0 +1,7 @@
+# Remove previous links
+rm -f "${HOME}"/.{chunkwmrc,skhdrc}
+
+# Install configs
+git clone https://github.com/Julian-Heng/chunkwm-config.git "${HOME}"/.config/chunkwm
+ln -s "${HOME}/.config/chunkwm/chunkwmrc" "${HOME}/.chunkwmrc"
+ln -s "${HOME}/.config/chunkwm/skhdrc" "${HOME}/.skhdrc"
