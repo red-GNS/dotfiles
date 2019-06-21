@@ -95,3 +95,4 @@ clear_paths(){
 }
 
 
+alias cleantex='rm *.fls *.synctex.gz *.log *.fdb_latexmk *.aux'

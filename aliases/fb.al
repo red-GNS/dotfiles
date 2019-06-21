@@ -29,3 +29,7 @@ rx (){
     #echo Renaming" $1 into $trg
     mv $1 $trg
 }
+
+etf (){
+    et devfair0$1:$2 -jport=$2 -x
+}

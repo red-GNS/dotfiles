@@ -19,6 +19,9 @@ endif
 " Active plugins
 call plug#begin('~/.vim/plugged')
 
+" Latex
+Plug 'lervag/vimtex'
+
 " Fzf
 Plug '~/.fzf'
 
@@ -333,3 +336,8 @@ let g:airline#extensions#whitespace#enabled = 0
 "nnoremap <space> za
 "let g:SimpylFold_docstring_preview=0
 
+" Vimtex
+let g:tex_flavor='latex'
+let g:vimtex_compiler_method='latexmk'
+let g:vimtex_view_method='skim'
+let g:vimtex_view_skim_activate=1

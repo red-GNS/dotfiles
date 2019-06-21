@@ -11,7 +11,7 @@ source $ZPLUG_HOME/init.zsh
 
 source $FBDIR/aliases
 source $FBDIR/zplugrc
-#source $FBDIR/papis
+source $FBDIR/papis
 #source $FBDIR/todoist
 
 
@@ -50,4 +50,4 @@ autoload -U promptinit; promptinit
 
 [ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
 # Anaconda env
-source ~/.envrc
+#source ~/.envrc
