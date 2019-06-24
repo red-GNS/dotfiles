@@ -1,0 +1,11 @@
+# Requirements:
+[MacOS] Command line tools : xcode-select --install
+## Homebrew:
+- brew install coreutils watch zplug skhd chunkwm npm
+
+
+anaconda3
+Python libs:
+- papis
+- gpustat
+

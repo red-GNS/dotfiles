@@ -1,4 +1,0 @@
-# get the name of the branch we are on
-autoload -U colors
-colors     
-PS1='%{$fg[purple]%}%n@%{$fg_bold[red]%}%m %{$fg[blue]%}%c$(__git_ps1) %{$reset_color%}$ '
