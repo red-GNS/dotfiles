@@ -1,41 +1,7 @@
 #!/bin/sh
 
-setcuda91 () {
-  export CUDA_HOME="/home/thoth/melbayad/scratch/libs/cuda9.1"
-  export CUDA_libs="$CUDA_HOME/lib64"
-  export CUDA_bin="$CUDA_HOME/bin"
-  export LD_LIBRARY_PATH="$CUDA_libs:$LD_LIBRARY_PATH"
-  export CPLUS_INCLUDE_PATH="$CUDA_HOME/include:$CPLUS_INCLUDE_PATH"
-  export C_INCLUDE_PATH="$CUDA_HOME/include:$C_INCLUDE_PATH"
-  export PATH="$CUDA_bin:$PATH"
-}
-
-setcudnn60 () {
-  export CUDNN_ROOT="/home/thoth/melbayad/scratch/libs/cudnn6.0-cu8.0"
-  export CUDNN_LIB_DIR="$CUDNN_ROOT/lib64"
-  export CUDNN_LIBRARY="$CUDNN_LIB_DIR/libcudnn.so"
-  export LD_LIBRARY_PATH="$CUDNN_LIB_DIR:$LD_LIBRARY_PATH"
-  export LIBRARY_PATH="$CUDNN_LIB_DIR:$LIBRARY_PATH"
-  export CUDNN_INCLUDE_DIR="$CUDNN_ROOT/include"
-  export CPLUS_INCLUDE_PATH="$CUDNN_INCLUDE_DIR:$CPLUS_INCLUDE_PATH"
-  export C_INCLUDE_PATH="$CUDNN_INCLUDE_DIR:$C_INCLUDE_PATH"
-
-}
-
-setcudnn71 () {
-  export CUDNN_ROOT="/home/thoth/melbayad/scratch/libs/cudnn7.1-cu9.1"
-  export CUDNN_LIB_DIR="$CUDNN_ROOT/lib64"
-  export CUDNN_LIBRARY="$CUDNN_LIB_DIR/libcudnn.so"
-  export LD_LIBRARY_PATH="$CUDNN_LIB_DIR:$LD_LIBRARY_PATH"
-  export LIBRARY_PATH="$CUDNN_LIB_DIR:$LIBRARY_PATH"
-  export CUDNN_INCLUDE_DIR="$CUDNN_ROOT/include"
-  export CPLUS_INCLUDE_PATH="$CUDNN_INCLUDE_DIR:$CPLUS_INCLUDE_PATH"
-  export C_INCLUDE_PATH="$CUDNN_INCLUDE_DIR:$C_INCLUDE_PATH"
-
-}
-
-setcuda8_konstantin() {
-  export CUDA_HOME="/home/lear/kshmelko/scratch/libs/cuda8"
+setcuda () {
+  export CUDA_HOME=$1
   export CUDA_libs="$CUDA_HOME/lib64"
   export CUDA_bin="$CUDA_HOME/bin"
   export LD_LIBRARY_PATH="$CUDA_libs:$LD_LIBRARY_PATH"
@@ -44,8 +10,8 @@ setcuda8_konstantin() {
   export PATH="$CUDA_bin:$PATH"
 }
 
-setcudnn50_konstantin () {
-  export CUDNN_ROOT="/home/lear/kshmelko/scratch/libs/cudnn5"
+setcudnn () {
+  export CUDNN_ROOT=$1
   export CUDNN_LIB_DIR="$CUDNN_ROOT/lib64"
   export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$CUDNN_LIB_DIR"
   export LIBRARY_PATH="$LIBRARY_PATH:$CUDNN_LIB_DIR"
@@ -55,8 +21,26 @@ setcudnn50_konstantin () {
 
 }
 
-setcuda8_konstantin
-setcudnn50_konstantin
+setnccl () {
+  export NCCL_ROOT=$1
+  export NCCL_LIB_DIR="$NCCL_ROOT/lib"
+  export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$NCCL_LIB_DIR"
+  export LIBRARY_PATH="$LIBRARY_PATH:$NCCL_LIB_DIR"
+  export NCCL_INCLUDE_DIR="$NCCL_ROOT/include"
+  export CPLUS_INCLUDE_PATH="$CPLUS_INCLUDE_PATH:$NCCL_INCLUDE_DIR"
+  export C_INCLUDE_PATH="$C_INCLUDE_PATH:$NCCL_INCLUDE_DIR"
+
+}
+
+
+# < June 2019
+#setcuda /home/lear/kshmelko/scratch/libs/cuda8
+#setcudnn /home/lear/kshmelko/scratch/libs/cudnn5
+
+# > June 2019
+setcuda /home/melbayad/.env/cuda9.2
+setcudnn /home/melbayad/.env/cudnn-v7.3.1-cuda9.2
+setnccl /home/melbayad/.env/nccl_2.2.13-1+cuda9.2_x86_64
 # Before compiling bleeding edge pytorch:
 export TORCH_CUDA_ARCH_LIST="3.0;3.5;5.0;5.2+PTX;6.0;6.1"
 

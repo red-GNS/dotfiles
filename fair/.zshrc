@@ -7,7 +7,8 @@ FBDIR=$HOME/.dotfiles/fair
 export ZPLUG_HOME=/usr/local/opt/zplug
 source $ZPLUG_HOME/init.zsh
 
-source $FBDIR/aliases
+source $FBDIR/aliases/slurm.al
+
 source $FBDIR/zplugrc
 source $FBDIR/papis
 

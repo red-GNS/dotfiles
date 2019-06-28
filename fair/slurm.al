@@ -1,11 +1,3 @@
-# edit this file
-alias aa="vi /private/home/elbayadm/.dotfiles/aliases/fb.al"
-# Checkpoints dir
-alias p="cd /checkpoint/elbayadm/"
-alias f="cd ~/work/fairseq-attn2d"
-alias s="cd ~/work/scripts"
-
-
 # SLURM interactive job:
 inter () {
 srun --gres=gpu:$1 --partition=learnfair --time=$2 --pty /bin/bash -l
@@ -13,6 +5,16 @@ srun --gres=gpu:$1 --partition=learnfair --time=$2 --pty /bin/bash -l
 
 # SLURM utilities
 alias killpd="scancel -u $USER -t PD"
+
+inter () {
+srun --nodes=$1 --gres=gpu:$2 --partition=learnfair --time=$3 --pty /bin/bash -l
+}
+
+# in this case $5 is a specific command insead of a shell
+interc () {
+srun --label --nodes=$1 --gres=gpu:$2 --ntasks-per-node=$3 --partition=learnfair --time=$4 $5
+}
+
 
 killfilter (){
  stats=$(squeue -o "%10i %160j" -u $USER | tail -n +2)

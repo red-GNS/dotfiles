@@ -20,7 +20,8 @@ autoload -U promptinit; promptinit
 
 set_inria (){
     source $DOTFILES/inria/.zshrc
-    prompt restore
+    prompt bart
+    #prompt restore
     }
 
 set_redmac (){

@@ -40,10 +40,6 @@ alias ll='ls -lh'
 alias la='ls -lAh'
 
 # Aliases and functions ( common to all servers)
-alias p='cd ~/work/torchcap'
-alias sq='cd ~/work/seq2seq'
-alias a='cd ~/work/attn2d'
-alias sqo='cd ~/work/seq2seq_v2'
 alias wnvia='watch -n30 -c gpustat --color'
 alias c='clear'
 alias chr='google-chrome-stable'
