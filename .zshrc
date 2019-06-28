@@ -35,7 +35,7 @@ set_red (){
 
 set_lig (){
     source $DOTFILES/lig/.zshrc
-    prompt restore
+    prompt bart
     }
 
 set_fair (){

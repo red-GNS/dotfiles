@@ -1,0 +1,48 @@
+#!/bin/sh
+
+setcuda () {
+  export CUDA_HOME=$1
+  export CUDA_libs="$CUDA_HOME/lib64"
+  export CUDA_bin="$CUDA_HOME/bin"
+  export LD_LIBRARY_PATH="$CUDA_libs:$LD_LIBRARY_PATH"
+  export CPLUS_INCLUDE_PATH="$CPLUS_INCLUDE_PATH:$CUDA_HOME/include"
+  export C_INCLUDE_PATH="$C_INCLUDE_PATH:$CUDA_HOME/include"
+  export PATH="$CUDA_bin:$PATH"
+}
+
+setcudnn () {
+  export CUDNN_ROOT=$1
+  export CUDNN_LIB_DIR="$CUDNN_ROOT/lib64"
+  export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$CUDNN_LIB_DIR"
+  export LIBRARY_PATH="$LIBRARY_PATH:$CUDNN_LIB_DIR"
+  export CUDNN_INCLUDE_DIR="$CUDNN_ROOT/include"
+  export CPLUS_INCLUDE_PATH="$CPLUS_INCLUDE_PATH:$CUDNN_INCLUDE_DIR"
+  export C_INCLUDE_PATH="$C_INCLUDE_PATH:$CUDNN_INCLUDE_DIR"
+
+}
+
+setnccl () {
+  export NCCL_ROOT=$1
+  export NCCL_LIB_DIR="$NCCL_ROOT/lib"
+  export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$NCCL_LIB_DIR"
+  export LIBRARY_PATH="$LIBRARY_PATH:$NCCL_LIB_DIR"
+  export NCCL_INCLUDE_DIR="$NCCL_ROOT/include"
+  export CPLUS_INCLUDE_PATH="$CPLUS_INCLUDE_PATH:$NCCL_INCLUDE_DIR"
+  export C_INCLUDE_PATH="$C_INCLUDE_PATH:$NCCL_INCLUDE_DIR"
+
+}
+
+
+# < June 2019
+#setcuda /home/lear/kshmelko/scratch/libs/cuda8
+#setcudnn /home/lear/kshmelko/scratch/libs/cudnn5
+
+# > June 2019
+ENV=/home/getalp/elbayadm/.env
+setcuda $ENV/cuda9.2
+setcudnn $ENV/cudnn-v7.3.1-cuda9.2
+setnccl $ENV/nccl_2.2.13-1+cuda9.2_x86_64
+# Before compiling bleeding edge pytorch:
+export TORCH_CUDA_ARCH_LIST="3.0;3.5;5.0;5.2+PTX;6.0;6.1"
+
+
