@@ -3,7 +3,6 @@ echo "Setting up you environment @inria"
 INRIADIR=$HOME/.dotfiles/inria
 # Cuda and Cudnn
 source $INRIADIR/oar
-source $INRIADIR/dir.al
 export ZPLUG_HOME=/home/melbayad/.zplug
 source $ZPLUG_HOME/init.zsh
 source $INRIADIR/zplugrc
