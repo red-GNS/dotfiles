@@ -4,6 +4,10 @@ INRIADIR=$HOME/.dotfiles/inria
 # Cuda and Cudnn
 source $INRIADIR/oar
 source $INRIADIR/dir.al
+export ZPLUG_HOME=/home/melbayad/.zplug
+source $ZPLUG_HOME/init.zsh
+source $INRIADIR/zplugrc
+
 # Path:
 export PATH="$HOME/.env/anaconda3/bin/"
 export PATH=$PATH":/home/thoth/melbayad/.gem/ruby/2.3.0/bin"
