@@ -14,6 +14,7 @@ source $REDMACDIR/papis
 
 
 # Path:
+export PATH="/usr/local/sbin:"$PATH
 export PATH="/anaconda3/bin/:"$PATH
 #export PATH="/home/maha/.local/bin:/home/maha/anaconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin"
 #export PATH=$PATH":/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"

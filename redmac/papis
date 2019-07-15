@@ -25,7 +25,7 @@ id_arxiv(){
 pa (){
     bib
     download_arxiv -i $1 
-    arxivcheck $1 > tmp.bib
+    arxiv2bib $1 > tmp.bib
     papis add --from-bibtex tmp.bib $1.pdf
     rm $1.pdf
     cat tmp.bib >>  refs.bib

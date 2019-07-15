@@ -5,8 +5,9 @@ export INCLUDES=$DOTFILES/plugins
 
 source $DOTFILES/setopt
 source $DOTFILES/env
-source $DOTFILES/bindkeys
+source $DOTFILES/zsh-history-substring-search.zsh
 source $DOTFILES/history
+source $DOTFILES/bindkeys
 #source $DOTFILES/prompt
 
 # Aliases:
@@ -54,4 +55,6 @@ case ${HOST:r:r}$HOSTNAME in
     *)  echo "Unknown whereabouts!!";;
 esac
 
+
+#export PYTHONWARNINGS=ignore::yaml.YAMLLoadWarning
 
