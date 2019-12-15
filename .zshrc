@@ -31,7 +31,7 @@ set_redmac (){
 
 set_red (){
     source $DOTFILES/red/.zshrc
-    prompt bigfade
+    #prompt bigfade
     }
 
 set_lig (){
