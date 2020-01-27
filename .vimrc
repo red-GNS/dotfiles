@@ -19,6 +19,8 @@ endif
 " Active plugins
 call plug#begin('~/.vim/plugged')
 
+" Markdown
+Plug 'JamshedVesuna/vim-markdown-preview'
 " Latex
 Plug 'lervag/vimtex'
 
@@ -339,5 +341,14 @@ let g:airline#extensions#whitespace#enabled = 0
 " Vimtex
 let g:tex_flavor='latex'
 let g:vimtex_compiler_method='latexmk'
+"let g:vimtex_compiler_method='tectonic'
 let g:vimtex_view_method='skim'
 let g:vimtex_view_skim_activate=1
+
+" Markdown
+let vim_markdown_preview_github=1
+let vim_markdown_preview_hotkey='<C-m>'
+let vim_markdown_preview_browser='Google Chrome'
+
+
+
