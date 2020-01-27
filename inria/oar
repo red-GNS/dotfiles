@@ -1,5 +1,23 @@
 #!/bin/sh
 
+killfilter (){
+    local stats jid
+    stats=$(oarstat --user=$USER --format 2 | tail -n +3 | grep -v '^[0-9]\+\s\+W') &&
+     filtered=$(echo $stats | grep $1)
+     jids=$(echo ${filtered} | awk '{print $1}' | tr '\n' ' ')
+     exec=0
+     read "choice?Are you sure you want to cancel ${jids} (y/n) ? "
+     case "$choice" in 
+      y|Y ) echo Cancelling $jids && exec=1;;
+      n|N ) echo "Nothing was cancelled!";;
+      * ) echo "invalid";;
+     esac
+     if [[ $exec == 1 ]]; then
+       command="oardel ${jids}"
+       eval $command
+     fi
+ }
+
 jsh() {
 if [ `hostname -s` = 'edgar' ]; then
     local stats jid
@@ -8,7 +26,6 @@ if [ `hostname -s` = 'edgar' ]; then
     oarsub -C $(echo "$jid" | awk '{print $1}')
 else
     echo "Run it on edgar\n\n"
-    ssh edgar
 fi
 }
 
@@ -21,7 +38,6 @@ if [ `hostname -s` = 'edgar' ]; then
     less +GF $HOME/<your_log_dir>/*.$jid.stderr
 else
     echo "Run it on edgar\n\n"
-    ssh edgar
 fi
 }
 
@@ -33,11 +49,12 @@ if [ `hostname -s` = 'edgar' ]; then
     oardel $(echo "$jid" | awk '{print $1}' | tr '\n' ' ')
 else
     echo "Run it on edgar\n\n"
-    ssh edgar
 fi
 }
 
 sg () {
+    EXCLUDE=$(cat $HOME/exclude.gpus)
+    echo Excluding $EXCLUDE
     BQ=''
     while getopts 'b' flag; do
         case "${flag}" in
@@ -49,11 +66,12 @@ sg () {
     MEM=$1
     if [ $BQ ]; then
         echo "Besteffort interactive job"
-        cmd="ssh -t edgar oarsub -I -d $(pwd) -l \"walltime=12:0:0\" -p \"\\\"gpumem > $MEM\\\"\" -t besteffort "
+        cmd="ssh -t edgar oarsub -I -d $(pwd) -l \"walltime=12:0:0\" -p \"\\\"gpumem > '$MEM' AND $EXCLUDE\\\"\" -t besteffort "
     else
         echo "Default interactive job"
-        cmd="ssh -t edgar oarsub -I -d $(pwd) -l \"walltime=12:0:0\" -p \"\\\"gpumem > $MEM\\\"\""
+        cmd="ssh -t edgar oarsub -I -d $(pwd) -l \"walltime=12:0:0\" -p \"\\\"gpumem > $MEM AND $EXCLUDE\\\"\""
     fi
+    echo Running $cmd
     eval $cmd
 }
 

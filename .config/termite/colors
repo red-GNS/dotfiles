@@ -1,0 +1,173 @@
+foreground      = #c5c8c6
+foreground_bold = #c5c8c6
+foreground_dim = #888888
+background      = rgba(20, 20, 20, 0.9)
+cursor          = #c5c8c6
+
+# Fav:
+# black
+color0 = #073642
+color8 = #2a5080
+# red
+color1 = #dc322f
+color9 = #cb4b16
+# green
+color2 = #859900
+color10 = #586e75
+# yellow
+color3 = #b58900
+color11 = #657b83
+# blue
+color4 = #268bd2
+color12 = #839496
+# purple
+color5 = #d33682
+color13 = #6c71c4
+# teal
+color6 = #2aa198
+color14 = #93a1a1
+# white
+color7 = #eee8d5
+color15 = #fdf6e3
+
+# Muted:
+# black
+color0 = #282a2e
+color8 = #373b41
+# red
+color1 = #a54242
+color9 = #cc6666
+# green
+color2 = #8c9440
+color10 = #b5bd68
+# yellow
+color3 = #de935f
+color11 = #f0c674
+# blue
+color4 = #5f819d
+color12 = #81a2be
+# magenta
+color5 = #85678f
+color13 = #b294bb
+# cyan
+color6 = #5e8d87
+color14 = #8abeb7
+# white
+color7 = #707880
+color15 = #c5c8c6
+
+
+
+
+# High contrast
+color0 = #000000
+color1 = #AA0000
+color2 = #00AA00
+color3 = #AA5500
+color4 = #0000AA
+color5 = #AA00AA
+color6 = #00AAAA
+color7 = #AAAAAA
+color8 = #555555
+color9 = #FF5555
+color10 = #55FF55
+color11 = #FFFF55
+color12 = #5555FF
+color13 = #FF55FF
+color14 = #55FFFF
+color15 = #FFFFFF
+
+# Vibrant
+color0 = #000000
+color1 = #C75646
+color2 = #8EB33B
+color3 = #D0B03C
+color4 = #72B3CC
+color5 = #C8A0D1
+color6 = #218693
+color7 = #B0B0B0
+color8 = #5D5D5D
+color9 = #E09690
+color10 = #CDEE69
+color11 = #FFE377
+color12 = #9CD9F0
+color13 = #FBB1F9
+color14 = #77DFD8
+color15 = #F7F7F7
+
+# Colorful
+color0 = #3f3f3f
+color1 = #705050
+color2 = #60b48a
+color3 = #dfaf8f
+color4 = #506070
+color5 = #dc8cc3
+color6 = #8cd0d3
+color7 = #dcdccc
+color8 = #709080
+color9 = #dca3a3
+color10 = #c3bf9f
+color11 = #f0dfaf
+color12 = #94bff3
+color13 = #ec93d3
+color14 = #93e0e3
+color15 = #ffffff
+
+
+# Monokai
+# Black, Gray, Silver, White
+color0  = #272822
+color8  = #75715e
+color7  = #f8f8f2
+color15 = #f9f8f5
+# Red
+color1  = #f92672
+color9  = #f92672
+# Green
+color2  = #a6e22e
+color10 = #a6e22e
+# Yellow
+color3  = #f4bf75
+color11 = #f4bf75
+# Blue
+color4  = #66d9ef
+color12 = #66d9ef
+# Purple
+color5  = #ae81ff
+color13 = #ae81ff
+# Teal
+color6  = #a1efe4
+color14 = #a1efe4
+# Extra colors
+color16 = #fd971f
+color17 = #cc6633
+color18 = #383830
+color19 = #49483e
+color20 = #a59f85
+color21 = #f5f4f1
+
+# Monokai inspired
+# black
+color0  = #272822
+color8  = #75715e
+# Red
+color0  = #f92672
+color9  = #f92672
+# Green
+color2  = #859900
+color10 = #b5bd68
+# Yellow
+color3  = #de935f
+color11 = #f0c674
+# Blue
+color4  = #72b3cc
+color12 = #555fff
+# Purple
+color5 = #85678f
+color13 = #b294bb
+# Teal
+color6 = #2aa198
+color14 = #a1efe4
+# white
+color7  = #f8f8f2
+color15 = #f9f8f5
