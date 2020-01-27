@@ -37,7 +37,9 @@ else
 fi
 }
 
-alias sg="ssh -t aker oarsub -I -d $(pwd) -l \"walltime=10:0:0\""
+sg(){
+    ssh -t aker oarsub -I -d $(pwd) -l \"walltime=$1:0:0\"
+}
 
 
 

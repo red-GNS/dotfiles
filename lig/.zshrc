@@ -26,3 +26,4 @@ source $LIGDIR/oar
 
 alias check='watch -n30 "ps -xrU elbayadm | grep yaml"'
 
+#source activate fairseq
