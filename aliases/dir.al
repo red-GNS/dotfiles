@@ -35,7 +35,6 @@ alias d='dirs -v | head -10'
 
 # List directory contents
 alias lsa='ls -lah'
-alias l='ls -lah'
 alias ll='ls -lh'
 alias la='ls -lAh'
 
@@ -52,7 +51,7 @@ alias cf="cd ~/.config"
 zipf () { zip -r "$1".zip "$1" ; }
 zssh () { ssh -Y "$1" -t zsh }
 lssh () {ssh elbayadm@"$1".ligone -t zsh}
-cd() { builtin cd "$@"; ls; }  # Always list directory contents upon 'cd'
+#cd() { builtin cd "$@"; ls; }  # Always list directory contents upon 'cd'
 ccd() { builtin cd }
 cpf() {cp $1 "fncnn6_reset_"$1}
 trim(){
