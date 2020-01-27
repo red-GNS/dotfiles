@@ -1,0 +1,11 @@
+open_with vi
+rename paper.tex
+
+rename 1711.08389k.pdf
+find Areas
+find areas of attention
+shell 
+shell gc
+evince
+evince P
+shell q
