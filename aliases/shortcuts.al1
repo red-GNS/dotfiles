@@ -1,7 +1,0 @@
-alias fs='cd $HOME/work/fairseq_source/fairseq-py-attn2d-oar'
-<<<<<<< HEAD:aliases/shortcuts.al1
-alias t="tail -n1"
-=======
-alias t="tail -n2"
->>>>>>> 890a4b722c7e7ee5f556a341e4b25ccc054ac478:aliases/shortcuts.al
-alias f="readlink -f"
