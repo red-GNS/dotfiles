@@ -29,17 +29,19 @@ else
 fi
 }
 
-jlog() {
+jdir() {
 if [ `hostname -s` = 'edgar' ]; then
     local stats jid
     stats=$(oarstat --user=$USER --format 2 | tail -n +3 | grep -v '^[0-9]\+\s\+W') &&
     jid=$(echo "$stats" | tac | fzf) &&
     jid=$(echo "$jid" | awk '{print $1}')
-    less +GF $HOME/<your_log_dir>/*.$jid.stderr
+    dir=$(oarstat -fj $jid | grep stdout_file | awk '{print substr($3, 1, length($3)-6)}')
+    echo Jobdir $dir
 else
-    echo "Run it on edgar\n\n"
+    echo "Run it on edgar"
 fi
 }
+
 
 jkill() {
 if [ `hostname -s` = 'edgar' ]; then
@@ -48,7 +50,7 @@ if [ `hostname -s` = 'edgar' ]; then
     jid=$(echo "$stats" | tac | fzf -m) &&
     oardel $(echo "$jid" | awk '{print $1}' | tr '\n' ' ')
 else
-    echo "Run it on edgar\n\n"
+    echo "Run it on edgar"
 fi
 }
 
